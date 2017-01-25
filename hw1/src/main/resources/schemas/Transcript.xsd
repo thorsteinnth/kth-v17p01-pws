@@ -5,9 +5,12 @@
     <!--
     Transcript should have
     - SSN of person
-    - School name
     - Date that this transcript was generated
+    - School name
+    - list of degree transcripts
+    - degreen transcript should have
     - Name of degree
+    - graduated boolean
     - Course list
     - Course should have
     - Course name
@@ -33,14 +36,20 @@
         </xs:sequence>
     </xs:complexType>
 
+    <xs:complexType name="degreetranscripttype">
+        <xs:sequence>
+            <xs:element name="degree" type="xs:string"/>
+            <xs:element name="graduated" type="xs:boolean"/>
+            <xs:element name="course" maxOccurs="unbounded" type="coursetype"/>
+        </xs:sequence>
+    </xs:complexType>
+
     <xs:complexType name="transcripttype">
         <xs:sequence>
             <xs:element name="ssn" type="ssntype"/>
             <xs:element name="schoolname" type="xs:string"/>
             <xs:element name="date" type="xs:date"/>
-            <xs:element name="degree" type="xs:string"/>
-            <xs:element name="graduated" type="xs:boolean"/>
-            <xs:element name="course" maxOccurs="unbounded" type="coursetype"/>
+            <xs:element name="degreetranscript" minOccurs="0" maxOccurs="unbounded" type="degreetranscripttype"/>
         </xs:sequence>
         <xs:attribute name="transcriptid" type="transcriptidtype" use="required"/>
     </xs:complexType>
