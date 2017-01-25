@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
     <!--Example: http://www.w3schools.com/xml/schema_example.asp-->
     <!--
@@ -9,35 +9,43 @@
     - Company name
     - Address
     - Phone number
+    - Email
     -->
 
-    <xs:simpleType name="companyidtype">
-        <xs:restriction base="xs:string">
-            <xs:pattern value="[0-9]{10}"/>
-        </xs:restriction>
-    </xs:simpleType>
+    <xsd:simpleType name="companyidtype">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[0-9]{10}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
 
-    <xs:simpleType name="phonenumbertype">
-        <xs:restriction base="xs:string">
-            <xs:pattern value="[0-9]{14}"/>
-        </xs:restriction>
-    </xs:simpleType>
+    <xsd:simpleType name="phonenumbertype">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[0-9]{14}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
 
-    <xs:complexType name="companyinfotype">
-        <xs:sequence>
-            <xs:element name="name" type="xs:string"/>
-            <xs:element name="address" type="xs:string"/>
-            <xs:element name="phonenumber" type="phonenumbertype"/>
-        </xs:sequence>
-        <xs:attribute name="companyid" type="companyidtype" use="required"/>
-    </xs:complexType>
+    <xsd:simpleType name="emailtype">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[^@]+@[^\.]+\..+"/>
+        </xsd:restriction>
+    </xsd:simpleType>
 
-    <xs:complexType name="companiestype">
-        <xs:sequence>
-            <xs:element name="companyinfo" maxOccurs="unbounded" type="companyinfotype"/>
-        </xs:sequence>
-    </xs:complexType>
+    <xsd:complexType name="companyinfotype">
+        <xsd:sequence>
+            <xsd:element name="name" type="xsd:string"/>
+            <xsd:element name="address" type="xsd:string"/>
+            <xsd:element name="phonenumber" type="phonenumbertype"/>
+            <xsd:element name="email" type="emailtype"/>
+        </xsd:sequence>
+        <xsd:attribute name="companyid" type="companyidtype" use="required"/>
+    </xsd:complexType>
 
-    <xs:element name="companies" type="companiestype"/>
+    <xsd:complexType name="companiestype">
+        <xsd:sequence>
+            <xsd:element name="companyinfo" maxOccurs="unbounded" type="companyinfotype"/>
+        </xsd:sequence>
+    </xsd:complexType>
 
-</xs:schema>
+    <xsd:element name="companies" type="companiestype"/>
+
+</xsd:schema>
