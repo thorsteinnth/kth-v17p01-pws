@@ -36,16 +36,6 @@
         </xsd:restriction>
     </xsd:simpleType>
 
-    <xsd:complexType name="basicinfotype">
-        <xsd:sequence>
-            <xsd:element name="ssn" type="ssntype"/>
-            <xsd:element name="name" type="xsd:string"/>
-            <xsd:element name="address" type="xsd:string"/>
-            <xsd:element name="city" type="xsd:string"/>
-            <xsd:element name="country" type="xsd:string"/>
-        </xsd:sequence>
-    </xsd:complexType>
-
     <xsd:simpleType name="telephonenumberType">
         <xsd:restriction base="xsd:string">
             <xsd:pattern value="[0-9]{14}"/>
@@ -58,6 +48,16 @@
         </xsd:restriction>
     </xsd:simpleType>
 
+    <xsd:complexType name="basicinfotype">
+        <xsd:sequence>
+            <xsd:element name="ssn" type="ssntype"/>
+            <xsd:element name="name" type="xsd:string"/>
+            <xsd:element name="address" type="xsd:string"/>
+            <xsd:element name="city" type="xsd:string"/>
+            <xsd:element name="country" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
     <xsd:complexType name="contactinfotype">
         <xsd:sequence>
             <xsd:element name="telephonenumber" type="telephonenumberType"/>
@@ -67,17 +67,17 @@
 
     <xsd:complexType name="referencestype">
         <xsd:sequence>
-            <xsd:element name="jobtype" type="xsd:string"/>
-            <xsd:element name="motivationletter" type="xsd:string"/>
-            <xsd:element name="othercomments" type="xsd:string"/>
+            <xsd:element name="name" type="xsd:string"/>
+            <xsd:element name="companyname" type="xsd:string"/>
+            <xsd:element name="contactinfo" type="contactinfotype"/>
         </xsd:sequence>
     </xsd:complexType>
 
     <xsd:complexType name="otherinfotype">
         <xsd:sequence>
-            <xsd:element name="name" type="xsd:string"/>
-            <xsd:element name="companyname" type="xsd:string"/>
-            <xsd:element name="contactinfo" type="contactinfotype"/>
+            <xsd:element name="jobtypepreferences" type="xsd:string" maxOccurs="unbounded"/>
+            <xsd:element name="motivationletter" type="xsd:string"/>
+            <xsd:element name="othercomments" type="xsd:string"/>
         </xsd:sequence>
     </xsd:complexType>
 
