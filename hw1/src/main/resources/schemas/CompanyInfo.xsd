@@ -1,33 +1,43 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-    <xs:element name="companyInfo">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="orderperson" type="xs:string"/>
-                <xs:element name="shipto">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="name" type="xs:string"/>
-                            <xs:element name="address" type="xs:string"/>
-                            <xs:element name="city" type="xs:string"/>
-                            <xs:element name="country" type="xs:string"/>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-                <xs:element name="item" maxOccurs="unbounded">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="title" type="xs:string"/>
-                            <xs:element name="note" type="xs:string" minOccurs="0"/>
-                            <xs:element name="quantity" type="xs:positiveInteger"/>
-                            <xs:element name="price" type="xs:decimal"/>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-            </xs:sequence>
-            <xs:attribute name="orderid" type="xs:string" use="required"/>
-        </xs:complexType>
-    </xs:element>
+    <!--Example: http://www.w3schools.com/xml/schema_example.asp-->
+    <!--
+    List of company info
+    Company info should have
+    - Company id
+    - Company name
+    - Address
+    - Phone number
+    -->
+
+    <xs:simpleType name="companyidtype">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{10}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="phonenumbertype">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{14}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="companyinfotype">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="address" type="xs:string"/>
+            <xs:element name="phonenumber" type="phonenumbertype"/>
+        </xs:sequence>
+        <xs:attribute name="companyid" type="companyidtype" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="companiestype">
+        <xs:sequence>
+            <xs:element name="companyinfo" maxOccurs="unbounded" type="companyinfotype"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="companies" type="companiestype"/>
 
 </xs:schema>
