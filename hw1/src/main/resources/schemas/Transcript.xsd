@@ -39,7 +39,7 @@
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="shipordertype">
+    <xs:complexType name="transcripttype">
         <xs:sequence>
             <xs:element name="orderperson" type="stringtype"/>
             <xs:element name="shipto" type="shiptotype"/>
@@ -48,6 +48,6 @@
         <xs:attribute name="orderid" type="orderidtype" use="required"/>
     </xs:complexType>
 
-    <xs:element name="transcript" type="shipordertype"/>
+    <xs:element name="transcript" type="transcripttype"/>
 
 </xs:schema>
