@@ -29,10 +29,30 @@
         </xs:restriction>
     </xs:simpleType>
 
+    <xs:simpleType name="courseresulttype">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="pass"/>
+            <xs:enumeration value="fail"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="gradetype">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="A"/>
+            <xs:enumeration value="B"/>
+            <xs:enumeration value="C"/>
+            <xs:enumeration value="D"/>
+            <xs:enumeration value="E"/>
+            <xs:enumeration value="F"/>
+            <xs:enumeration value="Fx"/>
+        </xs:restriction>
+    </xs:simpleType>
+
     <xs:complexType name="coursetype">
         <xs:sequence>
             <xs:element name="name" type="xs:string"/>
-            <xs:element name="grade" type="xs:decimal"/>
+            <xs:element name="grade" type="gradetype"/>
+            <xs:element name="result" type="courseresulttype"/>
         </xs:sequence>
     </xs:complexType>
 
