@@ -1,33 +1,96 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
-    <xs:element name="resume">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element name="orderperson" type="xs:string"/>
-                <xs:element name="shipto">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="name" type="xs:string"/>
-                            <xs:element name="address" type="xs:string"/>
-                            <xs:element name="city" type="xs:string"/>
-                            <xs:element name="country" type="xs:string"/>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-                <xs:element name="item" maxOccurs="unbounded">
-                    <xs:complexType>
-                        <xs:sequence>
-                            <xs:element name="title" type="xs:string"/>
-                            <xs:element name="note" type="xs:string" minOccurs="0"/>
-                            <xs:element name="quantity" type="xs:positiveInteger"/>
-                            <xs:element name="price" type="xs:decimal"/>
-                        </xs:sequence>
-                    </xs:complexType>
-                </xs:element>
-            </xs:sequence>
-            <xs:attribute name="orderid" type="xs:string" use="required"/>
-        </xs:complexType>
-    </xs:element>
+    <!--http://www.w3schools.com/xml/schema_example.asp-->
+    <!--
+        Resume should have the following properties:
 
-</xs:schema>
+        Basic info:
+        - SSN
+        - Full name
+        - Address
+        - City
+        - Country
+
+        Contact info:
+        - Telephone number
+        - Email
+
+        Places desired to work:
+        - Company name
+
+        References:
+        - Full name
+        - Company name
+        - Contact info
+
+        Other info:
+        - Job type
+        - Motivation letter
+        - Other comments
+    -->
+
+    <xsd:simpleType name="ssntype">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[0-9]{10}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="basicinfotype">
+        <xsd:sequence>
+            <xsd:element name="ssn" type="ssntype"/>
+            <xsd:element name="name" type="xsd:string"/>
+            <xsd:element name="address" type="xsd:string"/>
+            <xsd:element name="city" type="xsd:string"/>
+            <xsd:element name="country" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:simpleType name="telephonenumberType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[0-9]{14}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="emailtype">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[^@]+@[^\.]+\..+"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="contactinfotype">
+        <xsd:sequence>
+            <xsd:element name="telephonenumber" type="telephonenumberType"/>
+            <xsd:element name="email" type="emailtype"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="referencestype">
+        <xsd:sequence>
+            <xsd:element name="jobtype" type="xsd:string"/>
+            <xsd:element name="motivationletter" type="xsd:string"/>
+            <xsd:element name="othercomments" type="xsd:string"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="otherinfotype">
+        <xsd:sequence>
+            <xsd:element name="name" type="xsd:string"/>
+            <xsd:element name="companyname" type="xsd:string"/>
+            <xsd:element name="contactinfo" type="contactinfotype"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="resumetype">
+        <xsd:sequence>
+            <xsd:element name="basicinfo" type="basicinfotype"/>
+            <xsd:element name="contactinfo" type="contactinfotype"/>
+            <xsd:element name="placesdesiredtowork" type="xsd:string" maxOccurs="unbounded"/>
+            <xsd:element name="references" type="referencestype" maxOccurs="unbounded"/>
+            <xsd:element name="otherinfo" type="otherinfotype"/>
+        </xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="resume" type="resumetype"/>
+
+</xsd:schema>
