@@ -48,6 +48,14 @@
         </xsd:restriction>
     </xsd:simpleType>
 
+    <xsd:simpleType name="jobtype">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="permanent"/>
+            <xsd:enumeration value="part time"/>
+            <xsd:enumeration value="contract"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
     <xsd:complexType name="basicinfotype">
         <xsd:sequence>
             <xsd:element name="ssn" type="ssntype"/>
@@ -75,7 +83,7 @@
 
     <xsd:complexType name="otherinfotype">
         <xsd:sequence>
-            <xsd:element name="jobtypepreferences" type="xsd:string" maxOccurs="unbounded"/>
+            <xsd:element name="typeofjob" type="jobtype"/>
             <xsd:element name="motivationletter" type="xsd:string"/>
             <xsd:element name="othercomments" type="xsd:string"/>
         </xsd:sequence>
