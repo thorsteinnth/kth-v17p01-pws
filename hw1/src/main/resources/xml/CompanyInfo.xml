@@ -18,4 +18,10 @@
         <phonenumber>12345678912345</phonenumber>
         <email>contact@spotify.com</email>
     </companyinfo>
+    <companyinfo companyid="5678991234">
+        <name>King</name>
+        <address>Kingstreet 100, Stockholm, Sweden</address>
+        <phonenumber>12345678912345</phonenumber>
+        <email>contact@king.com</email>
+    </companyinfo>
 </companies>
