@@ -39,6 +39,7 @@
             <xs:element name="schoolname" type="xs:string"/>
             <xs:element name="date" type="xs:date"/>
             <xs:element name="degree" type="xs:string"/>
+            <xs:element name="graduated" type="xs:boolean"/>
             <xs:element name="course" maxOccurs="unbounded" type="coursetype"/>
         </xs:sequence>
         <xs:attribute name="transcriptid" type="transcriptidtype" use="required"/>
