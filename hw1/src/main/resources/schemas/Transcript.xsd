@@ -1,51 +1,47 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
-    <!--http://www.w3schools.com/xml/schema_example.asp-->
+    <!--Example: http://www.w3schools.com/xml/schema_example.asp-->
+    <!--
+    Transcript should have
+    - SSN of person
+    - School name
+    - Date that this transcript was generated
+    - Name of degree
+    - Course list
+    - Course should have
+    - Course name
+    - Grade
+    -->
 
-    <xs:simpleType name="stringtype">
-        <xs:restriction base="xs:string"/>
+    <xs:simpleType name="ssntype">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{10}"/>
+        </xs:restriction>
     </xs:simpleType>
 
-    <xs:simpleType name="inttype">
-        <xs:restriction base="xs:positiveInteger"/>
-    </xs:simpleType>
-
-    <xs:simpleType name="dectype">
-        <xs:restriction base="xs:decimal"/>
-    </xs:simpleType>
-
-    <xs:simpleType name="orderidtype">
+    <xs:simpleType name="transcriptidtype">
         <xs:restriction base="xs:string">
             <xs:pattern value="[0-9]{6}"/>
         </xs:restriction>
     </xs:simpleType>
 
-    <xs:complexType name="shiptotype">
+    <xs:complexType name="coursetype">
         <xs:sequence>
-            <xs:element name="name" type="stringtype"/>
-            <xs:element name="address" type="stringtype"/>
-            <xs:element name="city" type="stringtype"/>
-            <xs:element name="country" type="stringtype"/>
-        </xs:sequence>
-    </xs:complexType>
-
-    <xs:complexType name="itemtype">
-        <xs:sequence>
-            <xs:element name="title" type="stringtype"/>
-            <xs:element name="note" type="stringtype" minOccurs="0"/>
-            <xs:element name="quantity" type="inttype"/>
-            <xs:element name="price" type="dectype"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="grade" type="xs:decimal"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="transcripttype">
         <xs:sequence>
-            <xs:element name="orderperson" type="stringtype"/>
-            <xs:element name="shipto" type="shiptotype"/>
-            <xs:element name="item" maxOccurs="unbounded" type="itemtype"/>
+            <xs:element name="ssn" type="ssntype"/>
+            <xs:element name="schoolname" type="xs:string"/>
+            <xs:element name="date" type="xs:date"/>
+            <xs:element name="degree" type="xs:string"/>
+            <xs:element name="course" maxOccurs="unbounded" type="coursetype"/>
         </xs:sequence>
-        <xs:attribute name="orderid" type="orderidtype" use="required"/>
+        <xs:attribute name="transcriptid" type="transcriptidtype" use="required"/>
     </xs:complexType>
 
     <xs:element name="transcript" type="transcripttype"/>
