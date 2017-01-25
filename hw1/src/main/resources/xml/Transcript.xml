@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transcript transcriptid="123456">
+    <ssn>8903298888</ssn>
+    <schoolname>Kungliga Tekniska Högskolan</schoolname>
+    <date>2017-01-25</date>
+    <degreetranscript>
+        <degree>Software Engineering of Distributed Systems</degree>
+        <graduated>false</graduated>
+        <course>
+            <name>Programming Web Services</name>
+            <grade>A</grade>
+            <result>pass</result>
+        </course>
+        <course>
+            <name>Modern Dance</name>
+            <grade>F</grade>
+            <result>fail</result>
+        </course>
+        <course>
+            <name>Technical Drawing</name>
+            <grade>C</grade>
+            <result>pass</result>
+        </course>
+    </degreetranscript>
+    <degreetranscript>
+        <degree>Embedded Systems</degree>
+        <graduated>false</graduated>
+        <course>
+            <name>Circuit Design</name>
+            <grade>D</grade>
+            <result>pass</result>
+        </course>
+        <course>
+            <name>C programming</name>
+            <grade>A</grade>
+            <result>fail</result>
+        </course>
+        <course>
+            <name>Electrical Engineering Basics</name>
+            <grade>B</grade>
+            <result>pass</result>
+        </course>
+    </degreetranscript>
+</transcript>
