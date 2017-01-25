@@ -33,7 +33,7 @@
         <course>
             <name>C programming</name>
             <grade>A</grade>
-            <result>fail</result>
+            <result>pass</result>
         </course>
         <course>
             <name>Electrical Engineering Basics</name>
