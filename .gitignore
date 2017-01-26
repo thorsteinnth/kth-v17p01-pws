@@ -22,3 +22,4 @@ build/
 **/.idea/tasks.xml
 
 *.sqlite
+uiDesigner.xml
