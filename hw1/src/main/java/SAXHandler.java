@@ -1,12 +1,10 @@
-import jdk.internal.org.xml.sax.Attributes;
-import jdk.internal.org.xml.sax.SAXException;
-import jdk.internal.org.xml.sax.helpers.DefaultHandler;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
-import javax.xml.parsers.SAXParserFactory;
+public class SAXHandler extends DefaultHandler {
 
-public class SAXParser extends DefaultHandler {
-
-    public SAXParser() {
+    public SAXHandler() {
     }
 
     public void startDocument() {
