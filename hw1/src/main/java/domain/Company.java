@@ -1,5 +1,9 @@
 package domain;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 public class Company
 {
     /*
@@ -11,24 +15,33 @@ public class Company
     </companyinfo>
     */
 
-    private String id;
+    private String companyid;
     private String name;
     private String address;
-    private String phoneNumber;
+    private String phonenumber;
     private String email;
 
-    public Company(String id, String name, String address, String phoneNumber, String email)
+    public Company() {
+
+    }
+
+    public Company(String companyid, String name, String address, String phonenumber, String email)
     {
-        this.id = id;
+        this.companyid = companyid;
         this.name = name;
         this.address = address;
-        this.phoneNumber = phoneNumber;
+        this.phonenumber = phonenumber;
         this.email = email;
     }
 
-    public String getId()
+    public String getCompanyid()
     {
-        return id;
+        return companyid;
+    }
+
+    @XmlAttribute
+    public void setCompanyid(String companyid) {
+        this.companyid = companyid;
     }
 
     public String getName()
@@ -36,14 +49,29 @@ public class Company
         return name;
     }
 
+    @XmlElement
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getAddress()
     {
         return address;
     }
 
-    public String getPhoneNumber()
+    @XmlElement
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhonenumber()
     {
-        return phoneNumber;
+        return phonenumber;
+    }
+
+    @XmlElement
+    public void setPhonenumber(String phonenumber) {
+        this.phonenumber = phonenumber;
     }
 
     public String getEmail()
@@ -51,14 +79,19 @@ public class Company
         return email;
     }
 
+    @XmlElement
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public String toString()
     {
         return "Company{" +
-                "id='" + id + '\'' +
+                "id='" + companyid + '\'' +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
+                ", phoneNumber='" + phonenumber + '\'' +
                 ", email='" + email + '\'' +
                 '}';
     }

@@ -7,12 +7,14 @@ import java.util.ArrayList;
 
 public class SAXHandler extends DefaultHandler {
 
+    private String id;
     private Object tempObject;
     private ArrayList<Object> objects;
     private String tempValue;
     private String currentElement;
 
     public SAXHandler() {
+        this.id = "";
         this.currentElement = "";
     }
 
@@ -42,6 +44,10 @@ public class SAXHandler extends DefaultHandler {
     }
     public void endElement(String namespaceURI, String localName, String qName) throws SAXException {
 
+        if (this.currentElement.equals("ssn")) {
+            this.id = this.tempValue;
+        }
+
         if (this.tempObject != null && this.tempObject.getClass().equals(EmploymentRecord.class)) {
 
             if (qName.equals("employment")) {
@@ -52,26 +58,30 @@ public class SAXHandler extends DefaultHandler {
             EmploymentRecord tempER = (EmploymentRecord)this.tempObject;
 
             if (this.currentElement.equals("companyname")) {
-                tempER.setCompanyName(this.tempValue);
+                tempER.setCompanyname(this.tempValue);
             }
             else if (this.currentElement.equals("roledescription")) {
-                tempER.setRoleDescription(this.tempValue);
+                tempER.setRoledescription(this.tempValue);
             }
             else if (this.currentElement.equals("startdate")) {
-                tempER.setStartDate(this.tempValue);
+                tempER.setStartdate(this.tempValue);
             }
             else if (this.currentElement.equals("enddate")) {
-                tempER.setEndDate(this.tempValue);
+                tempER.setEnddate(this.tempValue);
             }
             else if (this.currentElement.equals("contactemail")) {
-                tempER.setContactEmail(this.tempValue);
+                tempER.setContactemail(this.tempValue);
             }
             else if (this.currentElement.equals("cancontact")) {
-                tempER.setCanContact(this.tempValue);
+                tempER.setCancontact(this.tempValue);
             }
         }
 
         this.currentElement = "";
+    }
+
+    public String getId() {
+        return this.id;
     }
 
     public ArrayList<Object> getObjects() {

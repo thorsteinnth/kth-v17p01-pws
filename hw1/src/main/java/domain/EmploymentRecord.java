@@ -1,5 +1,8 @@
 package domain;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 public class EmploymentRecord {
 
     /*
@@ -13,73 +16,79 @@ public class EmploymentRecord {
     </employment>
      */
 
-    private String companyName;
-    private String roleDescription;
-    private String startDate;
-    private String endDate;
-    private String contactEmail;
-    private String canContact;
+    private String companyname;
+    private String roledescription;
+    private String startdate;
+    private String enddate;
+    private String contactemail;
+    private String cancontact;
 
     public EmploymentRecord() {
     }
 
-    public String getCompanyName() {
-        return companyName;
+    public String getCompanyname() {
+        return companyname;
     }
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
+    @XmlElement
+    public void setCompanyname(String companyname) {
+        this.companyname = companyname;
     }
 
-    public String getRoleDescription() {
-        return roleDescription;
+    public String getRoledescription() {
+        return roledescription;
     }
 
-    public void setRoleDescription(String roleDescription) {
-        this.roleDescription = roleDescription;
+    @XmlElement
+    public void setRoledescription(String roledescription) {
+        this.roledescription = roledescription;
     }
 
-    public String getStartDate() {
-        return startDate;
+    public String getStartdate() {
+        return startdate;
     }
 
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
+    @XmlElement
+    public void setStartdate(String startdate) {
+        this.startdate = startdate;
     }
 
-    public String getEndDate() {
-        return endDate;
+    public String getEnddate() {
+        return enddate;
     }
 
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
+    @XmlElement
+    public void setEnddate(String enddate) {
+        this.enddate = enddate;
     }
 
-    public String getContactEmail() {
-        return contactEmail;
+    public String getContactemail() {
+        return contactemail;
     }
 
-    public void setContactEmail(String contactEmail) {
-        this.contactEmail = contactEmail;
+    @XmlElement
+    public void setContactemail(String contactEmail) {
+        this.contactemail = contactEmail;
     }
 
-    public String getCanContact() {
-        return canContact;
+    public String getCancontact() {
+        return cancontact;
     }
 
-    public void setCanContact(String canContact) {
-        this.canContact = canContact;
+    @XmlElement
+    public void setCancontact(String cancontact) {
+        this.cancontact = cancontact;
     }
 
     @Override
     public String toString() {
         return "EmploymentRecord{" +
-                "companyName='" + companyName + '\'' +
-                ", roleDescription='" + roleDescription + '\'' +
-                ", startDate='" + startDate + '\'' +
-                ", endDate='" + endDate + '\'' +
-                ", contactEmail='" + contactEmail + '\'' +
-                ", canContact='" + canContact + '\'' +
+                "companyName='" + companyname + '\'' +
+                ", roleDescription='" + roledescription + '\'' +
+                ", startDate='" + startdate + '\'' +
+                ", endDate='" + enddate + '\'' +
+                ", contactEmail='" + contactemail + '\'' +
+                ", canContact='" + cancontact + '\'' +
                 '}';
     }
 }

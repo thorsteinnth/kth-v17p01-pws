@@ -1,12 +1,10 @@
-import domain.Company;
-import domain.EmploymentRecord;
-import domain.Resume;
-import domain.Transcript;
+import domain.*;
 import org.xml.sax.SAXException;
 
 import java.util.ArrayList;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -63,7 +61,8 @@ public class Program
         {
             // DOM parser - company info
             DOMParser domParser = new DOMParser();
-            ArrayList<Company> companies = domParser.parseCompanyInfoXml(companyInfoFileInputStream);
+            Companies companies = new Companies();
+            companies.setCompanyinfo(domParser.parseCompanyInfoXml(companyInfoFileInputStream));
             System.out.println("Parsed companies: " + companies.toString());
 
             // SAX Parser - employment record
@@ -72,10 +71,15 @@ public class Program
             SAXParser saxParser = saxFactory.newSAXParser();
             saxParser.parse(employmentRecordFile, saxHandler);
 
+            String saxHandlerIdFromXml = saxHandler.getId();
             ArrayList<Object> saxHandlerObjects = saxHandler.getObjects();
-            List<EmploymentRecord> employmentRecords = saxHandlerObjects.stream()
+            List<EmploymentRecord> er = saxHandlerObjects.stream()
                     .map(object -> (EmploymentRecord)object)
                     .collect(Collectors.toList());
+
+            EmploymentRecords employmentRecords = new EmploymentRecords();
+            employmentRecords.setSsn(saxHandlerIdFromXml);
+            employmentRecords.setEmployment(er);
             System.out.println("Parsed employment records: " + employmentRecords.toString());
 
             //JAXB Parser - transcript
@@ -89,6 +93,32 @@ public class Program
             Unmarshaller jaxbResumeUnmarshaller = jaxbResumeContext.createUnmarshaller();
             Resume resume = (Resume) jaxbResumeUnmarshaller.unmarshal(resumeFile);
             System.out.println("Parsed resume: " + resume.toString());
+
+            //JAXB - Convert all objects back to XML
+            // TODO : save them as outputXML files
+
+            // - CompanyInfo
+            JAXBContext jaxbCompanyContext = JAXBContext.newInstance(Companies.class);
+            Marshaller jaxbCompanyMarshaller = jaxbCompanyContext.createMarshaller();
+            jaxbCompanyMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            jaxbCompanyMarshaller.marshal(companies, System.out);
+
+            // - EmploymentRecord
+            JAXBContext jaxbEmploymentRecordsContext = JAXBContext.newInstance(EmploymentRecords.class);
+            Marshaller jaxbEmploymentRecordsMarshaller = jaxbEmploymentRecordsContext.createMarshaller();
+            jaxbEmploymentRecordsMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            jaxbEmploymentRecordsMarshaller.marshal(employmentRecords, System.out);
+
+            // - Resume
+            Marshaller jaxbResumeMarshaller = jaxbResumeContext.createMarshaller();
+            jaxbResumeMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            jaxbResumeMarshaller.marshal(resume, System.out);
+
+            // - Transcript
+            Marshaller jaxbMarshaller = jaxbTranscriptContext.createMarshaller();
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            jaxbMarshaller.marshal(transcript, System.out);
+
 
             // XSLT
             // http://stackoverflow.com/questions/4604497/xslt-processing-with-java
