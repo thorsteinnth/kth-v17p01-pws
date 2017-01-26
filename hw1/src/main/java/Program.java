@@ -1,11 +1,11 @@
 import domain.Company;
 import org.xml.sax.SAXException;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import java.io.*;
 
 public class Program
 {
@@ -17,14 +17,22 @@ public class Program
 
     public void parseAll()
     {
-        String fileName = "xml/CompanyInfo.xml";
-        FileInputStream fileInputStream;
+        String companyInfoFileName = "xml/CompanyInfo.xml";
+        String employmentRecordFileName = "xml/EmploymentRecord.xml";
+        String resumeFileName = "xml/Resume.xml";
+        String transcriptFileName = "xml/Transcript.xml";
+
+        FileInputStream companyInfoFileInputStream;
+        File employmentRecordFile;
 
         try
         {
-            fileInputStream = new FileInputStream(
-                    new File(getClass().getClassLoader().getResource(fileName).getFile())
+            companyInfoFileInputStream = new FileInputStream(
+                    new File(getClass().getClassLoader().getResource(companyInfoFileName).getFile())
             );
+
+            employmentRecordFile = new File(
+                    getClass().getClassLoader().getResource(employmentRecordFileName).getFile());
         }
         catch (FileNotFoundException ex)
         {
@@ -34,11 +42,18 @@ public class Program
 
         try
         {
+            // DOM parser - company info
             DOMParser domParser = new DOMParser();
-            ArrayList<Company> companies = domParser.parseCompanyInfoXml(fileInputStream);
+            ArrayList<Company> companies = domParser.parseCompanyInfoXml(companyInfoFileInputStream);
             System.out.println("Parsed companies: " + companies.toString());
+
+            // SAX Parser - employment record
+            SAXHandler saxHandler = new SAXHandler();
+            SAXParserFactory saxFactory = SAXParserFactory.newInstance();
+            SAXParser saxParser = saxFactory.newSAXParser();
+            saxParser.parse(employmentRecordFile, saxHandler);
         }
-        catch (IOException|SAXException ex)
+        catch (IOException|SAXException|ParserConfigurationException ex)
         {
             System.err.println(ex);
             return;
