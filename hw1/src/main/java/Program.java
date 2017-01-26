@@ -11,6 +11,9 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import javax.xml.transform.*;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 import java.io.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -83,11 +86,35 @@ public class Program
             JAXBContext jaxbResumeContext = JAXBContext.newInstance(Resume.class);
             Unmarshaller jaxbResumeUnmarshaller = jaxbResumeContext.createUnmarshaller();
             Resume resume = (Resume) jaxbResumeUnmarshaller.unmarshal(resumeFile);
+
+            // XSLT
+            // http://stackoverflow.com/questions/4604497/xslt-processing-with-java
+            // http://stackoverflow.com/questions/1384802/java-how-to-indent-xml-generated-by-transformer
+
+            File applicantProfileFromAllXslFile = new File(
+                    getClass().getClassLoader().getResource("xml/ApplicantProfileFromAll.xsl").getFile()
+            );
+            StreamSource xsl = new StreamSource(applicantProfileFromAllXslFile);
+
+            TransformerFactory factory = TransformerFactory.newInstance();
+            Transformer transformer = factory.newTransformer(xsl);
+            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+
+            // Set indentation of output document
+            // TODO Indentation not working
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+
+            transformer.transform(
+                    new StreamSource(),
+                    new StreamResult(
+                            new File("output_xml/ApplicantProfileFromAll.xml")
+                    )
+            );
         }
-        catch (IOException|SAXException|ParserConfigurationException|JAXBException ex)
+        catch (IOException|SAXException|ParserConfigurationException|JAXBException|TransformerException ex)
         {
             System.err.println(ex);
-            return;
         }
     }
 }
