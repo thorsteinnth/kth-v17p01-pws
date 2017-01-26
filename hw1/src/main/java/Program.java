@@ -94,10 +94,10 @@ public class Program
             // http://stackoverflow.com/questions/4604497/xslt-processing-with-java
             // http://stackoverflow.com/questions/1384802/java-how-to-indent-xml-generated-by-transformer
 
-            File applicantProfileFromAllXslFile = new File(
-                    getClass().getClassLoader().getResource("xml/ApplicantProfileFromAll.xsl").getFile()
+            File applicantProfileFromOriginalXmlXslFile = new File(
+                    getClass().getClassLoader().getResource("xml/ApplicantProfileFromOriginalXml.xsl").getFile()
             );
-            StreamSource xsl = new StreamSource(applicantProfileFromAllXslFile);
+            StreamSource xsl = new StreamSource(applicantProfileFromOriginalXmlXslFile);
 
             TransformerFactory factory = TransformerFactory.newInstance();
             Transformer transformer = factory.newTransformer(xsl);
@@ -111,7 +111,7 @@ public class Program
             transformer.transform(
                     new StreamSource(),
                     new StreamResult(
-                            new File("output_xml/ApplicantProfileFromAll.xml")
+                            new File("output_xml/ApplicantProfileFromOriginalXml.xml")
                     )
             );
         }
