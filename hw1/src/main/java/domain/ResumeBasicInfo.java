@@ -66,4 +66,15 @@ public class ResumeBasicInfo {
     public void setCountry(String country) {
         this.country = country;
     }
+
+    @Override
+    public String toString() {
+        return "ResumeBasicInfo{" +
+                "ssn='" + ssn + '\'' +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", country='" + country + '\'' +
+                '}';
+    }
 }

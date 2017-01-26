@@ -91,4 +91,15 @@ public class Resume {
     public void setOtherinfo(ResumeOtherInfo otherinfo) {
         this.otherinfo = otherinfo;
     }
+
+    @Override
+    public String toString() {
+        return "Resume{" +
+                "basicinfo=" + basicinfo +
+                ", contactinfo=" + contactinfo +
+                ", placesdesiredtowork='" + placesdesiredtowork + '\'' +
+                ", references=" + references +
+                ", otherinfo=" + otherinfo +
+                '}';
+    }
 }

@@ -19,11 +19,9 @@ public class SAXHandler extends DefaultHandler {
     // Events
 
     public void startDocument() {
-        System.out.println("SAXHandler starting parsing");
     }
 
     public void endDocument() {
-        System.out.println("SAXHandler ending parsing");
     }
 
     public void startElement(String uri, String localName, String qName, Attributes attributes) {

@@ -47,4 +47,13 @@ public class ResumeReference {
     public void setContactinfo(ResumeContactInfo contactInfo) {
         this.contactinfo = contactInfo;
     }
+
+    @Override
+    public String toString() {
+        return "ResumeReference{" +
+                "name='" + name + '\'' +
+                ", companyname='" + companyname + '\'' +
+                ", contactinfo=" + contactinfo +
+                '}';
+    }
 }

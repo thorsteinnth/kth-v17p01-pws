@@ -44,4 +44,13 @@ public class ResumeOtherInfo {
     public void setOthercomments(String othercomments) {
         this.othercomments = othercomments;
     }
+
+    @Override
+    public String toString() {
+        return "ResumeOtherInfo{" +
+                "typeofjob='" + typeofjob + '\'' +
+                ", motivationletter='" + motivationletter + '\'' +
+                ", othercomments='" + othercomments + '\'' +
+                '}';
+    }
 }

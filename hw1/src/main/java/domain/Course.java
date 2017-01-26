@@ -37,4 +37,13 @@ public class Course {
     public void setResult(String result) {
         this.result = result;
     }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "name='" + name + '\'' +
+                ", grade='" + grade + '\'' +
+                ", result='" + result + '\'' +
+                '}';
+    }
 }

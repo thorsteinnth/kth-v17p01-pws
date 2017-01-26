@@ -76,16 +76,19 @@ public class Program
             List<EmploymentRecord> employmentRecords = saxHandlerObjects.stream()
                     .map(object -> (EmploymentRecord)object)
                     .collect(Collectors.toList());
+            System.out.println("Parsed employment records: " + employmentRecords.toString());
 
             //JAXB Parser - transcript
             JAXBContext jaxbTranscriptContext = JAXBContext.newInstance(Transcript.class);
             Unmarshaller jaxbTranscriptUnmarshaller = jaxbTranscriptContext.createUnmarshaller();
             Transcript transcript = (Transcript) jaxbTranscriptUnmarshaller.unmarshal(transcriptFile);
+            System.out.println("Parsed transcript: " + transcript.toString());
 
             //JAXB Parser - resume
             JAXBContext jaxbResumeContext = JAXBContext.newInstance(Resume.class);
             Unmarshaller jaxbResumeUnmarshaller = jaxbResumeContext.createUnmarshaller();
             Resume resume = (Resume) jaxbResumeUnmarshaller.unmarshal(resumeFile);
+            System.out.println("Parsed resume: " + resume.toString());
 
             // XSLT
             // http://stackoverflow.com/questions/4604497/xslt-processing-with-java
