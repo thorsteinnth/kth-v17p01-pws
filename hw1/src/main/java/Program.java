@@ -18,6 +18,8 @@ public class Program
     {
         String companyInfoFileName = "xml/CompanyInfo.xml";
         String employmentRecordFileName = "xml/EmploymentRecord.xml";
+        String resumeFileName = "xml/Resume.xml";
+        String transcriptFileName = "xml/Transcript.xml";
 
         FileInputStream companyInfoFileInputStream;
         File employmentRecordFile;
