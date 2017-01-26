@@ -70,4 +70,16 @@ public class EmploymentRecord {
     public void setCanContact(String canContact) {
         this.canContact = canContact;
     }
+
+    @Override
+    public String toString() {
+        return "EmploymentRecord{" +
+                "companyName='" + companyName + '\'' +
+                ", roleDescription='" + roleDescription + '\'' +
+                ", startDate='" + startDate + '\'' +
+                ", endDate='" + endDate + '\'' +
+                ", contactEmail='" + contactEmail + '\'' +
+                ", canContact='" + canContact + '\'' +
+                '}';
+    }
 }

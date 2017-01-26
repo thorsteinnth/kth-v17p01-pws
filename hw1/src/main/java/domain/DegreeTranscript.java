@@ -39,4 +39,13 @@ public class DegreeTranscript {
     public void setCourse(ArrayList<Course> course) {
         this.course = course;
     }
+
+    @Override
+    public String toString() {
+        return "DegreeTranscript{" +
+                "degree='" + degree + '\'' +
+                ", graduated='" + graduated + '\'' +
+                ", course=" + course +
+                '}';
+    }
 }

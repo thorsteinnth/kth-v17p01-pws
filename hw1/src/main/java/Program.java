@@ -1,5 +1,6 @@
 import domain.Company;
 import domain.EmploymentRecord;
+import domain.Resume;
 import domain.Transcript;
 import org.xml.sax.SAXException;
 
@@ -35,6 +36,7 @@ public class Program
         FileInputStream companyInfoFileInputStream;
         File employmentRecordFile;
         File transcriptFile;
+        File resumeFile;
 
         try
         {
@@ -47,6 +49,9 @@ public class Program
 
             transcriptFile = new File(
                     getClass().getClassLoader().getResource(transcriptFileName).getFile());
+
+            resumeFile = new File(
+                    getClass().getClassLoader().getResource(resumeFileName).getFile());
         }
         catch (FileNotFoundException ex)
         {
@@ -68,16 +73,22 @@ public class Program
             saxParser.parse(employmentRecordFile, saxHandler);
 
             ArrayList<Object> saxHandlerObjects = saxHandler.getObjects();
-
             List<EmploymentRecord> employmentRecords = saxHandlerObjects.stream()
                     .map(object -> (EmploymentRecord)object)
                     .collect(Collectors.toList());
+            System.out.println("Parsed employment records: " + employmentRecords.toString());
 
-            //JAX Parser - transcript
-            JAXBContext jaxbContext = JAXBContext.newInstance(Transcript.class);
-            Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-            Transcript transcript = (Transcript) jaxbUnmarshaller.unmarshal(transcriptFile);
-            System.out.println(transcript);
+            //JAXB Parser - transcript
+            JAXBContext jaxbTranscriptContext = JAXBContext.newInstance(Transcript.class);
+            Unmarshaller jaxbTranscriptUnmarshaller = jaxbTranscriptContext.createUnmarshaller();
+            Transcript transcript = (Transcript) jaxbTranscriptUnmarshaller.unmarshal(transcriptFile);
+            System.out.println("Parsed transcript: " + transcript.toString());
+
+            //JAXB Parser - resume
+            JAXBContext jaxbResumeContext = JAXBContext.newInstance(Resume.class);
+            Unmarshaller jaxbResumeUnmarshaller = jaxbResumeContext.createUnmarshaller();
+            Resume resume = (Resume) jaxbResumeUnmarshaller.unmarshal(resumeFile);
+            System.out.println("Parsed resume: " + resume.toString());
 
             // XSLT
             // http://stackoverflow.com/questions/4604497/xslt-processing-with-java

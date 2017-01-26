@@ -74,4 +74,14 @@ public class Transcript {
     public void setDegreetranscript(List<DegreeTranscript> degreeTranscript) {
         this.degreetranscript = degreeTranscript;
     }
+
+    @Override
+    public String toString() {
+        return "Transcript{" +
+                "transcriptid='" + transcriptid + '\'' +
+                ", schoolname='" + schoolname + '\'' +
+                ", date='" + date + '\'' +
+                ", degreetranscript=" + degreetranscript +
+                '}';
+    }
 }
