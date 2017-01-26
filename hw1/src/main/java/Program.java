@@ -1,9 +1,11 @@
+import domain.Company;
 import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Program
 {
@@ -33,7 +35,8 @@ public class Program
         try
         {
             DOMParser domParser = new DOMParser();
-            domParser.parse(fileInputStream);
+            ArrayList<Company> companies = domParser.parseCompanyInfoXml(fileInputStream);
+            System.out.println("Parsed companies: " + companies.toString());
         }
         catch (IOException|SAXException ex)
         {
