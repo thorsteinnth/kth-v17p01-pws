@@ -46,12 +46,14 @@
                 <ContactEmail>boss@lsretail.com</ContactEmail>
                 <CanContact>Yes</CanContact>
             </Description>
-            <Contact>
-                <Name>William Jonsson</Name>
-                <Telephone>12345678901221</Telephone>
-                <Email>william@spotify.com</Email>
-                <CanContact>No</CanContact>
-            </Contact>
         </Employment>
     </WorkExperience>
+    <References>
+        <Contact>
+            <Name>William Jonsson</Name>
+            <CompanyName>LS Retail</CompanyName>
+            <Telephone>12345678901221</Telephone>
+            <Email>william@spotify.com</Email>
+        </Contact>
+    </References>
 </ApplicantProfile>

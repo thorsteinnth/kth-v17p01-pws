@@ -73,8 +73,55 @@
                     </xsl:element>
                 </xsl:for-each>
             </xsl:element>
-
             <xsl:element name="WorkExperience">
+                <!--TODO Move CanContact to references and remove ContactEmail-->
+                <xsl:for-each select="document('EmploymentRecord.xml')/employmentrecord/employment">
+                    <!--Save company name as variable to reference other XML files with-->
+                    <xsl:param name="companyName">
+                        <xsl:value-of select="companyname" />
+                    </xsl:param>
+                    <xsl:element name="Employment">
+                        <xsl:element name="Company">
+                            <xsl:element name="Name">
+                                <xsl:value-of select="companyname" />
+                            </xsl:element>
+                            <xsl:element name="Address">
+                                <!--Get address from CompanyInfo.xml-->
+                                <xsl:value-of select="document('CompanyInfo.xml')/companies/companyinfo[name = $companyName]/address" />
+                            </xsl:element>
+                            <xsl:element name="Telephone">
+                                <!--Get telephone from CompanyInfo.xml-->
+                                <xsl:value-of select="document('CompanyInfo.xml')/companies/companyinfo[name = $companyName]/phonenumber" />
+                            </xsl:element>
+                            <xsl:element name="Email">
+                                <!--Get email from CompanyInfo.xml-->
+                                <xsl:value-of select="document('CompanyInfo.xml')/companies/companyinfo[name = $companyName]/email" />
+                            </xsl:element>
+                        </xsl:element>
+                        <xsl:element name="Description">
+                            <xsl:element name="Role">
+                                <xsl:value-of select="roledescription" />
+                            </xsl:element>
+                            <xsl:element name="StartDate">
+                                <xsl:value-of select="startdate" />
+                            </xsl:element>
+                            <xsl:element name="EndDate">
+                                <xsl:value-of select="enddate" />
+                            </xsl:element>
+                            <xsl:element name="ContactEmail">
+                                <!--TODO Remove, will be under references-->
+                                <xsl:value-of select="contactemail" />
+                            </xsl:element>
+                            <xsl:element name="CanContact">
+                                <!--TODO Remove, will be under references-->
+                                <xsl:value-of select="cancontact" />
+                            </xsl:element>
+                        </xsl:element>
+                    </xsl:element>
+                </xsl:for-each>
+            </xsl:element>
+
+            <xsl:element name="References">
             </xsl:element>
 
         </xsl:element>
