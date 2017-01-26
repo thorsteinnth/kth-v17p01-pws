@@ -25,8 +25,8 @@
             <Graduated>false</Graduated>
             <Transcript date="2017-01-25">
                 <Course>
-                    <name>Programming Web Services</name>
-                    <grade>A</grade>
+                    <Name>Programming Web Services</Name>
+                    <Grade>A</Grade>
                 </Course>
             </Transcript>
         </Degree>
@@ -46,12 +46,14 @@
                 <ContactEmail>boss@lsretail.com</ContactEmail>
                 <CanContact>Yes</CanContact>
             </Description>
-            <Contact>
-                <Name>William Jonsson</Name>
-                <Telephone>12345678901221</Telephone>
-                <Email>william@spotify.com</Email>
-                <CanContact>No</CanContact>
-            </Contact>
         </Employment>
     </WorkExperience>
+    <References>
+        <Contact>
+            <Name>William Jonsson</Name>
+            <CompanyName>LS Retail</CompanyName>
+            <Telephone>12345678901221</Telephone>
+            <Email>william@spotify.com</Email>
+        </Contact>
+    </References>
 </ApplicantProfile>

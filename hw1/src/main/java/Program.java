@@ -59,13 +59,17 @@ public class Program
 
         try
         {
-            // DOM parser - company info
+            //region DOM parser - company info
+
             DOMParser domParser = new DOMParser();
             Companies companies = new Companies();
             companies.setCompanyinfo(domParser.parseCompanyInfoXml(companyInfoFileInputStream));
             System.out.println("Parsed companies: " + companies.toString());
 
-            // SAX Parser - employment record
+            //endregion
+
+            //region SAX Parser - employment record
+
             SAXHandler saxHandler = new SAXHandler();
             SAXParserFactory saxFactory = SAXParserFactory.newInstance();
             SAXParser saxParser = saxFactory.newSAXParser();
@@ -82,19 +86,27 @@ public class Program
             employmentRecords.setEmployment(er);
             System.out.println("Parsed employment records: " + employmentRecords.toString());
 
-            //JAXB Parser - transcript
+            //endregion
+
+            //region JAXB Parser - transcript
+
             JAXBContext jaxbTranscriptContext = JAXBContext.newInstance(Transcript.class);
             Unmarshaller jaxbTranscriptUnmarshaller = jaxbTranscriptContext.createUnmarshaller();
             Transcript transcript = (Transcript) jaxbTranscriptUnmarshaller.unmarshal(transcriptFile);
             System.out.println("Parsed transcript: " + transcript.toString());
 
-            //JAXB Parser - resume
+            //endregion
+
+            //region JAXB Parser - resume
+
             JAXBContext jaxbResumeContext = JAXBContext.newInstance(Resume.class);
             Unmarshaller jaxbResumeUnmarshaller = jaxbResumeContext.createUnmarshaller();
             Resume resume = (Resume) jaxbResumeUnmarshaller.unmarshal(resumeFile);
             System.out.println("Parsed resume: " + resume.toString());
 
-            //JAXB - Convert all objects back to XML
+            //endregion
+
+            //region JAXB - Convert all objects back to XML
             // TODO : save them as outputXML files
 
             // - CompanyInfo
@@ -124,10 +136,12 @@ public class Program
             // http://stackoverflow.com/questions/4604497/xslt-processing-with-java
             // http://stackoverflow.com/questions/1384802/java-how-to-indent-xml-generated-by-transformer
 
-            File applicantProfileFromAllXslFile = new File(
-                    getClass().getClassLoader().getResource("xml/ApplicantProfileFromAll.xsl").getFile()
+            // Generate applicant profile from original XML documents
+
+            File applicantProfileFromOriginalXmlXslFile = new File(
+                    getClass().getClassLoader().getResource("xml/ApplicantProfileFromOriginalXml.xsl").getFile()
             );
-            StreamSource xsl = new StreamSource(applicantProfileFromAllXslFile);
+            StreamSource xsl = new StreamSource(applicantProfileFromOriginalXmlXslFile);
 
             TransformerFactory factory = TransformerFactory.newInstance();
             Transformer transformer = factory.newTransformer(xsl);
@@ -141,9 +155,11 @@ public class Program
             transformer.transform(
                     new StreamSource(),
                     new StreamResult(
-                            new File("output_xml/ApplicantProfileFromAll.xml")
+                            new File("output_xml/ApplicantProfileFromOriginalXml.xml")
                     )
             );
+
+            //endregion
         }
         catch (IOException|SAXException|ParserConfigurationException|JAXBException|TransformerException ex)
         {
