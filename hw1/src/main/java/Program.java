@@ -1,4 +1,5 @@
 import domain.Company;
+import domain.EmploymentRecord;
 import org.xml.sax.SAXException;
 
 import java.util.ArrayList;
@@ -6,6 +7,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import java.io.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Program
 {
@@ -52,6 +55,12 @@ public class Program
             SAXParserFactory saxFactory = SAXParserFactory.newInstance();
             SAXParser saxParser = saxFactory.newSAXParser();
             saxParser.parse(employmentRecordFile, saxHandler);
+
+            ArrayList<Object> saxHandlerObjects = saxHandler.getObjects();
+
+            List<EmploymentRecord> employmentRecords = saxHandlerObjects.stream()
+                    .map(object -> (EmploymentRecord)object)
+                    .collect(Collectors.toList());
         }
         catch (IOException|SAXException|ParserConfigurationException ex)
         {
