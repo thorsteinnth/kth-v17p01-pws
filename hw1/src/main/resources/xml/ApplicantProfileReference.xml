@@ -25,8 +25,8 @@
             <Graduated>false</Graduated>
             <Transcript date="2017-01-25">
                 <Course>
-                    <name>Programming Web Services</name>
-                    <grade>A</grade>
+                    <Name>Programming Web Services</Name>
+                    <Grade>A</Grade>
                 </Course>
             </Transcript>
         </Degree>

@@ -42,9 +42,41 @@
                 </xsl:element>
             </xsl:element>
             <xsl:element name="Education">
+                <!--NOTE: We are only expecting a transcript from one university-->
+                <!--NOTE: The structure of the ApplicantProfile XML can handle more universities though-->
+                <xsl:for-each select="document('Transcript.xml')/transcript/degreetranscript">
+                    <xsl:element name="Degree">
+                        <xsl:element name="School">
+                            <xsl:value-of select="document('Transcript.xml')/transcript/schoolname" />
+                        </xsl:element>
+                        <xsl:element name="DegreeName">
+                            <xsl:value-of select="degree" />
+                        </xsl:element>
+                        <xsl:element name="Graduated">
+                            <xsl:value-of select="graduated" />
+                        </xsl:element>
+                        <xsl:element name="Transcript">
+                            <xsl:attribute name="date">
+                                <xsl:value-of select="document('Transcript.xml')/transcript/date" />
+                            </xsl:attribute>
+                            <xsl:for-each select="course">
+                                <xsl:element name="Course">
+                                    <xsl:element name="Name">
+                                        <xsl:value-of select="name" />
+                                    </xsl:element>
+                                    <xsl:element name="Grade">
+                                        <xsl:value-of select="grade" />
+                                    </xsl:element>
+                                </xsl:element>
+                            </xsl:for-each>
+                        </xsl:element>
+                    </xsl:element>
+                </xsl:for-each>
             </xsl:element>
+
             <xsl:element name="WorkExperience">
             </xsl:element>
+
         </xsl:element>
     </xsl:template>
 </xsl:stylesheet>

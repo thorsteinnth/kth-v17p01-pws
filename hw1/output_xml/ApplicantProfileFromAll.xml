@@ -16,6 +16,45 @@
 <DesiredWorkplace>King</DesiredWorkplace>
 </Preferences>
 </General>
-<Education/>
+<Education>
+<Degree>
+<School>Kungliga Tekniska Högskolan</School>
+<DegreeName>Software Engineering of Distributed Systems</DegreeName>
+<Graduated>false</Graduated>
+<Transcript date="2017-01-25">
+<Course>
+<Name>Programming Web Services</Name>
+<Grade>A</Grade>
+</Course>
+<Course>
+<Name>Modern Dance</Name>
+<Grade>F</Grade>
+</Course>
+<Course>
+<Name>Technical Drawing</Name>
+<Grade>C</Grade>
+</Course>
+</Transcript>
+</Degree>
+<Degree>
+<School>Kungliga Tekniska Högskolan</School>
+<DegreeName>Embedded Systems</DegreeName>
+<Graduated>false</Graduated>
+<Transcript date="2017-01-25">
+<Course>
+<Name>Circuit Design</Name>
+<Grade>D</Grade>
+</Course>
+<Course>
+<Name>C programming</Name>
+<Grade>A</Grade>
+</Course>
+<Course>
+<Name>Electrical Engineering Basics</Name>
+<Grade>B</Grade>
+</Course>
+</Transcript>
+</Degree>
+</Education>
 <WorkExperience/>
 </ApplicantProfile>
