@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--This is a reference xml doc that tells us how the applicant profile should look-->
+<ApplicantProfile>
+    <General>
+        <SSN>8001010000</SSN>
+        <Name>Jon Jonsson</Name>
+        <Address>Sveavägen 1</Address>
+        <City>Stockholm</City>
+        <Country>Sweden</Country>
+        <ContactInfo>
+            <Telephone>12345678901234</Telephone>
+            <Email>jonjonsson@kth.se</Email>
+        </ContactInfo>
+        <Preferences>
+            <JobType>permanent</JobType>
+            <MotivationLetter>I would really like to work at King Games</MotivationLetter>
+            <Comments>No comment</Comments>
+            <DesiredWorkplace>King</DesiredWorkplace>
+        </Preferences>
+    </General>
+    <Education>
+        <Degree>
+            <School>Kungliga Tekniska Högskolan</School>
+            <DegreeName>Software Engineering of Distributed Systems</DegreeName>
+            <Graduated>false</Graduated>
+            <Transcript date="2017-01-25">
+                <Course>
+                    <name>Programming Web Services</name>
+                    <grade>A</grade>
+                </Course>
+            </Transcript>
+        </Degree>
+    </Education>
+    <WorkExperience>
+        <Employment>
+            <Company>
+                <Name>LS Retail</Name>
+                <Address>Katrinartun 1, 105 Reykjavik, Iceland</Address>
+                <Telephone>12345678912345</Telephone>
+                <Email>contact@lsretail.com</Email>
+            </Company>
+            <Description>
+                <Role>iOS developer</Role>
+                <StartDate>2015-12-13</StartDate>
+                <EndDate>2017-01-25</EndDate>
+                <ContactEmail>boss@lsretail.com</ContactEmail>
+                <CanContact>Yes</CanContact>
+            </Description>
+            <Contact>
+                <Name>William Jonsson</Name>
+                <Telephone>12345678901221</Telephone>
+                <Email>william@spotify.com</Email>
+                <CanContact>No</CanContact>
+            </Contact>
+        </Employment>
+    </WorkExperience>
+</ApplicantProfile>
