@@ -103,5 +103,18 @@
 </Description>
 </Employment>
 </WorkExperience>
-<References/>
+<References>
+<Contact>
+<Name>William Jonsson</Name>
+<CompanyName>Spotify</CompanyName>
+<Telephone>12345678901221</Telephone>
+<Email>william@spotify.com</Email>
+</Contact>
+<Contact>
+<Name>Magnus Magnus Magnusson</Name>
+<CompanyName>LS Retail</CompanyName>
+<Telephone>12345678901228</Telephone>
+<Email>magnusmagnus@lsretail.com</Email>
+</Contact>
+</References>
 </ApplicantProfile>

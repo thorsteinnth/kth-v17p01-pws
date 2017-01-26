@@ -120,10 +120,24 @@
                     </xsl:element>
                 </xsl:for-each>
             </xsl:element>
-
             <xsl:element name="References">
+                <xsl:for-each select="document('Resume.xml')/resume/references">
+                    <xsl:element name="Contact">
+                        <xsl:element name="Name">
+                            <xsl:value-of select="name" />
+                        </xsl:element>
+                        <xsl:element name="CompanyName">
+                            <xsl:value-of select="companyname" />
+                        </xsl:element>
+                        <xsl:element name="Telephone">
+                            <xsl:value-of select="contactinfo/telephonenumber" />
+                        </xsl:element>
+                        <xsl:element name="Email">
+                            <xsl:value-of select="contactinfo/email" />
+                        </xsl:element>
+                    </xsl:element>
+                </xsl:for-each>
             </xsl:element>
-
         </xsl:element>
     </xsl:template>
 </xsl:stylesheet>
