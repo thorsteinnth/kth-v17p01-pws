@@ -43,13 +43,21 @@
         </xs:sequence>
     </xs:complexType>
 
+    <xs:simpleType name="ContactRulesType">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Yes"/>
+            <xs:enumeration value="No"/>
+            <xs:enumeration value="Contact employee first"/>
+        </xs:restriction>
+    </xs:simpleType>
+
     <xs:complexType name="ContactType">
         <xs:sequence>
             <xs:element name="Name" type="xs:string"/>
             <xs:element name="CompanyName" type="xs:string"/>
             <xs:element name="Telephone" type="PhoneNumberType"/>
             <xs:element name="Email" type="EmailType"/>
-            <xs:element name="CanContact" type="xs:string"/>
+            <xs:element name="CanContact" type="ContactRulesType"/>
         </xs:sequence>
     </xs:complexType>
 
