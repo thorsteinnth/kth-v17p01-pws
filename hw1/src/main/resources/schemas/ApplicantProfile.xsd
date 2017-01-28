@@ -49,6 +49,7 @@
             <xs:element name="CompanyName" type="xs:string"/>
             <xs:element name="Telephone" type="PhoneNumberType"/>
             <xs:element name="Email" type="EmailType"/>
+            <xs:element name="CanContact" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -72,8 +73,6 @@
             <xs:element name="Role" type="xs:string"/>
             <xs:element name="StartDate" type="xs:date"/>
             <xs:element name="EndDate" type="xs:date"/>
-            <xs:element name="ContactEmail" type="EmailType"/>
-            <xs:element name="CanContact" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
 

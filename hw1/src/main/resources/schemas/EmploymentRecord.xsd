@@ -11,27 +11,11 @@
     - Employee role in company
     - Start date
     - End date
-    - contact email
-    - can contact first rules
     -->
 
     <xs:simpleType name="ssntype">
         <xs:restriction base="xs:string">
             <xs:pattern value="[0-9]{10}"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="emailtype">
-        <xs:restriction base="xs:string">
-            <xs:pattern value="[^@]+@[^\.]+\..+"/>
-        </xs:restriction>
-    </xs:simpleType>
-
-    <xs:simpleType name="contactrulestype">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="Yes"/>
-            <xs:enumeration value="No"/>
-            <xs:enumeration value="Contact employee first"/>
         </xs:restriction>
     </xs:simpleType>
 
@@ -41,8 +25,6 @@
             <xs:element name="roledescription" type="xs:string"/>
             <xs:element name="startdate" type="xs:date"/>
             <xs:element name="enddate" type="xs:date"/>
-            <xs:element name="contactemail" type="emailtype"/>
-            <xs:element name="cancontact" type="contactrulestype"/>
         </xs:sequence>
     </xs:complexType>
 

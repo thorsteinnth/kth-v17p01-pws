@@ -10,6 +10,7 @@
     <contactinfo>
         <telephonenumber>12345678901234</telephonenumber>
         <email>jonjonsson@kth.se</email>
+        <cancontact>Yes</cancontact>
     </contactinfo>
     <placesdesiredtowork>King</placesdesiredtowork>
     <references>
@@ -18,6 +19,7 @@
         <contactinfo>
             <telephonenumber>12345678901221</telephonenumber>
             <email>william@spotify.com</email>
+            <cancontact>No</cancontact>
         </contactinfo>
     </references>
     <references>
@@ -26,6 +28,7 @@
         <contactinfo>
             <telephonenumber>12345678901228</telephonenumber>
             <email>magnusmagnus@lsretail.com</email>
+            <cancontact>Contact employee first</cancontact>
         </contactinfo>
     </references>
     <otherinfo>

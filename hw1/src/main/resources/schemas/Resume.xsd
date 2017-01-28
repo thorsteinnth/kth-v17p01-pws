@@ -23,6 +23,7 @@
         - Full name
         - Company name
         - Contact info
+        - Can contact rules
 
         Other info:
         - Job type
@@ -66,10 +67,19 @@
         </xsd:sequence>
     </xsd:complexType>
 
+    <xsd:simpleType name="contactrulestype">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Yes"/>
+            <xsd:enumeration value="No"/>
+            <xsd:enumeration value="Contact employee first"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
     <xsd:complexType name="contactinfotype">
         <xsd:sequence>
             <xsd:element name="telephonenumber" type="telephonenumberType"/>
             <xsd:element name="email" type="emailtype"/>
+            <xsd:element name="cancontact" type="contactrulestype"/>
         </xsd:sequence>
     </xsd:complexType>
 

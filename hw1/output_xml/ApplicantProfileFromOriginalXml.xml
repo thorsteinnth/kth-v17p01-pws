@@ -68,8 +68,6 @@
 <Role>iOS developer</Role>
 <StartDate>2015-12-13</StartDate>
 <EndDate>2017-01-25</EndDate>
-<ContactEmail>boss@lsretail.com</ContactEmail>
-<CanContact>Yes</CanContact>
 </Description>
 </Employment>
 <Employment>
@@ -83,8 +81,6 @@
 <Role>Fisherman</Role>
 <StartDate>2012-12-13</StartDate>
 <EndDate>2014-01-25</EndDate>
-<ContactEmail>boss@polarseafood.com</ContactEmail>
-<CanContact>No</CanContact>
 </Description>
 </Employment>
 <Employment>
@@ -98,8 +94,6 @@
 <Role>Backend developer</Role>
 <StartDate>2016-12-13</StartDate>
 <EndDate>2017-01-12</EndDate>
-<ContactEmail>boss@spotify.com</ContactEmail>
-<CanContact>Contact employee first</CanContact>
 </Description>
 </Employment>
 </WorkExperience>
@@ -109,12 +103,14 @@
 <CompanyName>Spotify</CompanyName>
 <Telephone>12345678901221</Telephone>
 <Email>william@spotify.com</Email>
+<CanContact>No</CanContact>
 </Contact>
 <Contact>
 <Name>Magnus Magnus Magnusson</Name>
 <CompanyName>LS Retail</CompanyName>
 <Telephone>12345678901228</Telephone>
 <Email>magnusmagnus@lsretail.com</Email>
+<CanContact>Contact employee first</CanContact>
 </Contact>
 </References>
 </ApplicantProfile>
