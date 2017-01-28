@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:simpleType name="SSNType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9]{10}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="EmailType" >
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\s{0}|[^@]+@[^\.]+\..+"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="PhoneNumberType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="\s{0}|[0-9]{14}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="contactrulestype">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Yes"/>
+            <xs:enumeration value="No"/>
+            <xs:enumeration value="Contact employee first"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="PreferencesType">
+        <xs:sequence>
+            <xs:element name="JobType" type="xs:string"/>
+            <xs:element name="MotivationLetter" type="xs:string"/>
+            <xs:element name="Comments" type="xs:string"/>
+            <xs:element name="DesiredWorkplace" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ContactInfoType">
+        <xs:sequence>
+            <xs:element name="Telephone" type="PhoneNumberType"/>
+            <xs:element name="Email" type="EmailType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ContactType">
+        <xs:sequence>
+            <xs:element name="Name" type="xs:string"/>
+            <xs:element name="CompanyName" type="xs:string"/>
+            <xs:element name="Telephone" type="PhoneNumberType"/>
+            <xs:element name="Email" type="EmailType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ReferencesType">
+        <xs:sequence>
+            <xs:element name="Contact" minOccurs="0" maxOccurs="unbounded" type="ContactType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="CompanyType">
+        <xs:sequence>
+            <xs:element name="Name" type="xs:string"/>
+            <xs:element name="Address" type="xs:string"/>
+            <xs:element name="Telephone" type="PhoneNumberType"/>
+            <xs:element name="Email" type="EmailType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="DescriptionType">
+        <xs:sequence>
+            <xs:element name="Role" type="xs:string"/>
+            <xs:element name="StartDate" type="xs:date"/>
+            <xs:element name="EndDate" type="xs:date"/>
+            <xs:element name="ContactEmail" type="EmailType"/>
+            <xs:element name="CanContact" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="EmploymentType">
+        <xs:sequence>
+            <xs:element name="Company" type="CompanyType"/>
+            <xs:element name="Description" type="DescriptionType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="WorkExperienceType">
+        <xs:sequence>
+            <xs:element name="Employment" minOccurs="0" maxOccurs="unbounded" type="EmploymentType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="CourseType">
+        <xs:sequence>
+            <xs:element name="Name" type="xs:string"/>
+            <xs:element name="Grade" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="TranscriptType">
+        <xs:sequence>
+            <xs:element name="Course" minOccurs="0" maxOccurs="unbounded" type="CourseType"/>
+        </xs:sequence>
+        <xs:attribute name="date" type="xs:date" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="DegreeType">
+        <xs:sequence>
+            <xs:element name="School" type="xs:string"/>
+            <xs:element name="DegreeName" type="xs:string"/>
+            <xs:element name="Graduated" type="xs:boolean"/>
+            <xs:element name="Transcript" type="TranscriptType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="EducationType">
+        <xs:sequence>
+            <xs:element name="Degree" minOccurs="0" maxOccurs="unbounded" type="DegreeType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="GeneralType">
+        <xs:sequence>
+            <xs:element name="SSN" type="SSNType"/>
+            <xs:element name="Name" type="xs:string"/>
+            <xs:element name="Address" type="xs:string"/>
+            <xs:element name="City" type="xs:string"/>
+            <xs:element name="Country" type="xs:string"/>
+            <xs:element name="ContactInfo" type="ContactInfoType"/>
+            <xs:element name="Preferences" type="PreferencesType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ApplicantProfileType">
+        <xs:sequence>
+            <xs:element name="General" type="GeneralType"/>
+            <xs:element name="Education" type="EducationType"/>
+            <xs:element name="WorkExperience" type="WorkExperienceType"/>
+            <xs:element name="References" type="ReferencesType"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="ApplicantProfile" type="ApplicantProfileType"/>
+
+</xs:schema>
