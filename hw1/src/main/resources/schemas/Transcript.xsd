@@ -52,6 +52,7 @@
         <xs:sequence>
             <xs:element name="name" type="xs:string"/>
             <xs:element name="grade" type="gradetype"/>
+            <xs:element name="gradedecimal" type="xs:decimal"/>
             <xs:element name="result" type="courseresulttype"/>
         </xs:sequence>
     </xs:complexType>
