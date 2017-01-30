@@ -19,10 +19,16 @@
         </xs:restriction>
     </xs:simpleType>
 
+    <xs:simpleType name="stringnotemptytype">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+        </xs:restriction>
+    </xs:simpleType>
+
     <xs:complexType name="employmenttype">
         <xs:sequence>
-            <xs:element name="companyname" type="xs:string"/>
-            <xs:element name="roledescription" type="xs:string"/>
+            <xs:element name="companyname" type="stringnotemptytype"/>
+            <xs:element name="roledescription" type="stringnotemptytype"/>
             <xs:element name="startdate" type="xs:date"/>
             <xs:element name="enddate" type="xs:date"/>
         </xs:sequence>
