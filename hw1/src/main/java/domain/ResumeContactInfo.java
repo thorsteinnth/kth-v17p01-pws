@@ -2,17 +2,21 @@ package domain;
 
 import javax.xml.bind.annotation.XmlElement;
 
-public class ResumeContactInfo {
+public class ResumeContactInfo
+{
     /*
-        <telephonenumber>12345678901234</telephonenumber>
-        <email>jonjonsson@kth.se</email>
+    <contactinfo>
+        <telephonenumber>12345678901221</telephonenumber>
+        <email>william@spotify.com</email>
+        <cancontact>No</cancontact>
+    </contactinfo>
      */
 
     private String telephonenumber;
     private String email;
+    private String cancontact;
 
     public ResumeContactInfo() {
-
     }
 
     public String getTelephonenumber() {
@@ -33,11 +37,22 @@ public class ResumeContactInfo {
         this.email = email;
     }
 
+    public String getCancontact() {
+        return cancontact;
+    }
+
+    @XmlElement
+    public void setCancontact(String cancontact) {
+        this.cancontact = cancontact;
+    }
+
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "ResumeContactInfo{" +
                 "telephonenumber='" + telephonenumber + '\'' +
                 ", email='" + email + '\'' +
+                ", cancontact='" + cancontact + '\'' +
                 '}';
     }
 }

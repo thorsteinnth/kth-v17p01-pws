@@ -9,32 +9,34 @@ public class Resume {
 
     /*
     <resume>
-    <basicinfo>
-        <ssn>8001010000</ssn>
-        <name>Jon Jonsson</name>
-        <address>Sveavägen 1</address>
-        <city>Stockholm</city>
-        <country>Sweden</country>
-    </basicinfo>
-    <contactinfo>
-        <telephonenumber>12345678901234</telephonenumber>
-        <email>jonjonsson@kth.se</email>
-    </contactinfo>
-    <placesdesiredtowork>King</placesdesiredtowork>
-    <references>
-        <name>William Jonsson</name>
-        <companyname>Spotify</companyname>
+        <basicinfo>
+            <ssn>8001010000</ssn>
+            <name>Jon Jonsson</name>
+            <address>Sveavägen 1</address>
+            <city>Stockholm</city>
+            <country>Sweden</country>
+        </basicinfo>
         <contactinfo>
-            <telephonenumber>12345678901221</telephonenumber>
-            <email>william@spotify.com</email>
+            <telephonenumber>12345678901234</telephonenumber>
+            <email>jonjonsson@kth.se</email>
+            <cancontact>Yes</cancontact>
         </contactinfo>
-    </references>
-    <otherinfo>
-        <typeofjob>permanent</typeofjob>
-        <motivationletter>I would really like to work at King Games</motivationletter>
-        <othercomments>No comment</othercomments>
-    </otherinfo>
-</resume>
+        <placesdesiredtowork>King</placesdesiredtowork>
+        <references>
+            <name>William Jonsson</name>
+            <companyname>Spotify</companyname>
+            <contactinfo>
+                <telephonenumber>12345678901221</telephonenumber>
+                <email>william@spotify.com</email>
+                <cancontact>No</cancontact>
+            </contactinfo>
+        </references>
+        <otherinfo>
+            <typeofjob>permanent</typeofjob>
+            <motivationletter>I would really like to work at King Games</motivationletter>
+            <othercomments>No comment</othercomments>
+        </otherinfo>
+    </resume>
      */
 
     private ResumeBasicInfo basicinfo;

@@ -10,6 +10,7 @@ public class ResumeReference {
         <contactinfo>
             <telephonenumber>12345678901221</telephonenumber>
             <email>william@spotify.com</email>
+            <cancontact>No</cancontact>
         </contactinfo>
      */
 
