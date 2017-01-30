@@ -19,11 +19,13 @@ public class Transcript {
         <course>
             <name>Programming Web Services</name>
             <grade>A</grade>
+            <gradedecimal>9.5</gradedecimal>
             <result>pass</result>
         </course>
         <course>
             <name>Modern Dance</name>
             <grade>F</grade>
+            <gradedecimal>9.5</gradedecimal>
             <result>fail</result>
         </course>
     </degreetranscript>

@@ -6,6 +6,7 @@ public class Course {
 
     private String name;
     private String grade;
+    private String gradedecimal;
     private String result;
 
     public Course() {
@@ -29,6 +30,15 @@ public class Course {
         this.grade = grade;
     }
 
+    public String getGradedecimal() {
+        return gradedecimal;
+    }
+
+    @XmlElement
+    public void setGradedecimal(String gradedecimal) {
+        this.gradedecimal = gradedecimal;
+    }
+
     public String getResult() {
         return result;
     }
@@ -39,10 +49,12 @@ public class Course {
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "Course{" +
                 "name='" + name + '\'' +
                 ", grade='" + grade + '\'' +
+                ", gradedecimal='" + gradedecimal + '\'' +
                 ", result='" + result + '\'' +
                 '}';
     }
