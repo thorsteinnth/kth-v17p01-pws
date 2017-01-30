@@ -56,7 +56,7 @@
                             <xsl:value-of select="graduated" />
                         </xsl:element>
                         <xsl:element name="AverageGrade">
-                            bla
+                            <xsl:value-of select="sum(course/gradedecimal) div count(course)"/>
                         </xsl:element>
                         <xsl:element name="Transcript">
                             <xsl:attribute name="date">

@@ -21,9 +21,7 @@
 <School>Kungliga Tekniska Högskolan</School>
 <DegreeName>Software Engineering of Distributed Systems</DegreeName>
 <Graduated>false</Graduated>
-<AverageGrade>
-                            bla
-                        </AverageGrade>
+<AverageGrade>6.166666666666667</AverageGrade>
 <Transcript date="2017-01-25">
 <Course>
 <Name>Programming Web Services</Name>
@@ -46,9 +44,7 @@
 <School>Kungliga Tekniska Högskolan</School>
 <DegreeName>Embedded Systems</DegreeName>
 <Graduated>false</Graduated>
-<AverageGrade>
-                            bla
-                        </AverageGrade>
+<AverageGrade>8.033333333333333</AverageGrade>
 <Transcript date="2017-01-25">
 <Course>
 <Name>Circuit Design</Name>

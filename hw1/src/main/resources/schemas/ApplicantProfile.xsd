@@ -117,7 +117,7 @@
             <xs:element name="School" type="xs:string"/>
             <xs:element name="DegreeName" type="xs:string"/>
             <xs:element name="Graduated" type="xs:boolean"/>
-            <xs:element name="AverageGrade" type="xs:string"/>
+            <xs:element name="AverageGrade" type="xs:decimal"/>
             <xs:element name="Transcript" type="TranscriptType"/>
         </xs:sequence>
     </xs:complexType>
