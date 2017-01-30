@@ -25,12 +25,19 @@
         </xs:restriction>
     </xs:simpleType>
 
+    <xs:simpleType name="dateafter2000type">
+        <xs:restriction base="xs:date">
+            <xs:minInclusive value="2000-01-01"/>
+        </xs:restriction>
+    </xs:simpleType>
+
     <xs:complexType name="employmenttype">
         <xs:sequence>
             <xs:element name="companyname" type="stringnotemptytype"/>
             <xs:element name="roledescription" type="stringnotemptytype"/>
             <xs:element name="startdate" type="xs:date"/>
-            <xs:element name="enddate" type="xs:date"/>
+            <!--We do not want to take jobs that the applicant left before 2000 into account, too old-->
+            <xs:element name="enddate" type="dateafter2000type"/>
         </xs:sequence>
     </xs:complexType>
 
