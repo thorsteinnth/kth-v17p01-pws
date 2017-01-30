@@ -27,6 +27,7 @@
                 <Course>
                     <Name>Programming Web Services</Name>
                     <Grade>A</Grade>
+                    <GradeDecimal>9.0</GradeDecimal>
                 </Course>
             </Transcript>
         </Degree>
@@ -43,8 +44,6 @@
                 <Role>iOS developer</Role>
                 <StartDate>2015-12-13</StartDate>
                 <EndDate>2017-01-25</EndDate>
-                <ContactEmail>boss@lsretail.com</ContactEmail>
-                <CanContact>Yes</CanContact>
             </Description>
         </Employment>
     </WorkExperience>
@@ -54,6 +53,7 @@
             <CompanyName>LS Retail</CompanyName>
             <Telephone>12345678901221</Telephone>
             <Email>william@spotify.com</Email>
+            <CanContact>Yes</CanContact>
         </Contact>
     </References>
 </ApplicantProfile>

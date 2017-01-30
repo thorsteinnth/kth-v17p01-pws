@@ -25,14 +25,17 @@
 <Course>
 <Name>Programming Web Services</Name>
 <Grade>A</Grade>
+<GradeDecimal>9.5</GradeDecimal>
 </Course>
 <Course>
 <Name>Modern Dance</Name>
 <Grade>F</Grade>
+<GradeDecimal>2.0</GradeDecimal>
 </Course>
 <Course>
 <Name>Technical Drawing</Name>
 <Grade>C</Grade>
+<GradeDecimal>7.0</GradeDecimal>
 </Course>
 </Transcript>
 </Degree>
@@ -44,14 +47,17 @@
 <Course>
 <Name>Circuit Design</Name>
 <Grade>D</Grade>
+<GradeDecimal>6.7</GradeDecimal>
 </Course>
 <Course>
 <Name>C programming</Name>
 <Grade>A</Grade>
+<GradeDecimal>9.0</GradeDecimal>
 </Course>
 <Course>
 <Name>Electrical Engineering Basics</Name>
 <Grade>B</Grade>
+<GradeDecimal>8.4</GradeDecimal>
 </Course>
 </Transcript>
 </Degree>

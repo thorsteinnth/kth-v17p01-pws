@@ -67,6 +67,9 @@
                                     <xsl:element name="Grade">
                                         <xsl:value-of select="grade" />
                                     </xsl:element>
+                                    <xsl:element name="GradeDecimal">
+                                        <xsl:value-of select="gradedecimal" />
+                                    </xsl:element>
                                 </xsl:element>
                             </xsl:for-each>
                         </xsl:element>
