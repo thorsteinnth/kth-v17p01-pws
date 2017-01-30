@@ -11,7 +11,6 @@ public class EmploymentRecords {
     private List<EmploymentRecord> employment;
 
     public EmploymentRecords() {
-
     }
 
     public String getSsn() {

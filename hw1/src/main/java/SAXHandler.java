@@ -39,9 +39,11 @@ public class SAXHandler extends DefaultHandler {
 
         this.currentElement = qName;
     }
+
     public void characters(char[] ch, int start, int length) {
         this.tempValue = new String(ch, start, length).trim();
     }
+
     public void endElement(String namespaceURI, String localName, String qName) throws SAXException {
 
         if (this.currentElement.equals("ssn")) {
@@ -68,12 +70,6 @@ public class SAXHandler extends DefaultHandler {
             }
             else if (this.currentElement.equals("enddate")) {
                 tempER.setEnddate(this.tempValue);
-            }
-            else if (this.currentElement.equals("contactemail")) {
-                tempER.setContactemail(this.tempValue);
-            }
-            else if (this.currentElement.equals("cancontact")) {
-                tempER.setCancontact(this.tempValue);
             }
         }
 
