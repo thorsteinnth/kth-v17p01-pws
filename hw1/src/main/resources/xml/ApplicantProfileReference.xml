@@ -23,6 +23,7 @@
             <School>Kungliga Tekniska Högskolan</School>
             <DegreeName>Software Engineering of Distributed Systems</DegreeName>
             <Graduated>false</Graduated>
+            <AverageGrade>5.0</AverageGrade>
             <Transcript date="2017-01-25">
                 <Course>
                     <Name>Programming Web Services</Name>

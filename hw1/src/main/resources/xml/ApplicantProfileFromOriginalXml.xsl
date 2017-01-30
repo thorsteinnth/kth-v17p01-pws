@@ -55,6 +55,9 @@
                         <xsl:element name="Graduated">
                             <xsl:value-of select="graduated" />
                         </xsl:element>
+                        <xsl:element name="AverageGrade">
+                            bla
+                        </xsl:element>
                         <xsl:element name="Transcript">
                             <xsl:attribute name="date">
                                 <xsl:value-of select="document('Transcript.xml')/transcript/date" />
