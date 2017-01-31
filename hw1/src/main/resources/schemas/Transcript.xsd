@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<trans:schema xmlns:trans="http://www.w3.org/2001/XMLSchema">
 
     <!--Example: http://www.w3schools.com/xml/schema_example.asp-->
     <!--
@@ -17,64 +17,64 @@
     - Grade
     -->
 
-    <xs:simpleType name="ssntype">
-        <xs:restriction base="xs:string">
-            <xs:pattern value="[0-9]{10}"/>
-        </xs:restriction>
-    </xs:simpleType>
+    <trans:simpleType name="ssntype">
+        <trans:restriction base="trans:string">
+            <trans:pattern value="[0-9]{10}"/>
+        </trans:restriction>
+    </trans:simpleType>
 
-    <xs:simpleType name="transcriptidtype">
-        <xs:restriction base="xs:string">
-            <xs:pattern value="[0-9]{6}"/>
-        </xs:restriction>
-    </xs:simpleType>
+    <trans:simpleType name="transcriptidtype">
+        <trans:restriction base="trans:string">
+            <trans:pattern value="[0-9]{6}"/>
+        </trans:restriction>
+    </trans:simpleType>
 
-    <xs:simpleType name="courseresulttype">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="pass"/>
-            <xs:enumeration value="fail"/>
-        </xs:restriction>
-    </xs:simpleType>
+    <trans:simpleType name="courseresulttype">
+        <trans:restriction base="trans:string">
+            <trans:enumeration value="pass"/>
+            <trans:enumeration value="fail"/>
+        </trans:restriction>
+    </trans:simpleType>
 
-    <xs:simpleType name="gradetype">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="A"/>
-            <xs:enumeration value="B"/>
-            <xs:enumeration value="C"/>
-            <xs:enumeration value="D"/>
-            <xs:enumeration value="E"/>
-            <xs:enumeration value="F"/>
-            <xs:enumeration value="Fx"/>
-        </xs:restriction>
-    </xs:simpleType>
+    <trans:simpleType name="gradetype">
+        <trans:restriction base="trans:string">
+            <trans:enumeration value="A"/>
+            <trans:enumeration value="B"/>
+            <trans:enumeration value="C"/>
+            <trans:enumeration value="D"/>
+            <trans:enumeration value="E"/>
+            <trans:enumeration value="F"/>
+            <trans:enumeration value="Fx"/>
+        </trans:restriction>
+    </trans:simpleType>
 
-    <xs:complexType name="coursetype">
-        <xs:sequence>
-            <xs:element name="name" type="xs:string"/>
-            <xs:element name="grade" type="gradetype"/>
-            <xs:element name="gradedecimal" type="xs:decimal"/>
-            <xs:element name="result" type="courseresulttype"/>
-        </xs:sequence>
-    </xs:complexType>
+    <trans:complexType name="coursetype">
+        <trans:sequence>
+            <trans:element name="name" type="trans:string"/>
+            <trans:element name="grade" type="gradetype"/>
+            <trans:element name="gradedecimal" type="trans:decimal"/>
+            <trans:element name="result" type="courseresulttype"/>
+        </trans:sequence>
+    </trans:complexType>
 
-    <xs:complexType name="degreetranscripttype">
-        <xs:sequence>
-            <xs:element name="degree" type="xs:string"/>
-            <xs:element name="graduated" type="xs:boolean"/>
-            <xs:element name="course" maxOccurs="unbounded" type="coursetype"/>
-        </xs:sequence>
-    </xs:complexType>
+    <trans:complexType name="degreetranscripttype">
+        <trans:sequence>
+            <trans:element name="degree" type="trans:string"/>
+            <trans:element name="graduated" type="trans:boolean"/>
+            <trans:element name="course" maxOccurs="unbounded" type="coursetype"/>
+        </trans:sequence>
+    </trans:complexType>
 
-    <xs:complexType name="transcripttype">
-        <xs:sequence>
-            <xs:element name="ssn" type="ssntype"/>
-            <xs:element name="schoolname" type="xs:string"/>
-            <xs:element name="date" type="xs:date"/>
-            <xs:element name="degreetranscript" minOccurs="0" maxOccurs="unbounded" type="degreetranscripttype"/>
-        </xs:sequence>
-        <xs:attribute name="transcriptid" type="transcriptidtype" use="required"/>
-    </xs:complexType>
+    <trans:complexType name="transcripttype">
+        <trans:sequence>
+            <trans:element name="ssn" type="ssntype"/>
+            <trans:element name="schoolname" type="trans:string"/>
+            <trans:element name="date" type="trans:date"/>
+            <trans:element name="degreetranscript" minOccurs="0" maxOccurs="unbounded" type="degreetranscripttype"/>
+        </trans:sequence>
+        <trans:attribute name="transcriptid" type="transcriptidtype" use="required"/>
+    </trans:complexType>
 
-    <xs:element name="transcript" type="transcripttype"/>
+    <trans:element name="transcript" type="transcripttype"/>
 
-</xs:schema>
+</trans:schema>

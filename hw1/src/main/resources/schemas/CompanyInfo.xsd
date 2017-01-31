@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<ci:schema xmlns:ci="http://www.w3.org/2001/XMLSchema">
 
     <!--Example: http://www.w3schools.com/xml/schema_example.asp-->
     <!--
@@ -12,40 +12,40 @@
     - Email
     -->
 
-    <xsd:simpleType name="companyidtype">
-        <xsd:restriction base="xsd:string">
-            <xsd:pattern value="[0-9]{10}"/>
-        </xsd:restriction>
-    </xsd:simpleType>
+    <ci:simpleType name="companyidtype">
+        <ci:restriction base="ci:string">
+            <ci:pattern value="[0-9]{10}"/>
+        </ci:restriction>
+    </ci:simpleType>
 
-    <xsd:simpleType name="phonenumbertype">
-        <xsd:restriction base="xsd:string">
-            <xsd:pattern value="[0-9]{14}"/>
-        </xsd:restriction>
-    </xsd:simpleType>
+    <ci:simpleType name="phonenumbertype">
+        <ci:restriction base="ci:string">
+            <ci:pattern value="[0-9]{14}"/>
+        </ci:restriction>
+    </ci:simpleType>
 
-    <xsd:simpleType name="emailtype">
-        <xsd:restriction base="xsd:string">
-            <xsd:pattern value="[^@]+@[^\.]+\..+"/>
-        </xsd:restriction>
-    </xsd:simpleType>
+    <ci:simpleType name="emailtype">
+        <ci:restriction base="ci:string">
+            <ci:pattern value="[^@]+@[^\.]+\..+"/>
+        </ci:restriction>
+    </ci:simpleType>
 
-    <xsd:complexType name="companyinfotype">
-        <xsd:sequence>
-            <xsd:element name="name" type="xsd:string"/>
-            <xsd:element name="address" type="xsd:string"/>
-            <xsd:element name="phonenumber" type="phonenumbertype"/>
-            <xsd:element name="email" type="emailtype"/>
-        </xsd:sequence>
-        <xsd:attribute name="companyid" type="companyidtype" use="required"/>
-    </xsd:complexType>
+    <ci:complexType name="companyinfotype">
+        <ci:sequence>
+            <ci:element name="name" type="ci:string"/>
+            <ci:element name="address" type="ci:string"/>
+            <ci:element name="phonenumber" type="phonenumbertype"/>
+            <ci:element name="email" type="emailtype"/>
+        </ci:sequence>
+        <ci:attribute name="companyid" type="companyidtype" use="required"/>
+    </ci:complexType>
 
-    <xsd:complexType name="companiestype">
-        <xsd:sequence>
-            <xsd:element name="companyinfo" maxOccurs="unbounded" type="companyinfotype"/>
-        </xsd:sequence>
-    </xsd:complexType>
+    <ci:complexType name="companiestype">
+        <ci:sequence>
+            <ci:element name="companyinfo" maxOccurs="unbounded" type="companyinfotype"/>
+        </ci:sequence>
+    </ci:complexType>
 
-    <xsd:element name="companies" type="companiestype"/>
+    <ci:element name="companies" type="companiestype"/>
 
-</xsd:schema>
+</ci:schema>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<er:schema xmlns:er="http://www.w3.org/2001/XMLSchema">
 
     <!--Example: http://www.w3schools.com/xml/schema_example.asp-->
     <!--
@@ -13,41 +13,41 @@
     - End date
     -->
 
-    <xs:simpleType name="ssntype">
-        <xs:restriction base="xs:string">
-            <xs:pattern value="[0-9]{10}"/>
-        </xs:restriction>
-    </xs:simpleType>
+    <er:simpleType name="ssntype">
+        <er:restriction base="er:string">
+            <er:pattern value="[0-9]{10}"/>
+        </er:restriction>
+    </er:simpleType>
 
-    <xs:simpleType name="stringnotemptytype">
-        <xs:restriction base="xs:string">
-            <xs:minLength value="1"/>
-        </xs:restriction>
-    </xs:simpleType>
+    <er:simpleType name="stringnotemptytype">
+        <er:restriction base="er:string">
+            <er:minLength value="1"/>
+        </er:restriction>
+    </er:simpleType>
 
-    <xs:simpleType name="dateafter2000type">
-        <xs:restriction base="xs:date">
-            <xs:minInclusive value="2000-01-01"/>
-        </xs:restriction>
-    </xs:simpleType>
+    <er:simpleType name="dateafter2000type">
+        <er:restriction base="er:date">
+            <er:minInclusive value="2000-01-01"/>
+        </er:restriction>
+    </er:simpleType>
 
-    <xs:complexType name="employmenttype">
-        <xs:sequence>
-            <xs:element name="companyname" type="stringnotemptytype"/>
-            <xs:element name="roledescription" type="stringnotemptytype"/>
-            <xs:element name="startdate" type="xs:date"/>
+    <er:complexType name="employmenttype">
+        <er:sequence>
+            <er:element name="companyname" type="stringnotemptytype"/>
+            <er:element name="roledescription" type="stringnotemptytype"/>
+            <er:element name="startdate" type="er:date"/>
             <!--We do not want to take jobs that the applicant left before 2000 into account, too old-->
-            <xs:element name="enddate" type="dateafter2000type"/>
-        </xs:sequence>
-    </xs:complexType>
+            <er:element name="enddate" type="dateafter2000type"/>
+        </er:sequence>
+    </er:complexType>
 
-    <xs:complexType name="employmentrecordtype">
-        <xs:sequence>
-            <xs:element name="ssn" type="ssntype"/>
-            <xs:element name="employment" minOccurs="0" maxOccurs="unbounded" type="employmenttype"/>
-        </xs:sequence>
-    </xs:complexType>
+    <er:complexType name="employmentrecordtype">
+        <er:sequence>
+            <er:element name="ssn" type="ssntype"/>
+            <er:element name="employment" minOccurs="0" maxOccurs="unbounded" type="employmenttype"/>
+        </er:sequence>
+    </er:complexType>
 
-    <xs:element name="employmentrecord" type="employmentrecordtype"/>
+    <er:element name="employmentrecord" type="employmentrecordtype"/>
 
-</xs:schema>
+</er:schema>

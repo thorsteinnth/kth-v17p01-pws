@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<res:schema xmlns:res="http://www.w3.org/2001/XMLSchema">
 
     <!--http://www.w3schools.com/xml/schema_example.asp-->
     <!--
@@ -31,84 +31,84 @@
         - Other comments
     -->
 
-    <xsd:simpleType name="ssntype">
-        <xsd:restriction base="xsd:string">
-            <xsd:pattern value="[0-9]{10}"/>
-        </xsd:restriction>
-    </xsd:simpleType>
+    <res:simpleType name="ssntype">
+        <res:restriction base="res:string">
+            <res:pattern value="[0-9]{10}"/>
+        </res:restriction>
+    </res:simpleType>
 
-    <xsd:simpleType name="telephonenumberType">
-        <xsd:restriction base="xsd:string">
-            <xsd:pattern value="[0-9]{14}"/>
-        </xsd:restriction>
-    </xsd:simpleType>
+    <res:simpleType name="telephonenumberType">
+        <res:restriction base="res:string">
+            <res:pattern value="[0-9]{14}"/>
+        </res:restriction>
+    </res:simpleType>
 
-    <xsd:simpleType name="emailtype">
-        <xsd:restriction base="xsd:string">
-            <xsd:pattern value="[^@]+@[^\.]+\..+"/>
-        </xsd:restriction>
-    </xsd:simpleType>
+    <res:simpleType name="emailtype">
+        <res:restriction base="res:string">
+            <res:pattern value="[^@]+@[^\.]+\..+"/>
+        </res:restriction>
+    </res:simpleType>
 
-    <xsd:simpleType name="jobtype">
-        <xsd:restriction base="xsd:string">
-            <xsd:enumeration value="permanent"/>
-            <xsd:enumeration value="part time"/>
-            <xsd:enumeration value="contract"/>
-        </xsd:restriction>
-    </xsd:simpleType>
+    <res:simpleType name="jobtype">
+        <res:restriction base="res:string">
+            <res:enumeration value="permanent"/>
+            <res:enumeration value="part time"/>
+            <res:enumeration value="contract"/>
+        </res:restriction>
+    </res:simpleType>
 
-    <xsd:complexType name="basicinfotype">
-        <xsd:sequence>
-            <xsd:element name="ssn" type="ssntype"/>
-            <xsd:element name="name" type="xsd:string"/>
-            <xsd:element name="address" type="xsd:string"/>
-            <xsd:element name="city" type="xsd:string"/>
-            <xsd:element name="country" type="xsd:string"/>
-        </xsd:sequence>
-    </xsd:complexType>
+    <res:complexType name="basicinfotype">
+        <res:sequence>
+            <res:element name="ssn" type="ssntype"/>
+            <res:element name="name" type="res:string"/>
+            <res:element name="address" type="res:string"/>
+            <res:element name="city" type="res:string"/>
+            <res:element name="country" type="res:string"/>
+        </res:sequence>
+    </res:complexType>
 
-    <xsd:simpleType name="contactrulestype">
-        <xsd:restriction base="xsd:string">
-            <xsd:enumeration value="Yes"/>
-            <xsd:enumeration value="No"/>
-            <xsd:enumeration value="Contact employee first"/>
-        </xsd:restriction>
-    </xsd:simpleType>
+    <res:simpleType name="contactrulestype">
+        <res:restriction base="res:string">
+            <res:enumeration value="Yes"/>
+            <res:enumeration value="No"/>
+            <res:enumeration value="Contact employee first"/>
+        </res:restriction>
+    </res:simpleType>
 
-    <xsd:complexType name="contactinfotype">
-        <xsd:sequence>
-            <xsd:element name="telephonenumber" type="telephonenumberType"/>
-            <xsd:element name="email" type="emailtype"/>
-            <xsd:element name="cancontact" type="contactrulestype"/>
-        </xsd:sequence>
-    </xsd:complexType>
+    <res:complexType name="contactinfotype">
+        <res:sequence>
+            <res:element name="telephonenumber" type="telephonenumberType"/>
+            <res:element name="email" type="emailtype"/>
+            <res:element name="cancontact" type="contactrulestype"/>
+        </res:sequence>
+    </res:complexType>
 
-    <xsd:complexType name="referencestype">
-        <xsd:sequence>
-            <xsd:element name="name" type="xsd:string"/>
-            <xsd:element name="companyname" type="xsd:string"/>
-            <xsd:element name="contactinfo" type="contactinfotype"/>
-        </xsd:sequence>
-    </xsd:complexType>
+    <res:complexType name="referencestype">
+        <res:sequence>
+            <res:element name="name" type="res:string"/>
+            <res:element name="companyname" type="res:string"/>
+            <res:element name="contactinfo" type="contactinfotype"/>
+        </res:sequence>
+    </res:complexType>
 
-    <xsd:complexType name="otherinfotype">
-        <xsd:sequence>
-            <xsd:element name="typeofjob" type="jobtype"/>
-            <xsd:element name="motivationletter" type="xsd:string"/>
-            <xsd:element name="othercomments" type="xsd:string"/>
-        </xsd:sequence>
-    </xsd:complexType>
+    <res:complexType name="otherinfotype">
+        <res:sequence>
+            <res:element name="typeofjob" type="jobtype"/>
+            <res:element name="motivationletter" type="res:string"/>
+            <res:element name="othercomments" type="res:string"/>
+        </res:sequence>
+    </res:complexType>
 
-    <xsd:complexType name="resumetype">
-        <xsd:sequence>
-            <xsd:element name="basicinfo" type="basicinfotype"/>
-            <xsd:element name="contactinfo" type="contactinfotype"/>
-            <xsd:element name="placesdesiredtowork" type="xsd:string" maxOccurs="unbounded"/>
-            <xsd:element name="references" type="referencestype" maxOccurs="unbounded"/>
-            <xsd:element name="otherinfo" type="otherinfotype"/>
-        </xsd:sequence>
-    </xsd:complexType>
+    <res:complexType name="resumetype">
+        <res:sequence>
+            <res:element name="basicinfo" type="basicinfotype"/>
+            <res:element name="contactinfo" type="contactinfotype"/>
+            <res:element name="placesdesiredtowork" type="res:string" maxOccurs="unbounded"/>
+            <res:element name="references" type="referencestype" maxOccurs="unbounded"/>
+            <res:element name="otherinfo" type="otherinfotype"/>
+        </res:sequence>
+    </res:complexType>
 
-    <xsd:element name="resume" type="resumetype"/>
+    <res:element name="resume" type="resumetype"/>
 
-</xsd:schema>
+</res:schema>
