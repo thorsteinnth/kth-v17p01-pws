@@ -1,4 +1,4 @@
-import domain.EmploymentRecord;
+import domain.Employment;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -34,7 +34,7 @@ public class SAXHandler extends DefaultHandler {
         }
         else if (qName.equals("employment")) {
             // Start of a new employment record
-            this.tempObject = new EmploymentRecord();
+            this.tempObject = new Employment();
         }
 
         this.currentElement = qName;
@@ -50,14 +50,14 @@ public class SAXHandler extends DefaultHandler {
             this.id = this.tempValue;
         }
 
-        if (this.tempObject != null && this.tempObject.getClass().equals(EmploymentRecord.class)) {
+        if (this.tempObject != null && this.tempObject.getClass().equals(Employment.class)) {
 
             if (qName.equals("employment")) {
                 // End of employment record, add it to the list of employment records
                 this.objects.add(this.tempObject);
             }
 
-            EmploymentRecord tempER = (EmploymentRecord)this.tempObject;
+            Employment tempER = (Employment)this.tempObject;
 
             if (this.currentElement.equals("companyname")) {
                 tempER.setCompanyname(this.tempValue);

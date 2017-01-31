@@ -2,15 +2,16 @@ package domain;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
 @XmlRootElement
-public class EmploymentRecords {
+public class Employmentrecord {
 
     private String ssn;
-    private List<EmploymentRecord> employment;
+    private List<Employment> employment;
 
-    public EmploymentRecords() {
+    public Employmentrecord() {
     }
 
     public String getSsn() {
@@ -22,12 +23,12 @@ public class EmploymentRecords {
         this.ssn = ssn;
     }
 
-    public List<EmploymentRecord> getEmployment() {
+    public List<Employment> getEmployment() {
         return employment;
     }
 
     @XmlElement
-    public void setEmployment(List<EmploymentRecord> employment) {
+    public void setEmployment(List<Employment> employment) {
         this.employment = employment;
     }
 

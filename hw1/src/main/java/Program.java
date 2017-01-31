@@ -77,11 +77,11 @@ public class Program
 
             String saxHandlerIdFromXml = saxHandler.getId();
             ArrayList<Object> saxHandlerObjects = saxHandler.getObjects();
-            List<EmploymentRecord> er = saxHandlerObjects.stream()
-                    .map(object -> (EmploymentRecord)object)
+            List<Employment> er = saxHandlerObjects.stream()
+                    .map(object -> (Employment)object)
                     .collect(Collectors.toList());
 
-            EmploymentRecords employmentRecords = new EmploymentRecords();
+            Employmentrecord employmentRecords = new Employmentrecord();
             employmentRecords.setSsn(saxHandlerIdFromXml);
             employmentRecords.setEmployment(er);
             System.out.println("Parsed employment records: " + employmentRecords.toString());
@@ -119,7 +119,7 @@ public class Program
             jaxbCompanyMarshaller.marshal(companies, outputCompanyInfoXML);
 
             // - EmploymentRecord
-            JAXBContext jaxbEmploymentRecordsContext = JAXBContext.newInstance(EmploymentRecords.class);
+            JAXBContext jaxbEmploymentRecordsContext = JAXBContext.newInstance(Employmentrecord.class);
             Marshaller jaxbEmploymentRecordsMarshaller = jaxbEmploymentRecordsContext.createMarshaller();
             jaxbEmploymentRecordsMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
             jaxbEmploymentRecordsMarshaller.marshal(employmentRecords, outputEmploymentRecordXML);

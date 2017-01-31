@@ -1,8 +1,10 @@
 package domain;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
-public class EmploymentRecord {
+@XmlType(propOrder = {"companyname", "roledescription", "startdate", "enddate"})
+public class Employment {
 
     /*
     <employment>
@@ -18,7 +20,7 @@ public class EmploymentRecord {
     private String startdate;
     private String enddate;
 
-    public EmploymentRecord() {
+    public Employment() {
     }
 
     public String getCompanyname() {

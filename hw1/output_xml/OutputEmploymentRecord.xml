@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<employmentRecords>
+<employmentrecord>
     <employment>
         <companyname>LS Retail</companyname>
-        <enddate>2017-01-25</enddate>
         <roledescription>iOS developer</roledescription>
         <startdate>2015-12-13</startdate>
+        <enddate>2017-01-25</enddate>
     </employment>
     <employment>
         <companyname>Polar Seafood</companyname>
-        <enddate>2014-01-25</enddate>
         <roledescription>Fisherman</roledescription>
         <startdate>2012-12-13</startdate>
+        <enddate>2014-01-25</enddate>
     </employment>
     <employment>
         <companyname>Spotify</companyname>
-        <enddate>2017-01-12</enddate>
         <roledescription>Backend developer</roledescription>
         <startdate>2016-12-13</startdate>
+        <enddate>2017-01-12</enddate>
     </employment>
     <ssn>8903298888</ssn>
-</employmentRecords>
+</employmentrecord>
