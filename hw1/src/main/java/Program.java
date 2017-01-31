@@ -31,31 +31,15 @@ public class Program
         String resumeFileName = "xml/Resume.xml";
         String transcriptFileName = "xml/Transcript.xml";
 
-        FileInputStream companyInfoFileInputStream;
-        File employmentRecordFile;
-        File transcriptFile;
-        File resumeFile;
+        InputStream companyInfoInputStream;
+        InputStream employmentRecordInputStream;
+        InputStream transcriptInputStream;
+        InputStream resumeInputStream;
 
-        try
-        {
-            companyInfoFileInputStream = new FileInputStream(
-                    new File(getClass().getClassLoader().getResource(companyInfoFileName).getFile())
-            );
-
-            employmentRecordFile = new File(
-                    getClass().getClassLoader().getResource(employmentRecordFileName).getFile());
-
-            transcriptFile = new File(
-                    getClass().getClassLoader().getResource(transcriptFileName).getFile());
-
-            resumeFile = new File(
-                    getClass().getClassLoader().getResource(resumeFileName).getFile());
-        }
-        catch (FileNotFoundException ex)
-        {
-            System.err.println(ex);
-            return;
-        }
+        companyInfoInputStream = getClass().getClassLoader().getResourceAsStream(companyInfoFileName);
+        employmentRecordInputStream = getClass().getClassLoader().getResourceAsStream(employmentRecordFileName);
+        transcriptInputStream = getClass().getClassLoader().getResourceAsStream(transcriptFileName);
+        resumeInputStream = getClass().getClassLoader().getResourceAsStream(resumeFileName);
 
         try
         {
@@ -63,7 +47,7 @@ public class Program
 
             DOMParser domParser = new DOMParser();
             Companies companies = new Companies();
-            companies.setCompanyinfo(domParser.parseCompanyInfoXml(companyInfoFileInputStream));
+            companies.setCompanyinfo(domParser.parseCompanyInfoXml(companyInfoInputStream));
             System.out.println("Parsed companies: " + companies.toString());
 
             //endregion
@@ -73,7 +57,7 @@ public class Program
             SAXHandler saxHandler = new SAXHandler();
             SAXParserFactory saxFactory = SAXParserFactory.newInstance();
             SAXParser saxParser = saxFactory.newSAXParser();
-            saxParser.parse(employmentRecordFile, saxHandler);
+            saxParser.parse(employmentRecordInputStream, saxHandler);
 
             String saxHandlerIdFromXml = saxHandler.getId();
             ArrayList<Object> saxHandlerObjects = saxHandler.getObjects();
@@ -92,7 +76,7 @@ public class Program
 
             JAXBContext jaxbTranscriptContext = JAXBContext.newInstance(Transcript.class);
             Unmarshaller jaxbTranscriptUnmarshaller = jaxbTranscriptContext.createUnmarshaller();
-            Transcript transcript = (Transcript) jaxbTranscriptUnmarshaller.unmarshal(transcriptFile);
+            Transcript transcript = (Transcript) jaxbTranscriptUnmarshaller.unmarshal(transcriptInputStream);
             System.out.println("Parsed transcript: " + transcript.toString());
 
             //endregion
@@ -101,7 +85,7 @@ public class Program
 
             JAXBContext jaxbResumeContext = JAXBContext.newInstance(Resume.class);
             Unmarshaller jaxbResumeUnmarshaller = jaxbResumeContext.createUnmarshaller();
-            Resume resume = (Resume) jaxbResumeUnmarshaller.unmarshal(resumeFile);
+            Resume resume = (Resume) jaxbResumeUnmarshaller.unmarshal(resumeInputStream);
             System.out.println("Parsed resume: " + resume.toString());
 
             //endregion

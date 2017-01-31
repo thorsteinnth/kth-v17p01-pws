@@ -9,8 +9,8 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class DOMParser
@@ -34,11 +34,11 @@ public class DOMParser
         }
     }
 
-    public ArrayList<Company> parseCompanyInfoXml(FileInputStream fileInputStream) throws IOException, SAXException
+    public ArrayList<Company> parseCompanyInfoXml(InputStream inputStream) throws IOException, SAXException
     {
         ArrayList<Company> companies = new ArrayList<>();
 
-        Document doc = docBuilder.parse(fileInputStream);
+        Document doc = docBuilder.parse(inputStream);
         Element root = doc.getDocumentElement();
 
         NodeList nodeList = root.getElementsByTagName("companyinfo");
