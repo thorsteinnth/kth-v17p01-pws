@@ -19,14 +19,6 @@
         </ap:restriction>
     </ap:simpleType>
 
-    <ap:simpleType name="contactrulestype">
-        <ap:restriction base="ap:string">
-            <ap:enumeration value="Yes"/>
-            <ap:enumeration value="No"/>
-            <ap:enumeration value="Contact employee first"/>
-        </ap:restriction>
-    </ap:simpleType>
-
     <ap:complexType name="PreferencesType">
         <ap:sequence>
             <ap:element name="JobType" type="ap:string"/>
@@ -101,7 +93,7 @@
         <ap:sequence>
             <ap:element name="Name" type="ap:string"/>
             <ap:element name="Grade" type="ap:string"/>
-            <ap:element name="GradeDecimal" type="ap:string"/>
+            <ap:element name="GradeDecimal" type="ap:decimal"/>
         </ap:sequence>
     </ap:complexType>
 
