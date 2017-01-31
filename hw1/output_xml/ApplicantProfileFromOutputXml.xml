@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?><ApplicantProfile>
+<General>
+<SSN>8001010000</SSN>
+<Name>Jon Jonsson</Name>
+<Address>Sveavägen 1</Address>
+<City>Stockholm</City>
+<Country>Sweden</Country>
+<ContactInfo>
+<Telephone>12345678901234</Telephone>
+<Email>jonjonsson@kth.se</Email>
+</ContactInfo>
+<Preferences>
+<JobType>permanent</JobType>
+<MotivationLetter>I would really like to work at King Games</MotivationLetter>
+<Comments>No comment</Comments>
+<DesiredWorkplace>King</DesiredWorkplace>
+</Preferences>
+</General>
+<Education>
+<Degree>
+<School>Kungliga Tekniska Högskolan</School>
+<DegreeName>Software Engineering of Distributed Systems</DegreeName>
+<Graduated>false</Graduated>
+<AverageGrade>6.166666666666667</AverageGrade>
+<Transcript date="2017-01-25">
+<Course>
+<Name>Programming Web Services</Name>
+<Grade>A</Grade>
+<GradeDecimal>9.5</GradeDecimal>
+</Course>
+<Course>
+<Name>Modern Dance</Name>
+<Grade>F</Grade>
+<GradeDecimal>2.0</GradeDecimal>
+</Course>
+<Course>
+<Name>Technical Drawing</Name>
+<Grade>C</Grade>
+<GradeDecimal>7.0</GradeDecimal>
+</Course>
+</Transcript>
+</Degree>
+<Degree>
+<School>Kungliga Tekniska Högskolan</School>
+<DegreeName>Embedded Systems</DegreeName>
+<Graduated>false</Graduated>
+<AverageGrade>8.033333333333333</AverageGrade>
+<Transcript date="2017-01-25">
+<Course>
+<Name>Circuit Design</Name>
+<Grade>D</Grade>
+<GradeDecimal>6.7</GradeDecimal>
+</Course>
+<Course>
+<Name>C programming</Name>
+<Grade>A</Grade>
+<GradeDecimal>9.0</GradeDecimal>
+</Course>
+<Course>
+<Name>Electrical Engineering Basics</Name>
+<Grade>B</Grade>
+<GradeDecimal>8.4</GradeDecimal>
+</Course>
+</Transcript>
+</Degree>
+</Education>
+<WorkExperience/>
+<References>
+<Contact>
+<Name>William Jonsson</Name>
+<CompanyName>Spotify</CompanyName>
+<Telephone>12345678901221</Telephone>
+<Email>william@spotify.com</Email>
+<CanContact>No</CanContact>
+</Contact>
+<Contact>
+<Name>Magnus Magnus Magnusson</Name>
+<CompanyName>LS Retail</CompanyName>
+<Telephone>12345678901228</Telephone>
+<Email>magnusmagnus@lsretail.com</Email>
+<CanContact>Contact employee first</CanContact>
+</Contact>
+</References>
+</ApplicantProfile>
