@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <companies>
     <companyinfo companyid="1234567891">
-        <address>Katrinartun 1, 105 Reykjavik, Iceland</address>
-        <email>contact@lsretail.com</email>
         <name>LS Retail</name>
+        <address>Katrinartun 1, 105 Reykjavik, Iceland</address>
         <phonenumber>12345678912345</phonenumber>
+        <email>contact@lsretail.com</email>
     </companyinfo>
     <companyinfo companyid="9876543210">
-        <address>Kistagatan 99, Kista, Sweden</address>
-        <email>contact@ericsson.com</email>
         <name>Ericsson</name>
+        <address>Kistagatan 99, Kista, Sweden</address>
         <phonenumber>12345678912345</phonenumber>
+        <email>contact@ericsson.com</email>
     </companyinfo>
     <companyinfo companyid="5678901234">
-        <address>Vasastangatan 55, Stockholm, Sweden</address>
-        <email>contact@spotify.com</email>
         <name>Spotify</name>
+        <address>Vasastangatan 55, Stockholm, Sweden</address>
         <phonenumber>12345678912345</phonenumber>
+        <email>contact@spotify.com</email>
     </companyinfo>
     <companyinfo companyid="5678991234">
-        <address>Kingstreet 100, Stockholm, Sweden</address>
-        <email>contact@king.com</email>
         <name>King</name>
+        <address>Kingstreet 100, Stockholm, Sweden</address>
         <phonenumber>12345678912345</phonenumber>
+        <email>contact@king.com</email>
     </companyinfo>
 </companies>

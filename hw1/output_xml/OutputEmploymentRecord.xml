@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <employmentrecord>
+    <ssn>8903298888</ssn>
     <employment>
         <companyname>LS Retail</companyname>
         <roledescription>iOS developer</roledescription>
@@ -18,5 +19,4 @@
         <startdate>2016-12-13</startdate>
         <enddate>2017-01-12</enddate>
     </employment>
-    <ssn>8903298888</ssn>
 </employmentrecord>

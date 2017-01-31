@@ -1,49 +1,50 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <transcript transcriptid="123456">
+    <ssn>8903298888</ssn>
+    <schoolname>Kungliga Tekniska Högskolan</schoolname>
     <date>2017-01-25</date>
     <degreetranscript>
+        <degree>Software Engineering of Distributed Systems</degree>
+        <graduated>false</graduated>
         <course>
+            <name>Programming Web Services</name>
             <grade>A</grade>
             <gradedecimal>9.5</gradedecimal>
-            <name>Programming Web Services</name>
             <result>pass</result>
         </course>
         <course>
+            <name>Modern Dance</name>
             <grade>F</grade>
             <gradedecimal>2.0</gradedecimal>
-            <name>Modern Dance</name>
             <result>fail</result>
         </course>
         <course>
+            <name>Technical Drawing</name>
             <grade>C</grade>
             <gradedecimal>7.0</gradedecimal>
-            <name>Technical Drawing</name>
             <result>pass</result>
         </course>
-        <degree>Software Engineering of Distributed Systems</degree>
-        <graduated>false</graduated>
     </degreetranscript>
     <degreetranscript>
-        <course>
-            <grade>D</grade>
-            <gradedecimal>6.7</gradedecimal>
-            <name>Circuit Design</name>
-            <result>pass</result>
-        </course>
-        <course>
-            <grade>A</grade>
-            <gradedecimal>9.0</gradedecimal>
-            <name>C programming</name>
-            <result>pass</result>
-        </course>
-        <course>
-            <grade>B</grade>
-            <gradedecimal>8.4</gradedecimal>
-            <name>Electrical Engineering Basics</name>
-            <result>pass</result>
-        </course>
         <degree>Embedded Systems</degree>
         <graduated>false</graduated>
+        <course>
+            <name>Circuit Design</name>
+            <grade>D</grade>
+            <gradedecimal>6.7</gradedecimal>
+            <result>pass</result>
+        </course>
+        <course>
+            <name>C programming</name>
+            <grade>A</grade>
+            <gradedecimal>9.0</gradedecimal>
+            <result>pass</result>
+        </course>
+        <course>
+            <name>Electrical Engineering Basics</name>
+            <grade>B</grade>
+            <gradedecimal>8.4</gradedecimal>
+            <result>pass</result>
+        </course>
     </degreetranscript>
-    <schoolname>Kungliga Tekniska Högskolan</schoolname>
 </transcript>

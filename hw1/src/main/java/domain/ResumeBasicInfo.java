@@ -1,7 +1,9 @@
 package domain;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
+@XmlType(propOrder = {"ssn", "name", "address", "city", "country"})
 public class ResumeBasicInfo {
 
     /*

@@ -1,7 +1,9 @@
 package domain;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
+@XmlType(propOrder = {"name", "grade", "gradedecimal", "result"})
 public class Course {
 
     private String name;

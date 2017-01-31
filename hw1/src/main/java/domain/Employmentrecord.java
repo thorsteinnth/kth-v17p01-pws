@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
+@XmlType(propOrder = {"ssn", "employment"})
 @XmlRootElement
 public class Employmentrecord {
 

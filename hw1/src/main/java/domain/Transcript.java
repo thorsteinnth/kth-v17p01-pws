@@ -3,8 +3,10 @@ package domain;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
+@XmlType(propOrder = {"ssn", "schoolname", "date", "degreetranscript"})
 @XmlRootElement
 public class Transcript {
 
@@ -33,6 +35,7 @@ public class Transcript {
      */
 
     private String transcriptid;
+    private String ssn;
     private String schoolname;
     private String date;
     private List<DegreeTranscript> degreetranscript;
@@ -48,6 +51,15 @@ public class Transcript {
     @XmlAttribute
     public void setTranscriptid(String id) {
         this.transcriptid = id;
+    }
+
+    public String getSsn() {
+        return this.ssn;
+    }
+
+    @XmlElement
+    public void setSsn(String ssn) {
+        this.ssn = ssn;
     }
 
     public String getSchoolname() {

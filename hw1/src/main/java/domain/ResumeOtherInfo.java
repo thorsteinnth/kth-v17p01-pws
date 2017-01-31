@@ -1,7 +1,9 @@
 package domain;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
+@XmlType(propOrder = {"typeofjob", "motivationletter", "othercomments"})
 public class ResumeOtherInfo {
 
     /*

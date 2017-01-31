@@ -1,8 +1,10 @@
 package domain;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 import java.util.ArrayList;
 
+@XmlType(propOrder = {"degree", "graduated", "course"})
 public class DegreeTranscript {
 
     private String degree;

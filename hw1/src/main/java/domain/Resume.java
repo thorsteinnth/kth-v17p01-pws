@@ -2,8 +2,10 @@ package domain;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
+@XmlType(propOrder = {"basicinfo", "contactinfo", "placesdesiredtowork", "references", "otherinfo"})
 @XmlRootElement
 public class Resume {
 

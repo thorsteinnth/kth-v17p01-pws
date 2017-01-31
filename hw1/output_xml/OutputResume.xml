@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <resume>
     <basicinfo>
+        <ssn>8001010000</ssn>
+        <name>Jon Jonsson</name>
         <address>Sveavägen 1</address>
         <city>Stockholm</city>
         <country>Sweden</country>
-        <name>Jon Jonsson</name>
-        <ssn>8001010000</ssn>
     </basicinfo>
     <contactinfo>
-        <cancontact>Yes</cancontact>
-        <email>jonjonsson@kth.se</email>
         <telephonenumber>12345678901234</telephonenumber>
+        <email>jonjonsson@kth.se</email>
+        <cancontact>Yes</cancontact>
     </contactinfo>
-    <otherinfo>
-        <motivationletter>I would really like to work at King Games</motivationletter>
-        <othercomments>No comment</othercomments>
-        <typeofjob>permanent</typeofjob>
-    </otherinfo>
     <placesdesiredtowork>King</placesdesiredtowork>
     <references>
+        <name>William Jonsson</name>
         <companyname>Spotify</companyname>
         <contactinfo>
-            <cancontact>No</cancontact>
-            <email>william@spotify.com</email>
             <telephonenumber>12345678901221</telephonenumber>
+            <email>william@spotify.com</email>
+            <cancontact>No</cancontact>
         </contactinfo>
-        <name>William Jonsson</name>
     </references>
     <references>
+        <name>Magnus Magnus Magnusson</name>
         <companyname>LS Retail</companyname>
         <contactinfo>
-            <cancontact>Contact employee first</cancontact>
-            <email>magnusmagnus@lsretail.com</email>
             <telephonenumber>12345678901228</telephonenumber>
+            <email>magnusmagnus@lsretail.com</email>
+            <cancontact>Contact employee first</cancontact>
         </contactinfo>
-        <name>Magnus Magnus Magnusson</name>
     </references>
+    <otherinfo>
+        <typeofjob>permanent</typeofjob>
+        <motivationletter>I would really like to work at King Games</motivationletter>
+        <othercomments>No comment</othercomments>
+    </otherinfo>
 </resume>
