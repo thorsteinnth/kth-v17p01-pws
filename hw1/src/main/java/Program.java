@@ -107,29 +107,32 @@ public class Program
             //endregion
 
             //region JAXB - Convert all objects back to XML
-            // TODO : save them as outputXML files
+            File outputCompanyInfoXML = new File("outputCompanyInfo.xml");
+            File outputEmploymentRecordXML  = new File("outputEmploymentRecord.xml");
+            File outputResumeXML  = new File("outPutResume.xml");
+            File outputTranscriptXML = new File("outputTranscript.xml");
 
             // - CompanyInfo
             JAXBContext jaxbCompanyContext = JAXBContext.newInstance(Companies.class);
             Marshaller jaxbCompanyMarshaller = jaxbCompanyContext.createMarshaller();
             jaxbCompanyMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            jaxbCompanyMarshaller.marshal(companies, System.out);
+            jaxbCompanyMarshaller.marshal(companies, outputCompanyInfoXML);
 
             // - EmploymentRecord
             JAXBContext jaxbEmploymentRecordsContext = JAXBContext.newInstance(EmploymentRecords.class);
             Marshaller jaxbEmploymentRecordsMarshaller = jaxbEmploymentRecordsContext.createMarshaller();
             jaxbEmploymentRecordsMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            jaxbEmploymentRecordsMarshaller.marshal(employmentRecords, System.out);
+            jaxbEmploymentRecordsMarshaller.marshal(employmentRecords, outputEmploymentRecordXML);
 
             // - Resume
             Marshaller jaxbResumeMarshaller = jaxbResumeContext.createMarshaller();
             jaxbResumeMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            jaxbResumeMarshaller.marshal(resume, System.out);
+            jaxbResumeMarshaller.marshal(resume, outputResumeXML);
 
             // - Transcript
             Marshaller jaxbMarshaller = jaxbTranscriptContext.createMarshaller();
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            jaxbMarshaller.marshal(transcript, System.out);
+            jaxbMarshaller.marshal(transcript, outputTranscriptXML);
 
 
             // XSLT
