@@ -1,0 +1,78 @@
+% Very simple template for lab reports. Most common packages are already included.
+\documentclass[a4paper, 11pt]{article}
+\usepackage[utf8]{inputenc} % Change according your file encoding
+\usepackage{graphicx}
+\usepackage{url}
+
+%opening
+\title{KTH V17P01 Programming Web Services: Homework 1}
+\author{Fannar Magnusson (fannar@kth.se) & Thorsteinn Thorri Sigurdsson (ttsi@kth.se)}
+\date{\today{}}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+This assignment revolves around XML processing. We want to create an XML processing application for a recruitment service where we consume different XML files from various locations and compile an applicant profile XML to use in our system. 
+
+There are four input XMLs:
+
+\begin{enumerate}
+    \item \texttt{CompanyInfo.xml} - Contains information on registered companies and their contact information. Provided by company database.
+    \item \texttt{EmploymentRecord.xml} - Contains information on where the applicant has worked in the past, what role he had there and what time period he was employed. Provided by employment office.
+    \item \texttt{Resume.xml} - Represents the information that the applicant provides to our system. Contact information, references and other information. Provided by applicant.
+    \item \texttt{Transcript.xml} - Contains information about the applicant's education. What school he studied at, what degrees he was enrolled in, and the courses he took in each degree. Provided by the university.
+\end{enumerate}
+
+We combine information from these four XML documents into an \texttt{ApplicantProfile.xml} that the recruitment service can use in its system.
+
+\section{Implementation}
+
+\subsection{Task 1}
+
+We created XSD schemas for each of the XML documents, both the four input XMLs and the output \texttt{ApplicantProfile.xml}. Then we generated (manually) XML documents that conform to the rules defined in the schemas.
+
+The XML schemas include complex and simple types, attributes and elements, and restrictions.
+
+We validated the generated XML documents with the schemas using an online tool \footnote{\url{http://www.utilities-online.info/xsdvalidation/}}.
+
+The \texttt{ApplicantProfile.xsd} schema contains a \texttt{targetNamespace} declaration pointing to \texttt{http://www.bestrecruitment.com} which indicates that the elements defined by the schema come from that namespace. The generated \texttt{ApplicantProfile.xml} has to define its elements with that namespace.
+
+\subsection{Task 2}
+
+In this task we process the input XML using each of the following methods at least once:
+
+\begin{enumerate}
+    \item DOM - Document Object Model
+   
+    We use DOM to parse the \texttt{CompanyInfo.xml}. We start by creating a \texttt{FileInputStream} and then use a \texttt{DocumentBuilder} to get elements and attributes by name from the file and store them as local values. After we have got all the values we wanted, we return a new Java object consisting of all the elements.
+    
+    \item SAX - Simple API for XML
+    
+    We used SAX to parse the \texttt{EmploymentRecord.xml}. We override the startDocument, endDocument, startElement, endElement and characters functions implemented by the SAX Default handler. In the \texttt{startElement} function, if the element is \texttt{employment} we create a new Employment Java object and parse and store all values under that element to the object. When we then encounter the \texttt{employment} element in the \texttt{endElement} function we add the Empyment object to the employemnt record list and continue execution. When the parser has finished execution the objects can be retrived.
+    
+    \item XSLT - Extensible Stylesheet Language Transformations
+    
+    We used XSLT to create a \texttt{ApplicantProfile.xml} from the four output XML documents.
+    
+    \item JAXB - Java Architecture for XML Binding
+    
+    We used JAXB to parse the \texttt{Resume.xml} and \texttt{Transcript.xml}. We started by creating Java domain classes which the XML documents could be mapped to. The classes are tagged with \texttt{@XmlRootElement}, and properties tagged with \texttt{@XmlElement} or \texttt{@XmlAttribute}. When the classes have been created, the only thing left to do for the parsing is to un-marshal the XML document.
+    
+    We also used JAXB to generate output XML documents from the Java instances that were created from parsing the input XML documents. The output files were simply made by marshaling the Java instances back to XML documents. We then manually checked that the output documents were exactly the same as the input documents.
+    
+\end{enumerate}
+
+The process should result in a complete applicant profile XML. That is, we use DOM, SAX and JAXB to parse the input XML documents to Java objects. We use JAXB to convert the Java objects back to output XML documents. Finally we use XSLT to merge and pick out elements from the output XML documents into one \texttt{ApplicantProfile.xml} document.
+
+We also use XSLT on the original input XML documents (without unmarshalling to objects and marshalling again to XML) to create an ApplicantProfile.xml document directly.
+
+\subsection{Task 3}
+
+In this task we used XSLT to calculate the GPA of the applicant from his transcript, and put it into an appropriate place in the \texttt{ApplicantProfile} XML.
+
+This was done by summing up the \texttt{gradedecimal} field for each \texttt{course} within a \texttt{degreetranscript} in \texttt{Transcript.xml} and then dividing it by the number of courses within that degree to get the average.
+
+\end{document}
