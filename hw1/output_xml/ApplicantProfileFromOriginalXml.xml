@@ -1,124 +1,124 @@
-<?xml version="1.0" encoding="UTF-8"?><ApplicantProfile>
-<General>
-<SSN>8001010000</SSN>
-<Name>Jon Jonsson</Name>
-<Address>Sveavägen 1</Address>
-<City>Stockholm</City>
-<Country>Sweden</Country>
-<ContactInfo>
-<Telephone>12345678901234</Telephone>
-<Email>jonjonsson@kth.se</Email>
-</ContactInfo>
-<Preferences>
-<JobType>permanent</JobType>
-<MotivationLetter>I would really like to work at King Games</MotivationLetter>
-<Comments>No comment</Comments>
-<DesiredWorkplace>King</DesiredWorkplace>
-</Preferences>
-</General>
-<Education>
-<Degree>
-<School>Kungliga Tekniska Högskolan</School>
-<DegreeName>Software Engineering of Distributed Systems</DegreeName>
-<Graduated>false</Graduated>
-<AverageGrade>6.166666666666667</AverageGrade>
-<Transcript date="2017-01-25">
-<Course>
-<Name>Programming Web Services</Name>
-<Grade>A</Grade>
-<GradeDecimal>9.5</GradeDecimal>
-</Course>
-<Course>
-<Name>Modern Dance</Name>
-<Grade>F</Grade>
-<GradeDecimal>2.0</GradeDecimal>
-</Course>
-<Course>
-<Name>Technical Drawing</Name>
-<Grade>C</Grade>
-<GradeDecimal>7.0</GradeDecimal>
-</Course>
-</Transcript>
-</Degree>
-<Degree>
-<School>Kungliga Tekniska Högskolan</School>
-<DegreeName>Embedded Systems</DegreeName>
-<Graduated>false</Graduated>
-<AverageGrade>8.033333333333333</AverageGrade>
-<Transcript date="2017-01-25">
-<Course>
-<Name>Circuit Design</Name>
-<Grade>D</Grade>
-<GradeDecimal>6.7</GradeDecimal>
-</Course>
-<Course>
-<Name>C programming</Name>
-<Grade>A</Grade>
-<GradeDecimal>9.0</GradeDecimal>
-</Course>
-<Course>
-<Name>Electrical Engineering Basics</Name>
-<Grade>B</Grade>
-<GradeDecimal>8.4</GradeDecimal>
-</Course>
-</Transcript>
-</Degree>
-</Education>
-<WorkExperience>
-<Employment>
-<Company>
-<Name>LS Retail</Name>
-<Address>Katrinartun 1, 105 Reykjavik, Iceland</Address>
-<Telephone>12345678912345</Telephone>
-<Email>contact@lsretail.com</Email>
-</Company>
-<Description>
-<Role>iOS developer</Role>
-<StartDate>2015-12-13</StartDate>
-<EndDate>2017-01-25</EndDate>
-</Description>
-</Employment>
-<Employment>
-<Company>
-<Name>Polar Seafood</Name>
-<Address/>
-<Telephone/>
-<Email/>
-</Company>
-<Description>
-<Role>Fisherman</Role>
-<StartDate>2012-12-13</StartDate>
-<EndDate>2014-01-25</EndDate>
-</Description>
-</Employment>
-<Employment>
-<Company>
-<Name>Spotify</Name>
-<Address>Vasastangatan 55, Stockholm, Sweden</Address>
-<Telephone>12345678912345</Telephone>
-<Email>contact@spotify.com</Email>
-</Company>
-<Description>
-<Role>Backend developer</Role>
-<StartDate>2016-12-13</StartDate>
-<EndDate>2017-01-12</EndDate>
-</Description>
-</Employment>
-</WorkExperience>
-<References>
-<Contact>
-<Name>William Jonsson</Name>
-<CompanyName>Spotify</CompanyName>
-<Telephone>12345678901221</Telephone>
-<Email>william@spotify.com</Email>
-<CanContact>No</CanContact>
-</Contact>
-<Contact>
-<Name>Magnus Magnus Magnusson</Name>
-<CompanyName>LS Retail</CompanyName>
-<Telephone>12345678901228</Telephone>
-<Email>magnusmagnus@lsretail.com</Email>
-<CanContact>Contact employee first</CanContact>
-</Contact>
-</References>
-</ApplicantProfile>
+<?xml version="1.0" encoding="UTF-8"?><ap:ApplicantProfile xmlns:ap="http://www.bestrecruitment.com">
+<ap:General>
+<ap:SSN>8001010000</ap:SSN>
+<ap:Name>Jon Jonsson</ap:Name>
+<ap:Address>Sveavägen 1</ap:Address>
+<ap:City>Stockholm</ap:City>
+<ap:Country>Sweden</ap:Country>
+<ap:ContactInfo>
+<ap:Telephone>12345678901234</ap:Telephone>
+<ap:Email>jonjonsson@kth.se</ap:Email>
+</ap:ContactInfo>
+<ap:Preferences>
+<ap:JobType>permanent</ap:JobType>
+<ap:MotivationLetter>I would really like to work at King Games</ap:MotivationLetter>
+<ap:Comments>No comment</ap:Comments>
+<ap:DesiredWorkplace>King</ap:DesiredWorkplace>
+</ap:Preferences>
+</ap:General>
+<ap:Education>
+<ap:Degree>
+<ap:School>Kungliga Tekniska Högskolan</ap:School>
+<ap:DegreeName>Software Engineering of Distributed Systems</ap:DegreeName>
+<ap:Graduated>false</ap:Graduated>
+<ap:AverageGrade>6.166666666666667</ap:AverageGrade>
+<ap:Transcript date="2017-01-25">
+<ap:Course>
+<ap:Name>Programming Web Services</ap:Name>
+<ap:Grade>A</ap:Grade>
+<ap:GradeDecimal>9.5</ap:GradeDecimal>
+</ap:Course>
+<ap:Course>
+<ap:Name>Modern Dance</ap:Name>
+<ap:Grade>F</ap:Grade>
+<ap:GradeDecimal>2.0</ap:GradeDecimal>
+</ap:Course>
+<ap:Course>
+<ap:Name>Technical Drawing</ap:Name>
+<ap:Grade>C</ap:Grade>
+<ap:GradeDecimal>7.0</ap:GradeDecimal>
+</ap:Course>
+</ap:Transcript>
+</ap:Degree>
+<ap:Degree>
+<ap:School>Kungliga Tekniska Högskolan</ap:School>
+<ap:DegreeName>Embedded Systems</ap:DegreeName>
+<ap:Graduated>false</ap:Graduated>
+<ap:AverageGrade>8.033333333333333</ap:AverageGrade>
+<ap:Transcript date="2017-01-25">
+<ap:Course>
+<ap:Name>Circuit Design</ap:Name>
+<ap:Grade>D</ap:Grade>
+<ap:GradeDecimal>6.7</ap:GradeDecimal>
+</ap:Course>
+<ap:Course>
+<ap:Name>C programming</ap:Name>
+<ap:Grade>A</ap:Grade>
+<ap:GradeDecimal>9.0</ap:GradeDecimal>
+</ap:Course>
+<ap:Course>
+<ap:Name>Electrical Engineering Basics</ap:Name>
+<ap:Grade>B</ap:Grade>
+<ap:GradeDecimal>8.4</ap:GradeDecimal>
+</ap:Course>
+</ap:Transcript>
+</ap:Degree>
+</ap:Education>
+<ap:WorkExperience>
+<ap:Employment>
+<ap:Company>
+<ap:Name>LS Retail</ap:Name>
+<ap:Address>Katrinartun 1, 105 Reykjavik, Iceland</ap:Address>
+<ap:Telephone>12345678912345</ap:Telephone>
+<ap:Email>contact@lsretail.com</ap:Email>
+</ap:Company>
+<ap:Description>
+<ap:Role>iOS developer</ap:Role>
+<ap:StartDate>2015-12-13</ap:StartDate>
+<ap:EndDate>2017-01-25</ap:EndDate>
+</ap:Description>
+</ap:Employment>
+<ap:Employment>
+<ap:Company>
+<ap:Name>Polar Seafood</ap:Name>
+<ap:Address/>
+<ap:Telephone/>
+<ap:Email/>
+</ap:Company>
+<ap:Description>
+<ap:Role>Fisherman</ap:Role>
+<ap:StartDate>2012-12-13</ap:StartDate>
+<ap:EndDate>2014-01-25</ap:EndDate>
+</ap:Description>
+</ap:Employment>
+<ap:Employment>
+<ap:Company>
+<ap:Name>Spotify</ap:Name>
+<ap:Address>Vasastangatan 55, Stockholm, Sweden</ap:Address>
+<ap:Telephone>12345678912345</ap:Telephone>
+<ap:Email>contact@spotify.com</ap:Email>
+</ap:Company>
+<ap:Description>
+<ap:Role>Backend developer</ap:Role>
+<ap:StartDate>2016-12-13</ap:StartDate>
+<ap:EndDate>2017-01-12</ap:EndDate>
+</ap:Description>
+</ap:Employment>
+</ap:WorkExperience>
+<ap:References>
+<ap:Contact>
+<ap:Name>William Jonsson</ap:Name>
+<ap:CompanyName>Spotify</ap:CompanyName>
+<ap:Telephone>12345678901221</ap:Telephone>
+<ap:Email>william@spotify.com</ap:Email>
+<ap:CanContact>No</ap:CanContact>
+</ap:Contact>
+<ap:Contact>
+<ap:Name>Magnus Magnus Magnusson</ap:Name>
+<ap:CompanyName>LS Retail</ap:CompanyName>
+<ap:Telephone>12345678901228</ap:Telephone>
+<ap:Email>magnusmagnus@lsretail.com</ap:Email>
+<ap:CanContact>Contact employee first</ap:CanContact>
+</ap:Contact>
+</ap:References>
+</ap:ApplicantProfile>
