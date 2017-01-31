@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<resume>
+    <basicinfo>
+        <address>Sveavägen 1</address>
+        <city>Stockholm</city>
+        <country>Sweden</country>
+        <name>Jon Jonsson</name>
+        <ssn>8001010000</ssn>
+    </basicinfo>
+    <contactinfo>
+        <cancontact>Yes</cancontact>
+        <email>jonjonsson@kth.se</email>
+        <telephonenumber>12345678901234</telephonenumber>
+    </contactinfo>
+    <otherinfo>
+        <motivationletter>I would really like to work at King Games</motivationletter>
+        <othercomments>No comment</othercomments>
+        <typeofjob>permanent</typeofjob>
+    </otherinfo>
+    <placesdesiredtowork>King</placesdesiredtowork>
+    <references>
+        <companyname>Spotify</companyname>
+        <contactinfo>
+            <cancontact>No</cancontact>
+            <email>william@spotify.com</email>
+            <telephonenumber>12345678901221</telephonenumber>
+        </contactinfo>
+        <name>William Jonsson</name>
+    </references>
+    <references>
+        <companyname>LS Retail</companyname>
+        <contactinfo>
+            <cancontact>Contact employee first</cancontact>
+            <email>magnusmagnus@lsretail.com</email>
+            <telephonenumber>12345678901228</telephonenumber>
+        </contactinfo>
+        <name>Magnus Magnus Magnusson</name>
+    </references>
+</resume>
