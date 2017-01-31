@@ -107,10 +107,10 @@ public class Program
             //endregion
 
             //region JAXB - Convert all objects back to XML
-            File outputCompanyInfoXML = new File("outputCompanyInfo.xml");
-            File outputEmploymentRecordXML  = new File("outputEmploymentRecord.xml");
-            File outputResumeXML  = new File("outPutResume.xml");
-            File outputTranscriptXML = new File("outputTranscript.xml");
+            File outputCompanyInfoXML = new File("output_xml/OutputCompanyInfo.xml");
+            File outputEmploymentRecordXML  = new File("output_xml/OutputEmploymentRecord.xml");
+            File outputResumeXML  = new File("output_xml/OutputResume.xml");
+            File outputTranscriptXML = new File("output_xml/OutputTranscript.xml");
 
             // - CompanyInfo
             JAXBContext jaxbCompanyContext = JAXBContext.newInstance(Companies.class);
