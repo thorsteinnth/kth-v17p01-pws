@@ -23,3 +23,6 @@ build/
 
 *.sqlite
 uiDesigner.xml
+
+# Gradle copies XMLs to this folder, don't want it in source control
+hw1/xml
