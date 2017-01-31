@@ -162,6 +162,29 @@ public class Program
                     )
             );
 
+            // Generate applicant profile from output XML documents
+
+            File applicantProfileFromOutputXmlXslFile = new File(
+                    getClass().getClassLoader().getResource("xml/ApplicantProfileFromOutputXml.xsl").getFile()
+            );
+            xsl = new StreamSource(applicantProfileFromOutputXmlXslFile);
+
+            factory = TransformerFactory.newInstance();
+            transformer = factory.newTransformer(xsl);
+            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+
+            // Set indentation of output document
+            // TODO Indentation not working
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+
+            transformer.transform(
+                    new StreamSource(),
+                    new StreamResult(
+                            new File("output_xml/ApplicantProfileFromOutputXml.xml")
+                    )
+            );
+
             //endregion
         }
         catch (IOException|SAXException|ParserConfigurationException|JAXBException|TransformerException ex)
