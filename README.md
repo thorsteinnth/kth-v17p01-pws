@@ -9,5 +9,10 @@ Fannar Magnússon (fannar@kth.se)
 
 ----------------------------------------
 
-How to build and run the program:
+Build the program and create the .jar file:
+Java 8 and Gradle 3.0 is required to build the program.
+In command line: navigate to the project directory ("hw1"), there you should see the file "build.gradle". 
+Run the command line function "gradle build". Build should be successful and the .jar file is now available at "hw1/build/libs".
 
+Run the .jar file:
+java -jar build/libs/kth-v17p01-pws-hw1.jar
