@@ -12,3 +12,19 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
+
+task copyXml(type: Copy) {
+    from 'src/main/resources/xml'
+    into 'xml'
+}
+
+jar {
+    archiveName='kth-v17p01-pws-hw1.jar'
+
+    // Exclude stuff we don't need in the jar
+    exclude('META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.MF')
+
+    manifest {
+        attributes 'Main-Class': 'Program'
+    }
+}

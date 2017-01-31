@@ -125,10 +125,9 @@ public class Program
 
             // Generate applicant profile from original XML documents
 
-            File applicantProfileFromOriginalXmlXslFile = new File(
-                    getClass().getClassLoader().getResource("xml/ApplicantProfileFromOriginalXml.xsl").getFile()
-            );
-            StreamSource xsl = new StreamSource(applicantProfileFromOriginalXmlXslFile);
+            InputStream applicantProfileFromOriginalXmlXslInputStream
+                    = getClass().getClassLoader().getResourceAsStream("xml/ApplicantProfileFromOriginalXml.xsl");
+            StreamSource xsl = new StreamSource(applicantProfileFromOriginalXmlXslInputStream);
 
             TransformerFactory factory = TransformerFactory.newInstance();
             Transformer transformer = factory.newTransformer(xsl);
@@ -148,10 +147,9 @@ public class Program
 
             // Generate applicant profile from output XML documents
 
-            File applicantProfileFromOutputXmlXslFile = new File(
-                    getClass().getClassLoader().getResource("xml/ApplicantProfileFromOutputXml.xsl").getFile()
-            );
-            xsl = new StreamSource(applicantProfileFromOutputXmlXslFile);
+            InputStream applicantProfileFromOutputXmlXslInputStream
+                    = getClass().getClassLoader().getResourceAsStream("xml/ApplicantProfileFromOutputXml.xsl");
+            xsl = new StreamSource(applicantProfileFromOutputXmlXslInputStream);
 
             factory = TransformerFactory.newInstance();
             transformer = factory.newTransformer(xsl);
