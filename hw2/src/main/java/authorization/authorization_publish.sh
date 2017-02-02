@@ -1,9 +1,9 @@
 #!/bin/bash
 
-echo "Compiling publisher"
+echo "Compiling authorization service publisher"
 
 javac -cp "../" publish/*.java
 
-echo "Running publisher"
+echo "Running authorization service publisher"
 
 java -cp "../" authorization.publish.AuthorizationServicePublisher

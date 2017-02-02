@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://hw2.flightticketreservation/itinerary.service/itinerary" xmlns:tns="http://hw2.flightticketreservation/itinerary.service/itinerary" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="findItinerary" type="tns:findItinerary"/>
+
+  <xs:element name="findItineraryResponse" type="tns:findItineraryResponse"/>
+
+  <xs:complexType name="findItinerary">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:flight" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="flight">
+    <xs:sequence>
+      <xs:element name="departure" type="xs:string" minOccurs="0"/>
+      <xs:element name="destination" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="findItineraryResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:itinerary" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="itinerary">
+    <xs:sequence>
+      <xs:element name="flights" type="tns:flight" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+
