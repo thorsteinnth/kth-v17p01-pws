@@ -10,7 +10,7 @@ import javax.xml.namespace.QName;
 /**
  * This object contains factory methods for each 
  * Java content interface and Java element interface 
- * generated in the com.ibm.jaxws.tutorial.service.jaxwstutorial.client package.
+ * generated in the jaxwstutorial.client package. 
  * <p>An ObjectFactory allows you to programatically 
  * construct new instances of the Java representation 
  * for XML content. The Java representation of XML 
@@ -28,18 +28,18 @@ public class ObjectFactory {
     private final static QName _ProcessOrderResponse_QNAME = new QName("http://jawxs.ibm.tutorial/jaxws/orderprocess", "processOrderResponse");
 
     /**
-     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.ibm.jaxws.tutorial.service.jaxwstutorial.client
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: jaxwstutorial.client
      * 
      */
     public ObjectFactory() {
     }
 
     /**
-     * Create an instance of {@link Address }
+     * Create an instance of {@link ProcessOrder }
      * 
      */
-    public Address createAddress() {
-        return new Address();
+    public ProcessOrder createProcessOrder() {
+        return new ProcessOrder();
     }
 
     /**
@@ -51,11 +51,11 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link ProcessOrder }
+     * Create an instance of {@link Address }
      * 
      */
-    public ProcessOrder createProcessOrder() {
-        return new ProcessOrder();
+    public Address createAddress() {
+        return new Address();
     }
 
     /**
