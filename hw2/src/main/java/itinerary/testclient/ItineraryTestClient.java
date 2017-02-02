@@ -55,8 +55,20 @@ public class ItineraryTestClient
 
     private String printItinerary(Itinerary itinerary)
     {
+        StringBuilder sbFlights = new StringBuilder();
+        for (Flight flight : itinerary.flights)
+            sbFlights.append(printFlight(flight) + ",");
+
         return "Itinerary{" +
-                "flights=" + itinerary.flights +
+                "flights=" + sbFlights.toString() +
+                '}';
+    }
+
+    private String printFlight(Flight flight)
+    {
+        return "Flight{" +
+                "departure='" + flight.getDeparture() + '\'' +
+                ", destination='" + flight.getDestination() + '\'' +
                 '}';
     }
 }
