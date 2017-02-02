@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://hw2.flightticketreservation/authorization.service/authorization" xmlns:tns="http://hw2.flightticketreservation/authorization.service/authorization" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="authorizeUser" type="tns:authorizeUser"/>
+
+  <xs:element name="authorizeUserResponse" type="tns:authorizeUserResponse"/>
+
+  <xs:complexType name="authorizeUser">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:user" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="user">
+    <xs:sequence>
+      <xs:element name="password" type="xs:string" minOccurs="0"/>
+      <xs:element name="token" type="xs:string" minOccurs="0"/>
+      <xs:element name="username" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="authorizeUserResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:user" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+
