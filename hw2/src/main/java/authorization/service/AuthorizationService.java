@@ -1,6 +1,7 @@
 package authorization.service;
 
 import authorization.bean.User;
+import authorization.exception.InvalidCredentials;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
@@ -22,20 +23,24 @@ public class AuthorizationService {
     }
 
     @WebMethod
-    public User authorizeUser(User user) {
+    public User authorizeUser(User user) throws InvalidCredentials {
 
-        String securityToken = "";
+        boolean isAuthorized = false;
 
         for (User authorizedUser : this.authorizedUsers) {
             if (authorizedUser.getUsername().equals(user.getUsername())) {
                 if (authorizedUser.getPassword().equals(user.getPassword())) {
-                    securityToken = "secure token";
+                    isAuthorized = true;
                     break;
                 }
             }
         }
 
-        user.setToken(securityToken);
+        if (!isAuthorized) {
+            throw new InvalidCredentials();
+        }
+
+        user.setToken("secure token");
         return user;
     }
 

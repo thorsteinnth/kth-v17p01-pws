@@ -7,6 +7,7 @@ import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.xml.bind.annotation.XmlSeeAlso;
 import javax.xml.ws.Action;
+import javax.xml.ws.FaultAction;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
 
@@ -29,14 +30,19 @@ public interface AuthorizationService {
      * @param arg0
      * @return
      *     returns authorization.testclient.User
+     * @throws InvalidCredentials_Exception
      */
     @WebMethod
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "authorizeUser", targetNamespace = "http://hw2.flightticketreservation/authorization.service/authorization", className = "authorization.testclient.AuthorizeUser")
     @ResponseWrapper(localName = "authorizeUserResponse", targetNamespace = "http://hw2.flightticketreservation/authorization.service/authorization", className = "authorization.testclient.AuthorizeUserResponse")
-    @Action(input = "http://hw2.flightticketreservation/authorization.service/authorization/AuthorizationService/authorizeUserRequest", output = "http://hw2.flightticketreservation/authorization.service/authorization/AuthorizationService/authorizeUserResponse")
+    @Action(input = "http://hw2.flightticketreservation/authorization.service/authorization/AuthorizationService/authorizeUserRequest", output = "http://hw2.flightticketreservation/authorization.service/authorization/AuthorizationService/authorizeUserResponse", fault = {
+        @FaultAction(className = InvalidCredentials_Exception.class, value = "http://hw2.flightticketreservation/authorization.service/authorization/AuthorizationService/authorizeUser/Fault/InvalidCredentials")
+    })
     public User authorizeUser(
         @WebParam(name = "arg0", targetNamespace = "")
-        User arg0);
+        User arg0)
+        throws InvalidCredentials_Exception
+    ;
 
 }

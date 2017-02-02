@@ -12,10 +12,14 @@
   <message name="authorizeUserResponse">
     <part name="parameters" element="tns:authorizeUserResponse"/>
   </message>
+  <message name="InvalidCredentials">
+    <part name="fault" element="tns:InvalidCredentials"/>
+  </message>
   <portType name="AuthorizationService">
     <operation name="authorizeUser">
       <input wsam:Action="http://hw2.flightticketreservation/authorization.service/authorization/AuthorizationService/authorizeUserRequest" message="tns:authorizeUser"/>
       <output wsam:Action="http://hw2.flightticketreservation/authorization.service/authorization/AuthorizationService/authorizeUserResponse" message="tns:authorizeUserResponse"/>
+      <fault message="tns:InvalidCredentials" name="InvalidCredentials" wsam:Action="http://hw2.flightticketreservation/authorization.service/authorization/AuthorizationService/authorizeUser/Fault/InvalidCredentials"/>
     </operation>
   </portType>
   <binding name="AuthorizationPortBinding" type="tns:AuthorizationService">
@@ -28,6 +32,9 @@
       <output>
         <soap:body use="literal"/>
       </output>
+      <fault name="InvalidCredentials">
+        <soap:fault name="InvalidCredentials" use="literal"/>
+      </fault>
     </operation>
   </binding>
   <service name="Authorization">

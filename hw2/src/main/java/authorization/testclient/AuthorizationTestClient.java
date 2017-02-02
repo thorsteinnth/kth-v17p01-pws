@@ -49,16 +49,29 @@ public class AuthorizationTestClient
         user1.setPassword("wrongpass");
 
         System.out.println("Requesting authorization for: " + printUser(user1));
-        User userResponse = port.authorizeUser(user1);
-        System.out.println("User response: " + printUser(userResponse));
+
+        try {
+            User userResponse = port.authorizeUser(user1);
+            System.out.println("User response: " + printUser(userResponse));
+        }
+        catch (InvalidCredentials_Exception ex) {
+            System.out.println("Invalid credentials for " + user1.getUsername());
+        }
+
 
         User user2 = new User();
         user2.setUsername("user1");
         user2.setPassword("pass1");
 
         System.out.println("Requesting authorization for: " + printUser(user2));
-        userResponse = port.authorizeUser(user2);
-        System.out.println("User response: " + printUser(userResponse));
+
+        try {
+            User userResponse = port.authorizeUser(user2);
+            System.out.println("User response: " + printUser(userResponse));
+        }
+        catch (InvalidCredentials_Exception ex) {
+            System.out.println("Invalid credentials for " + user2.getUsername());
+        }
     }
 
     private String printUser(User user)

@@ -24,6 +24,7 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
+    private final static QName _InvalidCredentials_QNAME = new QName("http://hw2.flightticketreservation/authorization.service/authorization", "InvalidCredentials");
     private final static QName _AuthorizeUserResponse_QNAME = new QName("http://hw2.flightticketreservation/authorization.service/authorization", "authorizeUserResponse");
     private final static QName _AuthorizeUser_QNAME = new QName("http://hw2.flightticketreservation/authorization.service/authorization", "authorizeUser");
 
@@ -43,6 +44,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link InvalidCredentials }
+     * 
+     */
+    public InvalidCredentials createInvalidCredentials() {
+        return new InvalidCredentials();
+    }
+
+    /**
      * Create an instance of {@link AuthorizeUserResponse }
      * 
      */
@@ -56,6 +65,15 @@ public class ObjectFactory {
      */
     public User createUser() {
         return new User();
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link InvalidCredentials }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://hw2.flightticketreservation/authorization.service/authorization", name = "InvalidCredentials")
+    public JAXBElement<InvalidCredentials> createInvalidCredentials(InvalidCredentials value) {
+        return new JAXBElement<InvalidCredentials>(_InvalidCredentials_QNAME, InvalidCredentials.class, null, value);
     }
 
     /**

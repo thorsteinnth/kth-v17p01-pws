@@ -2,7 +2,7 @@
 
 echo "Compiling authorization beans and service"
 
-javac bean/*.java service/*.java
+javac exception/*.java bean/*.java service/*.java
 
 echo "Generating JAX-WS artifacts"
 
