@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/jaxws_tutorial.iml" filepath="$PROJECT_DIR$/.idea/modules/jaxws_tutorial.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/jaxws_tutorial_main.iml" filepath="$PROJECT_DIR$/.idea/modules/jaxws_tutorial_main.iml" group="jaxws_tutorial" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/jaxws_tutorial_test.iml" filepath="$PROJECT_DIR$/.idea/modules/jaxws_tutorial_test.iml" group="jaxws_tutorial" />
+    </modules>
+  </component>
+</project>
