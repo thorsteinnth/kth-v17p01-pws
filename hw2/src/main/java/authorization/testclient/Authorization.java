@@ -1,5 +1,5 @@
 
-package testclient;
+package authorization.testclient;
 
 import java.net.MalformedURLException;
 import java.net.URL;

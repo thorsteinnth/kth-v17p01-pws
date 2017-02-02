@@ -1,5 +1,5 @@
 
-package testclient;
+package authorization.testclient;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -28,12 +28,12 @@ public interface AuthorizationService {
      * 
      * @param arg0
      * @return
-     *     returns testclient.User
+     *     returns authorization.testclient.User
      */
     @WebMethod
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "authorizeUser", targetNamespace = "http://hw2.flightticketreservation/authorization.service/authorization", className = "testclient.AuthorizeUser")
-    @ResponseWrapper(localName = "authorizeUserResponse", targetNamespace = "http://hw2.flightticketreservation/authorization.service/authorization", className = "testclient.AuthorizeUserResponse")
+    @RequestWrapper(localName = "authorizeUser", targetNamespace = "http://hw2.flightticketreservation/authorization.service/authorization", className = "authorization.testclient.AuthorizeUser")
+    @ResponseWrapper(localName = "authorizeUserResponse", targetNamespace = "http://hw2.flightticketreservation/authorization.service/authorization", className = "authorization.testclient.AuthorizeUserResponse")
     @Action(input = "http://hw2.flightticketreservation/authorization.service/authorization/AuthorizationService/authorizeUserRequest", output = "http://hw2.flightticketreservation/authorization.service/authorization/AuthorizationService/authorizeUserResponse")
     public User authorizeUser(
         @WebParam(name = "arg0", targetNamespace = "")
