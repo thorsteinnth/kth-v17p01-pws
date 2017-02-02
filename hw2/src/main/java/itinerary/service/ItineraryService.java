@@ -8,8 +8,8 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 @WebService(serviceName = "Itinerary",
-        portName = "AuthorizationPort",
-        targetNamespace = "http://hw2.flightticketreservation/authorization.service/authorization")
+        portName = "ItineraryPort",
+        targetNamespace = "http://hw2.flightticketreservation/itinerary.service/itinerary")
 
 @SOAPBinding(style=SOAPBinding.Style.DOCUMENT,use=SOAPBinding.Use.LITERAL,parameterStyle=SOAPBinding.ParameterStyle.WRAPPED)
 
