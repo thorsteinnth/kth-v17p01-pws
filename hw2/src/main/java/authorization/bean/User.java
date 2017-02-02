@@ -1,4 +1,4 @@
-package bean;
+package authorization.bean;
 
 public class User {
 
