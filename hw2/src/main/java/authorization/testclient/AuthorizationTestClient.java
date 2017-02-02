@@ -6,8 +6,7 @@ import java.net.URL;
 
 public class AuthorizationTestClient
 {
-    // TODO Change this
-    final QName qName = new QName("http://jawxs.ibm.tutorial/jaxws/orderprocess", "OrderProcess");
+    final QName qName = new QName("http://hw2.flightticketreservation/authorization.service/authorization", "Authorization");
 
     public static void main(String[] args)
     {
@@ -24,7 +23,7 @@ public class AuthorizationTestClient
 
     private static URL getWSDLURL(String urlStr)
     {
-        URL url = null;
+        URL url;
 
         try
         {
@@ -41,18 +40,33 @@ public class AuthorizationTestClient
 
     public void getAuthorization(URL url)
     {
-        // TODO Fill this out when we have generated the client classes
-        /*
-        //OrderProcess orderProcessingService = new OrderProcess(url, qName);
+        Authorization authorization = new Authorization(url, qName);
+        System.out.println("Service is " + authorization);
+        AuthorizationService port = authorization.getAuthorizationPort();
 
-        System.out.println("Service is" + orderProcessingService);
+        User user1 = new User();
+        user1.setUsername("John");
+        user1.setPassword("wrongpass");
 
-        OrderBean order = populateOrder();
+        System.out.println("Requesting authorization for: " + printUser(user1));
+        User userResponse = port.authorizeUser(user1);
+        System.out.println("User response: " + printUser(userResponse));
 
-        OrderProcessService port = orderProcessingService.getOrderProcessPort();
-        OrderBean orderResponse = port.processOrder(order);
+        User user2 = new User();
+        user2.setUsername("user1");
+        user2.setPassword("pass1");
 
-        System.out.println("Order id is " + orderResponse.getOrderId());
-        */
+        System.out.println("Requesting authorization for: " + printUser(user2));
+        userResponse = port.authorizeUser(user2);
+        System.out.println("User response: " + printUser(userResponse));
+    }
+
+    private String printUser(User user)
+    {
+        return "User{" +
+                "password='" + user.getPassword() + '\'' +
+                ", token='" + user.getToken() + '\'' +
+                ", username='" + user.getUsername() + '\'' +
+                '}';
     }
 }
