@@ -24,6 +24,7 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
+    private final static QName _NoRouteFoundException_QNAME = new QName("http://hw2.flightticketreservation/itinerary.service/itinerary", "NoRouteFoundException");
     private final static QName _FindItinerary_QNAME = new QName("http://hw2.flightticketreservation/itinerary.service/itinerary", "findItinerary");
     private final static QName _FindItineraryResponse_QNAME = new QName("http://hw2.flightticketreservation/itinerary.service/itinerary", "findItineraryResponse");
 
@@ -32,6 +33,14 @@ public class ObjectFactory {
      * 
      */
     public ObjectFactory() {
+    }
+
+    /**
+     * Create an instance of {@link NoRouteFoundException }
+     * 
+     */
+    public NoRouteFoundException createNoRouteFoundException() {
+        return new NoRouteFoundException();
     }
 
     /**
@@ -72,6 +81,15 @@ public class ObjectFactory {
      */
     public Itinerary createItinerary() {
         return new Itinerary();
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link NoRouteFoundException }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://hw2.flightticketreservation/itinerary.service/itinerary", name = "NoRouteFoundException")
+    public JAXBElement<NoRouteFoundException> createNoRouteFoundException(NoRouteFoundException value) {
+        return new JAXBElement<NoRouteFoundException>(_NoRouteFoundException_QNAME, NoRouteFoundException.class, null, value);
     }
 
     /**

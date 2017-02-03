@@ -48,27 +48,61 @@ public class ItineraryTestClient
         departure1.setName("Reykjavik");
         Node destination1 = new Node();
         destination1.setName("Tallinn");
-        System.out.println("Requesting intinerary from " + departure1.getName() + " to " + destination1.getName());
 
         Flight flight1 = new Flight();
         flight1.setDeparture(departure1);
         flight1.setDestination(destination1);
 
-        Itinerary itinerary1 = port.findItinerary(flight1);
-        System.out.println(printItinerary(itinerary1));
+        try
+        {
+            System.out.println("Requesting intinerary from " + departure1.getName() + " to " + destination1.getName());
+            Itinerary itinerary1 = port.findItinerary(flight1);
+            System.out.println(printItinerary(itinerary1));
+        }
+        catch (NoRouteFoundException_Exception ex)
+        {
+            System.out.println(ex);
+        }
 
         Node departure2 = new Node();
         departure2.setName("Reykjavik");
         Node destination2 = new Node();
         destination2.setName("Riga");
-        System.out.println("Requesting intinerary from " + departure2.getName() + " to " + destination2.getName());
 
         Flight flight2 = new Flight();
         flight2.setDeparture(departure2);
         flight2.setDestination(destination2);
 
-        Itinerary itinerary2 = port.findItinerary(flight2);
-        System.out.println(printItinerary(itinerary2));
+        try
+        {
+            System.out.println("Requesting intinerary from " + departure2.getName() + " to " + destination2.getName());
+            Itinerary itinerary2 = port.findItinerary(flight2);
+            System.out.println(printItinerary(itinerary2));
+        }
+        catch (NoRouteFoundException_Exception ex)
+        {
+            System.out.println(ex);
+        }
+
+        Node departure3 = new Node();
+        departure3.setName("Reykjavik");
+        Node destination3 = new Node();
+        destination3.setName("Tokyo");
+
+        Flight flight3 = new Flight();
+        flight3.setDeparture(departure3);
+        flight3.setDestination(destination3);
+
+        try
+        {
+            System.out.println("Requesting intinerary from " + departure3.getName() + " to " + destination3.getName());
+            Itinerary itinerary3 = port.findItinerary(flight3);
+            System.out.println(printItinerary(itinerary3));
+        }
+        catch (NoRouteFoundException_Exception ex)
+        {
+            System.out.println(ex);
+        }
     }
 
     private String printItinerary(Itinerary itinerary)
