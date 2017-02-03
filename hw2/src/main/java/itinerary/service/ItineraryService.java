@@ -3,12 +3,16 @@ package itinerary.service;
 import itinerary.bean.Flight;
 import itinerary.bean.Itinerary;
 import itinerary.bean.Node;
+import itinerary.exception.NoRouteFoundException;
+import org.jgrapht.GraphPath;
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultDirectedGraph;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import java.util.ArrayList;
+import java.util.List;
 
 @WebService(serviceName = "Itinerary",
         portName = "ItineraryPort",
@@ -21,22 +25,50 @@ public class ItineraryService
     private ArrayList<Node> nodes;
     private ArrayList<Flight> flights;
     private DefaultDirectedGraph<Node, Flight> graph;
+    private DijkstraShortestPath dijkstra;
 
     public ItineraryService()
     {
         this.nodes = generateNodes();
         this.flights = generateFlights();
         this.graph = generateGraph();
-
-        System.out.println(graph);
+        this.dijkstra = new DijkstraShortestPath(this.graph);
     }
 
     @WebMethod
-    public Itinerary findItinerary(Flight flight) {
-
+    public Itinerary findItinerary(Flight flight) throws NoRouteFoundException
+    {
         Itinerary it = new Itinerary();
-        it.setFlights(this.flights);
+        it.setFlights(findShortestPath(flight.getDeparture(), flight.getDestination()));
         return it;
+    }
+
+    private List<Flight> findShortestPath(Node src, Node dest) throws NoRouteFoundException
+    {
+        // The Dijkstra implementation only searches by actual object reference.
+        // Have to find the right nodes in the graph
+        Node departureGraphNode = null;
+        Node destinationGraphNode = null;
+
+        for (Node graphNode : this.graph.vertexSet())
+            if (graphNode.getName().equals(src.getName()))
+                departureGraphNode = graphNode;
+
+        for (Node graphNode : this.graph.vertexSet())
+            if (graphNode.getName().equals(dest.getName()))
+                destinationGraphNode = graphNode;
+
+        if (departureGraphNode == null || destinationGraphNode == null)
+            throw new NoRouteFoundException();
+
+        GraphPath path = this.dijkstra.getPath(departureGraphNode, destinationGraphNode);
+
+        if (path == null)
+            throw new NoRouteFoundException();
+
+        System.out.println(path.getEdgeList());
+
+        return (List<Flight>)path.getEdgeList();
     }
 
     private ArrayList<Node> generateNodes()

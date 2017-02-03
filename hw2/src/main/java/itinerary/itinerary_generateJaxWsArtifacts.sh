@@ -2,7 +2,7 @@
 
 echo "Compiling itinerary beans and service"
 
-javac -cp "../../../../lib/jgrapht-core-1.0.1.jar" bean/*.java service/*.java
+javac -cp "../../../../lib/jgrapht-core-1.0.1.jar" exception/*.java bean/*.java service/*.java
 
 echo "Generating JAX-WS artifacts"
 

@@ -12,10 +12,14 @@
   <message name="findItineraryResponse">
     <part name="parameters" element="tns:findItineraryResponse"/>
   </message>
+  <message name="NoRouteFoundException">
+    <part name="fault" element="tns:NoRouteFoundException"/>
+  </message>
   <portType name="ItineraryService">
     <operation name="findItinerary">
       <input wsam:Action="http://hw2.flightticketreservation/itinerary.service/itinerary/ItineraryService/findItineraryRequest" message="tns:findItinerary"/>
       <output wsam:Action="http://hw2.flightticketreservation/itinerary.service/itinerary/ItineraryService/findItineraryResponse" message="tns:findItineraryResponse"/>
+      <fault message="tns:NoRouteFoundException" name="NoRouteFoundException" wsam:Action="http://hw2.flightticketreservation/itinerary.service/itinerary/ItineraryService/findItinerary/Fault/NoRouteFoundException"/>
     </operation>
   </portType>
   <binding name="ItineraryPortBinding" type="tns:ItineraryService">
@@ -28,6 +32,9 @@
       <output>
         <soap:body use="literal"/>
       </output>
+      <fault name="NoRouteFoundException">
+        <soap:fault name="NoRouteFoundException" use="literal"/>
+      </fault>
     </operation>
   </binding>
   <service name="Itinerary">

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <xs:schema version="1.0" targetNamespace="http://hw2.flightticketreservation/itinerary.service/itinerary" xmlns:tns="http://hw2.flightticketreservation/itinerary.service/itinerary" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
+  <xs:element name="NoRouteFoundException" type="tns:NoRouteFoundException"/>
+
   <xs:element name="findItinerary" type="tns:findItinerary"/>
 
   <xs:element name="findItineraryResponse" type="tns:findItineraryResponse"/>
@@ -33,6 +35,12 @@
   <xs:complexType name="itinerary">
     <xs:sequence>
       <xs:element name="flights" type="tns:flight" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="NoRouteFoundException">
+    <xs:sequence>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
     </xs:sequence>
   </xs:complexType>
 </xs:schema>

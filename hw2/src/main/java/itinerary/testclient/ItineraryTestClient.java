@@ -48,7 +48,7 @@ public class ItineraryTestClient
         Node departure = new Node();
         departure.setName("Reykjavik");
         Node destination = new Node();
-        destination.setName("Tallinn");
+        destination.setName("Stockholm");
 
         Flight flight = new Flight();
         flight.setDeparture(departure);
