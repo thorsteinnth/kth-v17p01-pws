@@ -3,6 +3,7 @@ package itinerary.service;
 import itinerary.bean.Flight;
 import itinerary.bean.Itinerary;
 import itinerary.bean.Node;
+import org.jgrapht.graph.DefaultDirectedGraph;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
@@ -19,11 +20,15 @@ public class ItineraryService
 {
     private ArrayList<Node> nodes;
     private ArrayList<Flight> flights;
+    private DefaultDirectedGraph<Node, Flight> graph;
 
     public ItineraryService()
     {
         this.nodes = generateNodes();
         this.flights = generateFlights();
+        this.graph = generateGraph();
+
+        System.out.println(graph);
     }
 
     @WebMethod
@@ -80,5 +85,16 @@ public class ItineraryService
         return flights;
     }
 
+    private DefaultDirectedGraph<Node, Flight> generateGraph()
+    {
+        DefaultDirectedGraph<Node, Flight> graph = new DefaultDirectedGraph<Node, Flight>(Flight.class);
 
+        for (Node node : this.nodes)
+            graph.addVertex(node);
+
+        for (Flight flight : this.flights)
+            graph.addEdge(flight.getDeparture(), flight.getDestination(), flight);
+
+        return graph;
+    }
 }

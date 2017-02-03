@@ -43,7 +43,7 @@ public class ItineraryTestClient
         Itinerary_Service itineraryService = new Itinerary_Service(url, qName);
         System.out.println("Service is " + itineraryService);
         ItineraryService port = itineraryService.getItineraryPort();
-        
+
         System.out.println("Finding intinerary from Reykjavik to Tallinn");
         Node departure = new Node();
         departure.setName("Reykjavik");
