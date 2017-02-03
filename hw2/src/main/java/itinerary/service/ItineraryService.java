@@ -106,6 +106,8 @@ public class ItineraryService
     {
         ArrayList<Flight> flights = new ArrayList<Flight>();
 
+        // this generatest the following flights:
+        // Reykjavik -> Stockholm -> Tallinn -> Helsinki -> Riga -> Vilinius
         for (int i = 0; i < this.nodes.size()-1; i++)
         {
             Flight flight = new Flight();
@@ -113,6 +115,12 @@ public class ItineraryService
             flight.setDestination(this.nodes.get(i+1));
             flights.add(flight);
         }
+
+        // Reykjavik -> Helsinki
+        Flight rvkToHelsinki = new Flight();
+        rvkToHelsinki.setDeparture(this.nodes.get(0));
+        rvkToHelsinki.setDestination(this.nodes.get(3));
+        flights.add(rvkToHelsinki);
 
         return flights;
     }
