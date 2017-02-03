@@ -1,4 +1,4 @@
-package itinerary.bean;
+package shared;
 
 public class Flight
 {

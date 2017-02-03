@@ -1,6 +1,7 @@
 package itinerary.bean;
 
-import java.util.ArrayList;
+import shared.Flight;
+
 import java.util.List;
 
 public class Itinerary
