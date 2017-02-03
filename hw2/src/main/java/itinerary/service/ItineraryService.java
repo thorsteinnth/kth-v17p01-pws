@@ -1,5 +1,6 @@
 package itinerary.service;
 
+import itinerary.bean.Edge;
 import itinerary.bean.Flight;
 import itinerary.bean.Itinerary;
 import itinerary.bean.Node;
@@ -7,6 +8,7 @@ import itinerary.exception.NoRouteFoundException;
 import org.jgrapht.GraphPath;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultDirectedGraph;
+import org.jgrapht.graph.DefaultWeightedEdge;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
@@ -24,7 +26,7 @@ public class ItineraryService
 {
     private ArrayList<Node> nodes;
     private ArrayList<Flight> flights;
-    private DefaultDirectedGraph<Node, Flight> graph;
+    private DefaultDirectedGraph<Node, Edge> graph;
     private DijkstraShortestPath dijkstra;
 
     public ItineraryService()
@@ -66,9 +68,13 @@ public class ItineraryService
         if (path == null)
             throw new NoRouteFoundException();
 
-        System.out.println(path.getEdgeList());
+        List<Edge> shortestPathEdgeList = (List<Edge>)path.getEdgeList();
 
-        return (List<Flight>)path.getEdgeList();
+        List<Flight> shortestPathFlightList = new ArrayList();
+        for (Edge edge : shortestPathEdgeList)
+            shortestPathFlightList.add(edge.getFlight());
+
+        return shortestPathFlightList;
     }
 
     private ArrayList<Node> generateNodes()
@@ -106,7 +112,7 @@ public class ItineraryService
     {
         ArrayList<Flight> flights = new ArrayList<Flight>();
 
-        // this generatest the following flights:
+        // this generates the following flights:
         // Reykjavik -> Stockholm -> Tallinn -> Helsinki -> Riga -> Vilinius
         for (int i = 0; i < this.nodes.size()-1; i++)
         {
@@ -125,15 +131,24 @@ public class ItineraryService
         return flights;
     }
 
-    private DefaultDirectedGraph<Node, Flight> generateGraph()
+    private DefaultDirectedGraph<Node, Edge> generateGraph()
     {
-        DefaultDirectedGraph<Node, Flight> graph = new DefaultDirectedGraph<Node, Flight>(Flight.class);
+        DefaultDirectedGraph<Node, Edge> graph = new DefaultDirectedGraph<Node, Edge>(Edge.class);
 
         for (Node node : this.nodes)
+        {
             graph.addVertex(node);
+        }
 
         for (Flight flight : this.flights)
-            graph.addEdge(flight.getDeparture(), flight.getDestination(), flight);
+        {
+            // Have to wrap flights in Edge, subclass of DefaultWeightedEdge
+            // TODO Make bean.Flight extend DefaultWeightedEdge
+            Edge edge = new Edge();
+            edge.setFlight(flight);
+            graph.addEdge(flight.getDeparture(), flight.getDestination(), edge);
+            graph.setEdgeWeight(edge, 1);
+        }
 
         return graph;
     }
