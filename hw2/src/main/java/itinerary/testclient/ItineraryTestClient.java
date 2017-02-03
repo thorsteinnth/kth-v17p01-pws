@@ -44,7 +44,7 @@ public class ItineraryTestClient
         System.out.println("Service is " + itineraryService);
         ItineraryService port = itineraryService.getItineraryPort();
 
-        System.out.println("Finding intinerary from Reykjavik to Tallinn");
+        System.out.println("Finding itinerary from Reykjavik to Tallinn");
         Flight flight = new Flight();
         flight.setDeparture("Reykjavik");
         flight.setDestination("Tallinn");
