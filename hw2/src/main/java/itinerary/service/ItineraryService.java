@@ -68,10 +68,8 @@ public class ItineraryService
         if (path == null)
             throw new NoRouteFoundException();
 
-        List<Edge> shortestPathEdgeList = (List<Edge>)path.getEdgeList();
-
         List<Flight> shortestPathFlightList = new ArrayList();
-        for (Edge edge : shortestPathEdgeList)
+        for (Edge edge : (List<Edge>)path.getEdgeList())
             shortestPathFlightList.add(edge.getFlight());
 
         return shortestPathFlightList;
