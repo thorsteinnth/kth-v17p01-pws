@@ -1,6 +1,6 @@
 package ticket.bean;
 
-import itinerary.testclient.Flight;
+import shared.Flight;
 import java.math.BigDecimal;
 import java.util.Date;
 
