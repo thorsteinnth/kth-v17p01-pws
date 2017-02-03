@@ -8,7 +8,6 @@ import itinerary.bean.Itinerary;
 import shared.Node;
 import itinerary.exception.NoRouteFoundException;
 import org.jgrapht.GraphPath;
-import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultDirectedGraph;
 
 import javax.jws.WebMethod;
@@ -28,7 +27,6 @@ public class ItineraryService
     private ArrayList<Node> nodes;
     private ArrayList<Flight> flights;
     private DefaultDirectedGraph<Node, Edge> graph;
-    //private DijkstraShortestPath dijkstra;
     private KShortestPaths kShortestPaths;
 
     public ItineraryService()
@@ -45,38 +43,6 @@ public class ItineraryService
     {
         return findKShortestPaths(flight.getDeparture(), flight.getDestination());
     }
-
-    /*
-    private List<Flight> dijkstraFindShortestPath(Node src, Node dest) throws NoRouteFoundException
-    {
-        // The implementation only searches by actual object reference.
-        // Have to find the right nodes in the graph
-        Node departureGraphNode = null;
-        Node destinationGraphNode = null;
-
-        for (Node graphNode : this.graph.vertexSet())
-            if (graphNode.getName().equals(src.getName()))
-                departureGraphNode = graphNode;
-
-        for (Node graphNode : this.graph.vertexSet())
-            if (graphNode.getName().equals(dest.getName()))
-                destinationGraphNode = graphNode;
-
-        if (departureGraphNode == null || destinationGraphNode == null)
-            throw new NoRouteFoundException();
-
-        GraphPath path = this.dijkstra.getPath(departureGraphNode, destinationGraphNode);
-
-        if (path == null)
-            throw new NoRouteFoundException();
-
-        List<Flight> shortestPathFlightList = new ArrayList();
-        for (Edge edge : (List<Edge>)path.getEdgeList())
-            shortestPathFlightList.add(edge.getFlight());
-
-        return shortestPathFlightList;
-    }
-     d*/
 
     private List<Itinerary> findKShortestPaths(Node src, Node dest) throws NoRouteFoundException
     {
