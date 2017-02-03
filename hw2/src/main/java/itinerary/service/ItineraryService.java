@@ -143,7 +143,8 @@ public class ItineraryService
         for (Flight flight : this.flights)
         {
             // Have to wrap flights in Edge, subclass of DefaultWeightedEdge
-            // TODO Make bean.Flight extend DefaultWeightedEdge
+            // Do not want to extend DefaultWeightedEdge in the Flight class,
+            // then we would get DefaultWeightedEdge (from jgrapht) into our web service definition (xsd schema)
             Edge edge = new Edge();
             edge.setFlight(flight);
             graph.addEdge(flight.getDeparture(), flight.getDestination(), edge);
