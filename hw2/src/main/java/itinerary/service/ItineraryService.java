@@ -28,7 +28,7 @@ public class ItineraryService
     private ArrayList<Node> nodes;
     private ArrayList<Flight> flights;
     private DefaultDirectedGraph<Node, Edge> graph;
-    private DijkstraShortestPath dijkstra;
+    //private DijkstraShortestPath dijkstra;
     private KShortestPaths kShortestPaths;
 
     public ItineraryService()
@@ -36,20 +36,17 @@ public class ItineraryService
         this.nodes = SharedData.getNodes();
         this.flights = SharedData.getFlights();
         this.graph = generateGraph();
-        this.dijkstra = new DijkstraShortestPath(this.graph);
+        //this.dijkstra = new DijkstraShortestPath(this.graph);
         this.kShortestPaths = new KShortestPaths(this.graph, 10);
     }
 
     @WebMethod
-    public Itinerary findItinerary(Flight flight) throws NoRouteFoundException
+    public List<Itinerary> findItineraries(Flight flight) throws NoRouteFoundException
     {
-        // TODO Return K shortest paths
-        Itinerary it = new Itinerary();
-        it.setFlights(dijkstraFindShortestPath(flight.getDeparture(), flight.getDestination()));
-        findKShortestPaths(flight.getDeparture(), flight.getDestination());
-        return it;
+        return findKShortestPaths(flight.getDeparture(), flight.getDestination());
     }
 
+    /*
     private List<Flight> dijkstraFindShortestPath(Node src, Node dest) throws NoRouteFoundException
     {
         // The implementation only searches by actual object reference.
@@ -79,8 +76,9 @@ public class ItineraryService
 
         return shortestPathFlightList;
     }
+     d*/
 
-    private void findKShortestPaths(Node src, Node dest) throws NoRouteFoundException
+    private List<Itinerary> findKShortestPaths(Node src, Node dest) throws NoRouteFoundException
     {
         // The implementation only searches by actual object reference.
         // Have to find the right nodes in the graph
@@ -100,19 +98,24 @@ public class ItineraryService
 
         List<GraphPath> paths = this.kShortestPaths.getPaths(departureGraphNode, destinationGraphNode);
 
-        if (paths == null)
+        if (paths == null || paths.isEmpty())
             throw new NoRouteFoundException();
 
-        //List<Flight> shortestPathFlightList = new ArrayList();
-        //for (Edge edge : (List<Edge>)path.getEdgeList())
-        //    shortestPathFlightList.add(edge.getFlight());
+        List<Itinerary> itineraries = new ArrayList<>();
 
-        System.out.println("K shortest paths");
-        System.out.println(paths);
+        for (GraphPath path : paths)
+        {
+            Itinerary itinerary = new Itinerary();
+            List<Flight> pathFlightList = new ArrayList();
 
-        // TODO Return paths
+            for (Edge edge : (List<Edge>)path.getEdgeList())
+                pathFlightList.add(edge.getFlight());
 
-        return;
+            itinerary.setFlights(pathFlightList);
+            itineraries.add(itinerary);
+        }
+
+        return itineraries;
     }
 
     private DefaultDirectedGraph<Node, Edge> generateGraph()

@@ -1,6 +1,7 @@
 
 package itinerary.testclient;
 
+import java.util.List;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -29,17 +30,17 @@ public interface ItineraryService {
      * 
      * @param arg0
      * @return
-     *     returns itinerary.testclient.Itinerary
+     *     returns java.util.List<itinerary.testclient.Itinerary>
      * @throws NoRouteFoundException_Exception
      */
     @WebMethod
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "findItinerary", targetNamespace = "http://hw2.flightticketreservation/itinerary.service/itinerary", className = "itinerary.testclient.FindItinerary")
-    @ResponseWrapper(localName = "findItineraryResponse", targetNamespace = "http://hw2.flightticketreservation/itinerary.service/itinerary", className = "itinerary.testclient.FindItineraryResponse")
-    @Action(input = "http://hw2.flightticketreservation/itinerary.service/itinerary/ItineraryService/findItineraryRequest", output = "http://hw2.flightticketreservation/itinerary.service/itinerary/ItineraryService/findItineraryResponse", fault = {
-        @FaultAction(className = NoRouteFoundException_Exception.class, value = "http://hw2.flightticketreservation/itinerary.service/itinerary/ItineraryService/findItinerary/Fault/NoRouteFoundException")
+    @RequestWrapper(localName = "findItineraries", targetNamespace = "http://hw2.flightticketreservation/itinerary.service/itinerary", className = "itinerary.testclient.FindItineraries")
+    @ResponseWrapper(localName = "findItinerariesResponse", targetNamespace = "http://hw2.flightticketreservation/itinerary.service/itinerary", className = "itinerary.testclient.FindItinerariesResponse")
+    @Action(input = "http://hw2.flightticketreservation/itinerary.service/itinerary/ItineraryService/findItinerariesRequest", output = "http://hw2.flightticketreservation/itinerary.service/itinerary/ItineraryService/findItinerariesResponse", fault = {
+        @FaultAction(className = NoRouteFoundException_Exception.class, value = "http://hw2.flightticketreservation/itinerary.service/itinerary/ItineraryService/findItineraries/Fault/NoRouteFoundException")
     })
-    public Itinerary findItinerary(
+    public List<Itinerary> findItineraries(
         @WebParam(name = "arg0", targetNamespace = "")
         Flight arg0)
         throws NoRouteFoundException_Exception

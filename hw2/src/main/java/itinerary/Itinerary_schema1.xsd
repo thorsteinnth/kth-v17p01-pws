@@ -3,11 +3,11 @@
 
   <xs:element name="NoRouteFoundException" type="tns:NoRouteFoundException"/>
 
-  <xs:element name="findItinerary" type="tns:findItinerary"/>
+  <xs:element name="findItineraries" type="tns:findItineraries"/>
 
-  <xs:element name="findItineraryResponse" type="tns:findItineraryResponse"/>
+  <xs:element name="findItinerariesResponse" type="tns:findItinerariesResponse"/>
 
-  <xs:complexType name="findItinerary">
+  <xs:complexType name="findItineraries">
     <xs:sequence>
       <xs:element name="arg0" type="tns:flight" minOccurs="0"/>
     </xs:sequence>
@@ -26,9 +26,9 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="findItineraryResponse">
+  <xs:complexType name="findItinerariesResponse">
     <xs:sequence>
-      <xs:element name="return" type="tns:itinerary" minOccurs="0"/>
+      <xs:element name="return" type="tns:itinerary" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
 

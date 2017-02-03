@@ -24,9 +24,9 @@ import javax.xml.namespace.QName;
 @XmlRegistry
 public class ObjectFactory {
 
+    private final static QName _FindItinerariesResponse_QNAME = new QName("http://hw2.flightticketreservation/itinerary.service/itinerary", "findItinerariesResponse");
+    private final static QName _FindItineraries_QNAME = new QName("http://hw2.flightticketreservation/itinerary.service/itinerary", "findItineraries");
     private final static QName _NoRouteFoundException_QNAME = new QName("http://hw2.flightticketreservation/itinerary.service/itinerary", "NoRouteFoundException");
-    private final static QName _FindItinerary_QNAME = new QName("http://hw2.flightticketreservation/itinerary.service/itinerary", "findItinerary");
-    private final static QName _FindItineraryResponse_QNAME = new QName("http://hw2.flightticketreservation/itinerary.service/itinerary", "findItineraryResponse");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: itinerary.testclient
@@ -36,27 +36,27 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link FindItineraries }
+     * 
+     */
+    public FindItineraries createFindItineraries() {
+        return new FindItineraries();
+    }
+
+    /**
+     * Create an instance of {@link FindItinerariesResponse }
+     * 
+     */
+    public FindItinerariesResponse createFindItinerariesResponse() {
+        return new FindItinerariesResponse();
+    }
+
+    /**
      * Create an instance of {@link NoRouteFoundException }
      * 
      */
     public NoRouteFoundException createNoRouteFoundException() {
         return new NoRouteFoundException();
-    }
-
-    /**
-     * Create an instance of {@link FindItinerary }
-     * 
-     */
-    public FindItinerary createFindItinerary() {
-        return new FindItinerary();
-    }
-
-    /**
-     * Create an instance of {@link FindItineraryResponse }
-     * 
-     */
-    public FindItineraryResponse createFindItineraryResponse() {
-        return new FindItineraryResponse();
     }
 
     /**
@@ -84,30 +84,30 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link FindItinerariesResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://hw2.flightticketreservation/itinerary.service/itinerary", name = "findItinerariesResponse")
+    public JAXBElement<FindItinerariesResponse> createFindItinerariesResponse(FindItinerariesResponse value) {
+        return new JAXBElement<FindItinerariesResponse>(_FindItinerariesResponse_QNAME, FindItinerariesResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link FindItineraries }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://hw2.flightticketreservation/itinerary.service/itinerary", name = "findItineraries")
+    public JAXBElement<FindItineraries> createFindItineraries(FindItineraries value) {
+        return new JAXBElement<FindItineraries>(_FindItineraries_QNAME, FindItineraries.class, null, value);
+    }
+
+    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link NoRouteFoundException }{@code >}}
      * 
      */
     @XmlElementDecl(namespace = "http://hw2.flightticketreservation/itinerary.service/itinerary", name = "NoRouteFoundException")
     public JAXBElement<NoRouteFoundException> createNoRouteFoundException(NoRouteFoundException value) {
         return new JAXBElement<NoRouteFoundException>(_NoRouteFoundException_QNAME, NoRouteFoundException.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link FindItinerary }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://hw2.flightticketreservation/itinerary.service/itinerary", name = "findItinerary")
-    public JAXBElement<FindItinerary> createFindItinerary(FindItinerary value) {
-        return new JAXBElement<FindItinerary>(_FindItinerary_QNAME, FindItinerary.class, null, value);
-    }
-
-    /**
-     * Create an instance of {@link JAXBElement }{@code <}{@link FindItineraryResponse }{@code >}}
-     * 
-     */
-    @XmlElementDecl(namespace = "http://hw2.flightticketreservation/itinerary.service/itinerary", name = "findItineraryResponse")
-    public JAXBElement<FindItineraryResponse> createFindItineraryResponse(FindItineraryResponse value) {
-        return new JAXBElement<FindItineraryResponse>(_FindItineraryResponse_QNAME, FindItineraryResponse.class, null, value);
     }
 
 }

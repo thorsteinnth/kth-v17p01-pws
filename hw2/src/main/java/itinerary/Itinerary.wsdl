@@ -6,25 +6,25 @@
       <xsd:import namespace="http://hw2.flightticketreservation/itinerary.service/itinerary" schemaLocation="Itinerary_schema1.xsd"/>
     </xsd:schema>
   </types>
-  <message name="findItinerary">
-    <part name="parameters" element="tns:findItinerary"/>
+  <message name="findItineraries">
+    <part name="parameters" element="tns:findItineraries"/>
   </message>
-  <message name="findItineraryResponse">
-    <part name="parameters" element="tns:findItineraryResponse"/>
+  <message name="findItinerariesResponse">
+    <part name="parameters" element="tns:findItinerariesResponse"/>
   </message>
   <message name="NoRouteFoundException">
     <part name="fault" element="tns:NoRouteFoundException"/>
   </message>
   <portType name="ItineraryService">
-    <operation name="findItinerary">
-      <input wsam:Action="http://hw2.flightticketreservation/itinerary.service/itinerary/ItineraryService/findItineraryRequest" message="tns:findItinerary"/>
-      <output wsam:Action="http://hw2.flightticketreservation/itinerary.service/itinerary/ItineraryService/findItineraryResponse" message="tns:findItineraryResponse"/>
-      <fault message="tns:NoRouteFoundException" name="NoRouteFoundException" wsam:Action="http://hw2.flightticketreservation/itinerary.service/itinerary/ItineraryService/findItinerary/Fault/NoRouteFoundException"/>
+    <operation name="findItineraries">
+      <input wsam:Action="http://hw2.flightticketreservation/itinerary.service/itinerary/ItineraryService/findItinerariesRequest" message="tns:findItineraries"/>
+      <output wsam:Action="http://hw2.flightticketreservation/itinerary.service/itinerary/ItineraryService/findItinerariesResponse" message="tns:findItinerariesResponse"/>
+      <fault message="tns:NoRouteFoundException" name="NoRouteFoundException" wsam:Action="http://hw2.flightticketreservation/itinerary.service/itinerary/ItineraryService/findItineraries/Fault/NoRouteFoundException"/>
     </operation>
   </portType>
   <binding name="ItineraryPortBinding" type="tns:ItineraryService">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-    <operation name="findItinerary">
+    <operation name="findItineraries">
       <soap:operation soapAction=""/>
       <input>
         <soap:body use="literal"/>

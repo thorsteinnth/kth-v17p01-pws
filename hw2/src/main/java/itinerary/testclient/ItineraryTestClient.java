@@ -3,6 +3,7 @@ package itinerary.testclient;
 import javax.xml.namespace.QName;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 
 public class ItineraryTestClient
 {
@@ -18,7 +19,7 @@ public class ItineraryTestClient
 
         URL url = getWSDLURL(args[0]);
         ItineraryTestClient client = new ItineraryTestClient();
-        client.findItinerary(url);
+        client.findItineraries(url);
     }
 
     private static URL getWSDLURL(String urlStr)
@@ -38,7 +39,7 @@ public class ItineraryTestClient
         return url;
     }
 
-    public void findItinerary(URL url)
+    public void findItineraries(URL url)
     {
         Itinerary_Service itineraryService = new Itinerary_Service(url, qName);
         System.out.println("Service is " + itineraryService);
@@ -55,9 +56,9 @@ public class ItineraryTestClient
 
         try
         {
-            System.out.println("Requesting intinerary from " + departure1.getName() + " to " + destination1.getName());
-            Itinerary itinerary1 = port.findItinerary(flight1);
-            System.out.println(printItinerary(itinerary1));
+            System.out.println("Requesting intineraries from " + departure1.getName() + " to " + destination1.getName());
+            List<Itinerary> itineraries1 = port.findItineraries(flight1);
+            System.out.println(printItineraries(itineraries1));
         }
         catch (NoRouteFoundException_Exception ex)
         {
@@ -75,9 +76,9 @@ public class ItineraryTestClient
 
         try
         {
-            System.out.println("Requesting intinerary from " + departure2.getName() + " to " + destination2.getName());
-            Itinerary itinerary2 = port.findItinerary(flight2);
-            System.out.println(printItinerary(itinerary2));
+            System.out.println("Requesting intineraries from " + departure2.getName() + " to " + destination2.getName());
+            List<Itinerary> itineraries2 = port.findItineraries(flight2);
+            System.out.println(printItineraries(itineraries2));
         }
         catch (NoRouteFoundException_Exception ex)
         {
@@ -95,14 +96,27 @@ public class ItineraryTestClient
 
         try
         {
-            System.out.println("Requesting intinerary from " + departure3.getName() + " to " + destination3.getName());
-            Itinerary itinerary3 = port.findItinerary(flight3);
-            System.out.println(printItinerary(itinerary3));
+            System.out.println("Requesting intineraries from " + departure3.getName() + " to " + destination3.getName());
+            List<Itinerary> itineraries3 = port.findItineraries(flight3);
+            System.out.println(printItineraries(itineraries3));
         }
         catch (NoRouteFoundException_Exception ex)
         {
             System.out.println(ex);
         }
+    }
+
+    private String printItineraries(List<Itinerary> itineraries)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        for (Itinerary itinerary : itineraries)
+        {
+            sb.append(printItinerary(itinerary));
+            sb.append("\n");
+        }
+
+        return sb.toString();
     }
 
     private String printItinerary(Itinerary itinerary)
