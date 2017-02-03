@@ -59,6 +59,14 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Node }
+     * 
+     */
+    public Node createNode() {
+        return new Node();
+    }
+
+    /**
      * Create an instance of {@link Itinerary }
      * 
      */

@@ -2,25 +2,25 @@ package itinerary.bean;
 
 public class Flight
 {
-    private String departure;
-    private String destination;
+    private Node departure;
+    private Node destination;
 
-    public String getDeparture()
+    public Node getDeparture()
     {
         return departure;
     }
 
-    public void setDeparture(String departure)
+    public void setDeparture(Node departure)
     {
         this.departure = departure;
     }
 
-    public String getDestination()
+    public Node getDestination()
     {
         return destination;
     }
 
-    public void setDestination(String destination)
+    public void setDestination(Node destination)
     {
         this.destination = destination;
     }
