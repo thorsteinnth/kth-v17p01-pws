@@ -45,9 +45,14 @@ public class ItineraryTestClient
         ItineraryService port = itineraryService.getItineraryPort();
 
         System.out.println("Finding intinerary from Reykjavik to Tallinn");
+        Node departure = new Node();
+        departure.setName("Reykjavik");
+        Node destination = new Node();
+        destination.setName("Tallinn");
+
         Flight flight = new Flight();
-        flight.setDeparture("Reykjavik");
-        flight.setDestination("Tallinn");
+        flight.setDeparture(departure);
+        flight.setDestination(destination);
 
         Itinerary itinerary = port.findItinerary(flight);
         System.out.println(printItinerary(itinerary));
@@ -67,8 +72,8 @@ public class ItineraryTestClient
     private String printFlight(Flight flight)
     {
         return "Flight{" +
-                "departure='" + flight.getDeparture() + '\'' +
-                ", destination='" + flight.getDestination() + '\'' +
+                "departure='" + flight.getDeparture().getName() + '\'' +
+                ", destination='" + flight.getDestination().getName() + '\'' +
                 '}';
     }
 }

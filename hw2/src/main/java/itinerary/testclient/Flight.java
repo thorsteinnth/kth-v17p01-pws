@@ -16,8 +16,8 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element name="departure" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
- *         &lt;element name="destination" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
+ *         &lt;element name="departure" type="{http://hw2.flightticketreservation/itinerary.service/itinerary}node" minOccurs="0"/>
+ *         &lt;element name="destination" type="{http://hw2.flightticketreservation/itinerary.service/itinerary}node" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -33,18 +33,18 @@ import javax.xml.bind.annotation.XmlType;
 })
 public class Flight {
 
-    protected String departure;
-    protected String destination;
+    protected Node departure;
+    protected Node destination;
 
     /**
      * Gets the value of the departure property.
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link Node }
      *     
      */
-    public String getDeparture() {
+    public Node getDeparture() {
         return departure;
     }
 
@@ -53,10 +53,10 @@ public class Flight {
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link Node }
      *     
      */
-    public void setDeparture(String value) {
+    public void setDeparture(Node value) {
         this.departure = value;
     }
 
@@ -65,10 +65,10 @@ public class Flight {
      * 
      * @return
      *     possible object is
-     *     {@link String }
+     *     {@link Node }
      *     
      */
-    public String getDestination() {
+    public Node getDestination() {
         return destination;
     }
 
@@ -77,10 +77,10 @@ public class Flight {
      * 
      * @param value
      *     allowed object is
-     *     {@link String }
+     *     {@link Node }
      *     
      */
-    public void setDestination(String value) {
+    public void setDestination(Node value) {
         this.destination = value;
     }
 
