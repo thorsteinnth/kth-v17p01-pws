@@ -34,7 +34,6 @@ public class ItineraryService
         this.nodes = SharedData.getNodes();
         this.flights = SharedData.getFlights();
         this.graph = generateGraph();
-        //this.dijkstra = new DijkstraShortestPath(this.graph);
         this.kShortestPaths = new KShortestPaths(this.graph, 10);
     }
 
