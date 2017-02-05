@@ -38,7 +38,29 @@ public class TicketService
 
     @WebMethod
     public ArrayList<BookableItinerary> getPriceAndAvailabilityOfItineraries(ArrayList<Itinerary> itineraries) {
+
+        if(itineraries.size() < 1) {
+            return null;
+        }
+
         ArrayList<BookableItinerary> bookableItineraries = new ArrayList<>();
+
+        for (Itinerary itinerary : itineraries) {
+            BookableItinerary bookableItinerary;
+
+            int totalPriceForItinerary = 0;
+            int numberOfAvailableTickets = Integer.MAX_VALUE;
+
+            for(Flight flight : itinerary.getFlights()) {
+                TicketContainer tc = this.ticketMap.get(flight);
+                totalPriceForItinerary += tc.getPrice();
+                numberOfAvailableTickets = Integer.min(numberOfAvailableTickets, tc.getNumberOfAvailableTickets());
+            }
+
+            bookableItinerary = new BookableItinerary(
+                    itinerary.getFlights(), totalPriceForItinerary, numberOfAvailableTickets);
+            bookableItineraries.add(bookableItinerary);
+        }
 
         return bookableItineraries;
     }
@@ -57,7 +79,7 @@ public class TicketService
         {
             TicketContainer ticketContainer = new TicketContainer();
             ticketContainer.setNumberOfAvailableTickets(100);
-            ticketContainer.setPrice(new BigDecimal(200));
+            ticketContainer.setPrice(2000);
             ticketContainer.setDate(new Date());
 
             this.ticketMap.put(flight, ticketContainer);

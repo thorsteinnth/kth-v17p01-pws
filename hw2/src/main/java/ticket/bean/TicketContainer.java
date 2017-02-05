@@ -7,7 +7,7 @@ import java.util.Date;
 public class TicketContainer
 {
     private Date date;
-    private BigDecimal price;
+    private int price;
     private int numberOfAvailableTickets;
 
     public Date getDate() {
@@ -18,11 +18,11 @@ public class TicketContainer
         this.date = date;
     }
 
-    public BigDecimal getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

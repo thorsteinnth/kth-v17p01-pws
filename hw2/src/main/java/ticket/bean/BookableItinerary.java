@@ -8,18 +8,18 @@ import java.util.List;
 
 public class BookableItinerary extends Itinerary{
 
-    private BigDecimal totalPrice;
+    private int totalPrice;
     private int numberOfAvailableTickets;
 
     public  BookableItinerary() {}
 
-    public BookableItinerary(List<Flight> flights, BigDecimal totalPrice, int numberOfAvailableTickets) {
+    public BookableItinerary(List<Flight> flights, int totalPrice, int numberOfAvailableTickets) {
         setFlights(flights);
         this.totalPrice = totalPrice;
         this.numberOfAvailableTickets = numberOfAvailableTickets;
     }
 
-    public BigDecimal getTotalPrice() {
+    public int getTotalPrice() {
         return totalPrice;
     }
 
