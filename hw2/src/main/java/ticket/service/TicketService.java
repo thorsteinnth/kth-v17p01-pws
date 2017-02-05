@@ -1,7 +1,10 @@
 package ticket.service;
 
 import shared.Flight;
+import shared.Itinerary;
 import shared.SharedData;
+import ticket.bean.BookableItinerary;
+import ticket.bean.PaymentInfo;
 import ticket.bean.TicketContainer;
 
 import javax.jws.WebMethod;
@@ -30,6 +33,19 @@ public class TicketService
     public boolean ping()
     {
         return true;
+    }
+
+    @WebMethod
+    public ArrayList<BookableItinerary> getPriceAndAvailabilityOfItineraries(ArrayList<Itinerary> itineraries) {
+        ArrayList<BookableItinerary> bookableItineraries = new ArrayList<>();
+
+        return bookableItineraries;
+    }
+
+    @WebMethod
+    public String bookItinerary(BookableItinerary itinerary, PaymentInfo paymentInfo) {
+
+        return "Itinerary has been booked";
     }
 
     private void generateTicketMap()
