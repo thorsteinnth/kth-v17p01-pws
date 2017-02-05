@@ -10,8 +10,9 @@ import javax.jws.soap.SOAPBinding;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
-@WebService(serviceName = "TicketContainer",
+@WebService(serviceName = "Ticket",
         portName = "TicketPort",
         targetNamespace = "http://hw2.flightticketreservation/ticket.service/ticket")
 
@@ -20,12 +21,37 @@ import java.util.Date;
 public class TicketService {
 
     ArrayList<TicketContainer> ticketContainers;
+    HashMap<Flight, TicketContainer> ticketMap;
 
-    public TicketService() {
+    public TicketService()
+    {
         generateTickets();
+        generateTicketMap();
     }
 
-    //TODO : Web method that takes in itineraries and returns prices of available itineraries
+    @WebMethod
+    public boolean ping(Flight flight)
+    {
+        return true;
+    }
+
+    private void generateTicketMap()
+    {
+        this.ticketMap = new HashMap<>();
+
+        for (Flight flight : SharedData.getFlights())
+        {
+            TicketContainer ticketContainer = new TicketContainer();
+            ticketContainer.setFlight(flight);
+            ticketContainer.setNumberOfAvailableTickets(100);
+            ticketContainer.setPrice(new BigDecimal(200));
+            ticketContainer.setDate(new Date());
+
+            this.ticketMap.put(flight, ticketContainer);
+        }
+
+        System.out.println(this.ticketMap);
+    }
 
     private void generateTickets() {
         this.ticketContainers = new ArrayList<>();
