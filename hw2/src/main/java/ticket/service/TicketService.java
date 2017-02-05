@@ -18,14 +18,12 @@ import java.util.HashMap;
 
 @SOAPBinding(style=SOAPBinding.Style.DOCUMENT,use=SOAPBinding.Use.LITERAL,parameterStyle=SOAPBinding.ParameterStyle.WRAPPED)
 
-public class TicketService {
-
-    ArrayList<TicketContainer> ticketContainers;
+public class TicketService
+{
     HashMap<Flight, TicketContainer> ticketMap;
 
     public TicketService()
     {
-        generateTickets();
         generateTicketMap();
     }
 
@@ -42,7 +40,6 @@ public class TicketService {
         for (Flight flight : SharedData.getFlights())
         {
             TicketContainer ticketContainer = new TicketContainer();
-            ticketContainer.setFlight(flight);
             ticketContainer.setNumberOfAvailableTickets(100);
             ticketContainer.setPrice(new BigDecimal(200));
             ticketContainer.setDate(new Date());
@@ -52,19 +49,4 @@ public class TicketService {
 
         System.out.println(this.ticketMap);
     }
-
-    private void generateTickets() {
-        this.ticketContainers = new ArrayList<>();
-
-        for (Flight flight : SharedData.getFlights()) {
-            TicketContainer ticketContainer = new TicketContainer();
-            ticketContainer.setFlight(flight);
-            ticketContainer.setNumberOfAvailableTickets(100);
-            ticketContainer.setPrice(new BigDecimal(200));
-            ticketContainer.setDate(new Date());
-        }
-
-    }
-
-
 }

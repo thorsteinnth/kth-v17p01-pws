@@ -4,20 +4,11 @@ import shared.Flight;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class TicketContainer {
-
-    private Flight flight;
+public class TicketContainer
+{
     private Date date;
     private BigDecimal price;
     private int numberOfAvailableTickets;
-
-    public Flight getFlight() {
-        return flight;
-    }
-
-    public void setFlight(Flight flight) {
-        this.flight = flight;
-    }
 
     public Date getDate() {
         return date;
