@@ -8,7 +8,6 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -28,7 +27,7 @@ public class TicketService
     }
 
     @WebMethod
-    public boolean ping(Flight flight)
+    public boolean ping()
     {
         return true;
     }

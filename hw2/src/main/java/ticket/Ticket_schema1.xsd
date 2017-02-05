@@ -6,22 +6,7 @@
   <xs:element name="pingResponse" type="tns:pingResponse"/>
 
   <xs:complexType name="ping">
-    <xs:sequence>
-      <xs:element name="arg0" type="tns:flight" minOccurs="0"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="flight">
-    <xs:sequence>
-      <xs:element name="departure" type="tns:node" minOccurs="0"/>
-      <xs:element name="destination" type="tns:node" minOccurs="0"/>
-    </xs:sequence>
-  </xs:complexType>
-
-  <xs:complexType name="node">
-    <xs:sequence>
-      <xs:element name="name" type="xs:string" minOccurs="0"/>
-    </xs:sequence>
+    <xs:sequence/>
   </xs:complexType>
 
   <xs:complexType name="pingResponse">
