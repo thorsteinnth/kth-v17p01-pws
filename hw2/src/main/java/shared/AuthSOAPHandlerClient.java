@@ -30,9 +30,9 @@ public class AuthSOAPHandlerClient implements SOAPHandler<SOAPMessageContext>
                 // TODO Add correct stuff here
                 String prefix = "X";
                 String uri = "http://...wsssecurity...";
-                SOAPElement securityElem = factory.createElement("Security",prefix,uri);
-                SOAPElement tokenElem = factory.createElement("BinarySecurityToken",prefix,uri);
-                tokenElem.addTextNode("kjh...897=");
+                SOAPElement securityElem = factory.createElement("Security", prefix, uri);
+                SOAPElement tokenElem = factory.createElement("BinarySecurityToken", prefix, uri);
+                tokenElem.addTextNode(SharedData.getAuthToken());
                 securityElem.addChildElement(tokenElem);
 
                 SOAPHeader header = envelope.getHeader();

@@ -6,11 +6,13 @@ public class SharedData
 {
     private static ArrayList<Node> nodes;
     private static ArrayList<Flight> flights;
+    private static String authToken;
 
     static
     {
         nodes = generateNodes();
         flights = generateFlights();
+        authToken = "thisisanauthenticationtokenthatshouldbebinary";
     }
 
     public static ArrayList<Node> getNodes()
@@ -21,6 +23,11 @@ public class SharedData
     public static ArrayList<Flight> getFlights()
     {
         return flights;
+    }
+
+    public static String getAuthToken()
+    {
+        return authToken;
     }
 
     private static ArrayList<Node> generateNodes()
