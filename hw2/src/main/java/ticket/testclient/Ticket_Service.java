@@ -3,6 +3,7 @@ package ticket.testclient;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import javax.jws.HandlerChain;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import javax.xml.ws.WebEndpoint;
@@ -18,6 +19,7 @@ import javax.xml.ws.WebServiceFeature;
  * 
  */
 @WebServiceClient(name = "Ticket", targetNamespace = "http://hw2.flightticketreservation/ticket.service/ticket", wsdlLocation = "http://localhost:8080/TicketService/ticket?wsdl")
+@HandlerChain(file = "Ticket_Service_handler.xml")
 public class Ticket_Service
     extends Service
 {

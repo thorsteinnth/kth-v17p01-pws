@@ -2,7 +2,7 @@
 
 echo "Compiling ticket test client"
 
-javac -cp "../" testclient/TicketTestClient.java
+javac -cp "../" ../shared/AuthSOAPHandlerClient.java testclient/TicketTestClient.java
 
 echo "Running ticket test client"
 

@@ -2,6 +2,7 @@
 package ticket.testclient;
 
 import java.util.List;
+import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -20,23 +21,12 @@ import javax.xml.ws.ResponseWrapper;
  * 
  */
 @WebService(name = "TicketService", targetNamespace = "http://hw2.flightticketreservation/ticket.service/ticket")
+@HandlerChain(file = "TicketService_handler.xml")
 @XmlSeeAlso({
     ObjectFactory.class
 })
 public interface TicketService {
 
-
-    /**
-     * 
-     * @return
-     *     returns boolean
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "ping", targetNamespace = "http://hw2.flightticketreservation/ticket.service/ticket", className = "ticket.testclient.Ping")
-    @ResponseWrapper(localName = "pingResponse", targetNamespace = "http://hw2.flightticketreservation/ticket.service/ticket", className = "ticket.testclient.PingResponse")
-    @Action(input = "http://hw2.flightticketreservation/ticket.service/ticket/TicketService/pingRequest", output = "http://hw2.flightticketreservation/ticket.service/ticket/TicketService/pingResponse")
-    public boolean ping();
 
     /**
      * 
@@ -73,5 +63,17 @@ public interface TicketService {
         BookableItinerary arg0,
         @WebParam(name = "arg1", targetNamespace = "")
         PaymentInfo arg1);
+
+    /**
+     * 
+     * @return
+     *     returns boolean
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "ping", targetNamespace = "http://hw2.flightticketreservation/ticket.service/ticket", className = "ticket.testclient.Ping")
+    @ResponseWrapper(localName = "pingResponse", targetNamespace = "http://hw2.flightticketreservation/ticket.service/ticket", className = "ticket.testclient.PingResponse")
+    @Action(input = "http://hw2.flightticketreservation/ticket.service/ticket/TicketService/pingRequest", output = "http://hw2.flightticketreservation/ticket.service/ticket/TicketService/pingResponse")
+    public boolean ping();
 
 }
