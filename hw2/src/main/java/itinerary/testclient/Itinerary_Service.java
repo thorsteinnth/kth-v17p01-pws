@@ -3,6 +3,7 @@ package itinerary.testclient;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import javax.jws.HandlerChain;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import javax.xml.ws.WebEndpoint;
@@ -18,6 +19,7 @@ import javax.xml.ws.WebServiceFeature;
  * 
  */
 @WebServiceClient(name = "Itinerary", targetNamespace = "http://hw2.flightticketreservation/itinerary.service/itinerary", wsdlLocation = "http://localhost:8080/ItineraryService/itinerary?wsdl")
+@HandlerChain(file = "Itinerary_Service_handler.xml")
 public class Itinerary_Service
     extends Service
 {

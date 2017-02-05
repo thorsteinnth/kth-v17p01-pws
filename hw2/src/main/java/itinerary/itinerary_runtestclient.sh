@@ -2,7 +2,7 @@
 
 echo "Compiling itinerary test client"
 
-javac -cp "../" testclient/ItineraryTestClient.java
+javac -cp "../" testclient/AuthSOAPHandlerClient.java testclient/ItineraryTestClient.java
 
 echo "Running itinerary test client"
 

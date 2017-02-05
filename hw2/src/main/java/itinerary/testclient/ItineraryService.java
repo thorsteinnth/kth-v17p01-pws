@@ -2,6 +2,7 @@
 package itinerary.testclient;
 
 import java.util.List;
+import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -20,6 +21,7 @@ import javax.xml.ws.ResponseWrapper;
  * 
  */
 @WebService(name = "ItineraryService", targetNamespace = "http://hw2.flightticketreservation/itinerary.service/itinerary")
+@HandlerChain(file = "ItineraryService_handler.xml")
 @XmlSeeAlso({
     ObjectFactory.class
 })
