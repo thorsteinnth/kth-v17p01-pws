@@ -5,12 +5,14 @@ import shared.Itinerary;
 import shared.SharedData;
 import ticket.bean.BookableItinerary;
 import ticket.bean.PaymentInfo;
+import ticket.bean.Ticket;
 import ticket.bean.TicketContainer;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -37,7 +39,8 @@ public class TicketService
     }
 
     @WebMethod
-    public ArrayList<BookableItinerary> getPriceAndAvailabilityOfItineraries(ArrayList<Itinerary> itineraries) {
+    public ArrayList<BookableItinerary> getPriceAndAvailabilityOfItinerariesForDate(
+            ArrayList<Itinerary> itineraries, Date date) {
 
         if(itineraries.size() < 1) {
             return null;
@@ -53,32 +56,55 @@ public class TicketService
 
             for(Flight flight : itinerary.getFlights()) {
                 TicketContainer tc = this.ticketMap.get(flight);
-                totalPriceForItinerary += tc.getPrice();
-                numberOfAvailableTickets = Integer.min(numberOfAvailableTickets, tc.getNumberOfAvailableTickets());
+
+                // check if the requested date is the same as for the flight ticket container
+                SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
+                if(fmt.format(date).equals(fmt.format(tc.getDate()))) {
+                    totalPriceForItinerary += tc.getPrice();
+                    numberOfAvailableTickets = Integer.min(numberOfAvailableTickets, tc.getNumberOfAvailableTickets());
+                }
+                else {
+                    numberOfAvailableTickets = 0;
+                    break;
+                }
             }
 
-            bookableItinerary = new BookableItinerary(
-                    itinerary.getFlights(), totalPriceForItinerary, numberOfAvailableTickets);
-            bookableItineraries.add(bookableItinerary);
+            if(numberOfAvailableTickets > 0) {
+                bookableItinerary = new BookableItinerary(
+                        itinerary.getFlights(), date, totalPriceForItinerary, numberOfAvailableTickets);
+                bookableItineraries.add(bookableItinerary);
+            }
         }
 
         return bookableItineraries;
     }
 
     @WebMethod
-    public String bookItinerary(BookableItinerary itinerary, PaymentInfo paymentInfo) {
+    public ArrayList<Ticket> bookItinerary(BookableItinerary itinerary, PaymentInfo paymentInfo) {
 
         // Payment processing could be done here
-        // we then subtract the number of tickets being booked from the total number of available tickets
+        // Book and Issue tickets for each flight in the itinerary
+        // We subtract the number of tickets being booked from the total number of available tickets
         // for each of the flights in the itinerary
+
+        ArrayList<Ticket> tickets = new ArrayList<>();
 
         for (Flight flight : itinerary.getFlights()) {
 
+            Ticket ticket = new Ticket();
+            ticket.setFlight(flight);
+            ticket.setPaymentInfo(paymentInfo);
+            ticket.setBooked(true);
+            ticket.setDate(itinerary.getDate());
+
             TicketContainer tc = this.ticketMap.get(flight);
             tc.setNumberOfAvailableTickets(tc.getNumberOfAvailableTickets() - itinerary.getNumberOfAvailableTickets());
+
+            ticket.setIssued(true);
+            tickets.add(ticket);
         }
 
-        return "Confirmation: tickets have been booked and issued!";
+        return tickets;
     }
 
     private void generateTicketMap()
