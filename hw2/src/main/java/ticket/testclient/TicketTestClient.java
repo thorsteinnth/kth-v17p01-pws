@@ -40,9 +40,9 @@ public class TicketTestClient
 
     public void ping(URL url)
     {
-        Ticket ticket = new Ticket(url, qName);
-        System.out.println("Service is " + ticket);
-        TicketService port = ticket.getTicketPort();
+        Ticket_Service ticketService = new Ticket_Service(url, qName);
+        System.out.println("Service is " + ticketService);
+        TicketService port = ticketService.getTicketPort();
 
         System.out.println(port.ping());
     }

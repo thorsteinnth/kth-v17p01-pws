@@ -11,7 +11,6 @@ import ticket.bean.TicketContainer;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,7 +32,7 @@ public class TicketService
     }
 
     @WebMethod
-    public boolean ping(Flight flight)
+    public boolean ping()
     {
         return true;
     }
@@ -120,7 +119,5 @@ public class TicketService
 
             this.ticketMap.put(flight, ticketContainer);
         }
-
-        System.out.println(this.ticketMap);
     }
 }

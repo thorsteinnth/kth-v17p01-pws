@@ -1,9 +1,74 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <xs:schema version="1.0" targetNamespace="http://hw2.flightticketreservation/ticket.service/ticket" xmlns:tns="http://hw2.flightticketreservation/ticket.service/ticket" xmlns:xs="http://www.w3.org/2001/XMLSchema">
 
+  <xs:element name="bookItinerary" type="tns:bookItinerary"/>
+
+  <xs:element name="bookItineraryResponse" type="tns:bookItineraryResponse"/>
+
+  <xs:element name="getPriceAndAvailabilityOfItinerariesForDate" type="tns:getPriceAndAvailabilityOfItinerariesForDate"/>
+
+  <xs:element name="getPriceAndAvailabilityOfItinerariesForDateResponse" type="tns:getPriceAndAvailabilityOfItinerariesForDateResponse"/>
+
   <xs:element name="ping" type="tns:ping"/>
 
   <xs:element name="pingResponse" type="tns:pingResponse"/>
+
+  <xs:complexType name="bookItinerary">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:bookableItinerary" minOccurs="0"/>
+      <xs:element name="arg1" type="tns:paymentInfo" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="bookableItinerary">
+    <xs:complexContent>
+      <xs:extension base="tns:itinerary">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="itinerary">
+    <xs:sequence>
+      <xs:element name="flights" type="tns:flight" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="flight">
+    <xs:sequence>
+      <xs:element name="departure" type="tns:node" minOccurs="0"/>
+      <xs:element name="destination" type="tns:node" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="node">
+    <xs:sequence>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="paymentInfo">
+    <xs:sequence>
+      <xs:element name="cardHolder" type="xs:string" minOccurs="0"/>
+      <xs:element name="creditCardNumber" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="bookItineraryResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:ticket" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ticket">
+    <xs:sequence>
+      <xs:element name="booked" type="xs:boolean" minOccurs="0"/>
+      <xs:element name="date" type="xs:dateTime" minOccurs="0"/>
+      <xs:element name="flight" type="tns:flight" minOccurs="0"/>
+      <xs:element name="issued" type="xs:boolean" minOccurs="0"/>
+      <xs:element name="paymentInfo" type="tns:paymentInfo" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
 
   <xs:complexType name="ping">
     <xs:sequence/>
@@ -12,6 +77,19 @@
   <xs:complexType name="pingResponse">
     <xs:sequence>
       <xs:element name="return" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getPriceAndAvailabilityOfItinerariesForDate">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:itinerary" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="arg1" type="xs:dateTime" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getPriceAndAvailabilityOfItinerariesForDateResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:bookableItinerary" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
 </xs:schema>
