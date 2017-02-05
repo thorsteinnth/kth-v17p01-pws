@@ -10,7 +10,7 @@ xmlns:javaee="http://java.sun.com/xml/ns/javaee">
         <javaee:handler-chain>
             <javaee:handler>
                 <javaee:handler-name>AuthHandler</javaee:handler-name>
-                <javaee:handler-class>itinerary.testclient.AuthSOAPHandlerClient</javaee:handler-class>
+                <javaee:handler-class>shared.AuthSOAPHandlerClient</javaee:handler-class>
             </javaee:handler>
         </javaee:handler-chain>
     </javaee:handler-chains>

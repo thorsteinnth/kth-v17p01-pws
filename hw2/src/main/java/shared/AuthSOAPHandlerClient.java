@@ -1,4 +1,4 @@
-package itinerary.testclient;
+package shared;
 
 import javax.xml.namespace.QName;
 import javax.xml.soap.*;
@@ -56,6 +56,7 @@ public class AuthSOAPHandlerClient implements SOAPHandler<SOAPMessageContext>
 
     public boolean handleFault(SOAPMessageContext context)
     {
+        // Do not want to handle faults here, just return true and it will be sent up to the client itself
         return true;
     }
 
