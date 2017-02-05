@@ -11,6 +11,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -30,7 +31,7 @@ public class TicketService
     }
 
     @WebMethod
-    public boolean ping()
+    public boolean ping(Flight flight)
     {
         return true;
     }
@@ -67,7 +68,17 @@ public class TicketService
     @WebMethod
     public String bookItinerary(BookableItinerary itinerary, PaymentInfo paymentInfo) {
 
-        return "Itinerary has been booked";
+        // Payment processing could be done here
+        // we then subtract the number of tickets being booked from the total number of available tickets
+        // for each of the flights in the itinerary
+
+        for (Flight flight : itinerary.getFlights()) {
+
+            TicketContainer tc = this.ticketMap.get(flight);
+            tc.setNumberOfAvailableTickets(tc.getNumberOfAvailableTickets() - itinerary.getNumberOfAvailableTickets());
+        }
+
+        return "Confirmation: tickets have been booked and issued!";
     }
 
     private void generateTicketMap()
@@ -77,8 +88,8 @@ public class TicketService
         for (Flight flight : SharedData.getFlights())
         {
             TicketContainer ticketContainer = new TicketContainer();
-            ticketContainer.setNumberOfAvailableTickets(100);
-            ticketContainer.setPrice(2000);
+            ticketContainer.setNumberOfAvailableTickets(20);
+            ticketContainer.setPrice(2500);
             ticketContainer.setDate(new Date());
 
             this.ticketMap.put(flight, ticketContainer);
