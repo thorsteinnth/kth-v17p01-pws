@@ -1,6 +1,4 @@
-package itinerary.bean;
-
-import shared.Flight;
+package shared;
 
 import java.util.List;
 

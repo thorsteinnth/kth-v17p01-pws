@@ -4,7 +4,7 @@ import itinerary.bean.Edge;
 import org.jgrapht.alg.shortestpath.KShortestPaths;
 import shared.SharedData;
 import shared.Flight;
-import itinerary.bean.Itinerary;
+import shared.Itinerary;
 import shared.Node;
 import itinerary.exception.NoRouteFoundException;
 import org.jgrapht.GraphPath;
