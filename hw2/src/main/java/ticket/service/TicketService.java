@@ -1,7 +1,10 @@
 package ticket.service;
 
 import shared.Flight;
+import shared.Itinerary;
 import shared.SharedData;
+import ticket.bean.BookableItinerary;
+import ticket.bean.PaymentInfo;
 import ticket.bean.TicketContainer;
 
 import javax.jws.WebMethod;
@@ -11,7 +14,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 
-@WebService(serviceName = "TicketContainer",
+@WebService(serviceName = "Ticket",
         portName = "TicketPort",
         targetNamespace = "http://hw2.flightticketreservation/ticket.service/ticket")
 
@@ -25,7 +28,18 @@ public class TicketService {
         generateTickets();
     }
 
-    //TODO : Web method that takes in itineraries and returns prices of available itineraries
+    @WebMethod
+    public ArrayList<BookableItinerary> getPriceAndAvailabilityOfItineraries(ArrayList<Itinerary> itineraries) {
+        ArrayList<BookableItinerary> bookableItineraries = new ArrayList<>();
+
+        return bookableItineraries;
+    }
+
+    @WebMethod
+    public String bookItinerary(BookableItinerary itinerary, PaymentInfo paymentInfo) {
+
+        return "Itinerary has been booked";
+    }
 
     private void generateTickets() {
         this.ticketContainers = new ArrayList<>();
