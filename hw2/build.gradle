@@ -9,6 +9,16 @@ repositories {
     mavenCentral()
 }
 
+task copyItineraryServerHandlerXmlToResources(type: Copy) {
+    from 'src/main/java/itinerary/service/itinerary_handler.xml'
+    into 'src/main/resources'
+}
+
+task copyItineraryClientHandlerXmlToResources(type: Copy) {
+    from 'src/main/java/itinerary/testclient/Itinerary_Service_handler.xml'
+    into 'src/main/resources'
+}
+
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
     // https://mvnrepository.com/artifact/org.jgrapht/jgrapht-core
