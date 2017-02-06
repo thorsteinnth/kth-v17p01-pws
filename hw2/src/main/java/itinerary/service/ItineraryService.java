@@ -10,6 +10,7 @@ import itinerary.exception.NoRouteFoundException;
 import org.jgrapht.GraphPath;
 import org.jgrapht.graph.DefaultDirectedGraph;
 
+import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
@@ -19,9 +20,8 @@ import java.util.List;
 @WebService(serviceName = "Itinerary",
         portName = "ItineraryPort",
         targetNamespace = "http://hw2.flightticketreservation/itinerary.service/itinerary")
-
 @SOAPBinding(style=SOAPBinding.Style.DOCUMENT,use=SOAPBinding.Use.LITERAL,parameterStyle=SOAPBinding.ParameterStyle.WRAPPED)
-
+@HandlerChain(file= "itinerary_handler.xml")
 public class ItineraryService
 {
     private ArrayList<Node> nodes;

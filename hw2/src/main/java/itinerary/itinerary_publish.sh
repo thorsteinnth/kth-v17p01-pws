@@ -6,4 +6,4 @@ javac -cp "../" publish/*.java
 
 echo "Running itinerary service publisher"
 
-java -cp "../:../../../../lib/jgrapht-core-1.0.1.jar" itinerary.publish.ItineraryServicePublisher
+java -cp "../:../../../../lib/jgrapht-core-1.0.1.jar:../../resources" itinerary.publish.ItineraryServicePublisher
