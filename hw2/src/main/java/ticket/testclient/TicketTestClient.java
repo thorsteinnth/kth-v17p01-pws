@@ -1,5 +1,7 @@
 package ticket.testclient;
 
+import com.sun.xml.internal.ws.client.ClientTransportException;
+
 import javax.xml.namespace.QName;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -44,6 +46,13 @@ public class TicketTestClient
         System.out.println("Service is " + ticketService);
         TicketService port = ticketService.getTicketPort();
 
-        System.out.println(port.ping());
+        try
+        {
+            System.out.println(port.ping());
+        }
+        catch (ClientTransportException ex)
+        {
+            System.out.println(ex);
+        }
     }
 }

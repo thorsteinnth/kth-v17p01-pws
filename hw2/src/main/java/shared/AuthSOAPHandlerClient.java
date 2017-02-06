@@ -29,7 +29,6 @@ public class AuthSOAPHandlerClient implements SOAPHandler<SOAPMessageContext>
 
                 SOAPFactory factory = SOAPFactory.newInstance();
 
-                // TODO Add correct stuff here
                 String prefix = "X";
                 String uri = "http://pws-hw2-security.se";
                 SOAPElement securityElem = factory.createElement("Security", prefix, uri);
