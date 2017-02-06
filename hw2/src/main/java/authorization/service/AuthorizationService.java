@@ -2,6 +2,7 @@ package authorization.service;
 
 import authorization.bean.User;
 import authorization.exception.InvalidCredentials;
+import shared.SharedData;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
@@ -40,7 +41,7 @@ public class AuthorizationService {
             throw new InvalidCredentials();
         }
 
-        user.setToken("secure token");
+        user.setToken(SharedData.getAuthToken());
         return user;
     }
 
