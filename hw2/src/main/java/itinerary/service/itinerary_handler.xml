@@ -3,7 +3,7 @@
     <handler-chain>
         <handler>
             <handler-name>AuthHandler</handler-name>
-            <handler-class>shared.AuthSOAPHandlerClient</handler-class>
+            <handler-class>shared.AuthSOAPHandlerServer</handler-class>
         </handler>
     </handler-chain>
 </handler-chains>

@@ -21,6 +21,8 @@ public class AuthSOAPHandlerClient implements SOAPHandler<SOAPMessageContext>
 
         if (outboundProperty.booleanValue())
         {
+            // Add authentication header to outgoing messages
+
             try
             {
                 SOAPEnvelope envelope = context.getMessage().getSOAPPart().getEnvelope();
@@ -29,7 +31,7 @@ public class AuthSOAPHandlerClient implements SOAPHandler<SOAPMessageContext>
 
                 // TODO Add correct stuff here
                 String prefix = "X";
-                String uri = "http://...wsssecurity...";
+                String uri = "http://pws-hw2-security.se";
                 SOAPElement securityElem = factory.createElement("Security", prefix, uri);
                 SOAPElement tokenElem = factory.createElement("BinarySecurityToken", prefix, uri);
                 tokenElem.addTextNode(SharedData.getAuthToken());
@@ -48,7 +50,7 @@ public class AuthSOAPHandlerClient implements SOAPHandler<SOAPMessageContext>
         }
         else
         {
-            // inbound
+            // Inbound message, do nothing
         }
 
         return true;
