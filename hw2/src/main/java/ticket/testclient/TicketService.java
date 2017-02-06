@@ -30,6 +30,18 @@ public interface TicketService {
 
     /**
      * 
+     * @return
+     *     returns boolean
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "ping", targetNamespace = "http://hw2.flightticketreservation/ticket.service/ticket", className = "ticket.testclient.Ping")
+    @ResponseWrapper(localName = "pingResponse", targetNamespace = "http://hw2.flightticketreservation/ticket.service/ticket", className = "ticket.testclient.PingResponse")
+    @Action(input = "http://hw2.flightticketreservation/ticket.service/ticket/TicketService/pingRequest", output = "http://hw2.flightticketreservation/ticket.service/ticket/TicketService/pingResponse")
+    public boolean ping();
+
+    /**
+     * 
      * @param arg1
      * @param arg0
      * @return
@@ -63,17 +75,5 @@ public interface TicketService {
         BookableItinerary arg0,
         @WebParam(name = "arg1", targetNamespace = "")
         PaymentInfo arg1);
-
-    /**
-     * 
-     * @return
-     *     returns boolean
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "ping", targetNamespace = "http://hw2.flightticketreservation/ticket.service/ticket", className = "ticket.testclient.Ping")
-    @ResponseWrapper(localName = "pingResponse", targetNamespace = "http://hw2.flightticketreservation/ticket.service/ticket", className = "ticket.testclient.PingResponse")
-    @Action(input = "http://hw2.flightticketreservation/ticket.service/ticket/TicketService/pingRequest", output = "http://hw2.flightticketreservation/ticket.service/ticket/TicketService/pingResponse")
-    public boolean ping();
 
 }

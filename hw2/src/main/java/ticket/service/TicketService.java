@@ -8,6 +8,7 @@ import ticket.bean.PaymentInfo;
 import ticket.bean.Ticket;
 import ticket.bean.TicketContainer;
 
+import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
@@ -19,9 +20,8 @@ import java.util.HashMap;
 @WebService(serviceName = "Ticket",
         portName = "TicketPort",
         targetNamespace = "http://hw2.flightticketreservation/ticket.service/ticket")
-
 @SOAPBinding(style=SOAPBinding.Style.DOCUMENT,use=SOAPBinding.Use.LITERAL,parameterStyle=SOAPBinding.ParameterStyle.WRAPPED)
-
+@HandlerChain(file= "ticket_handler.xml")
 public class TicketService
 {
     HashMap<Flight, TicketContainer> ticketMap;

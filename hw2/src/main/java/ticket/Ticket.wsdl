@@ -6,11 +6,11 @@
       <xsd:import namespace="http://hw2.flightticketreservation/ticket.service/ticket" schemaLocation="Ticket_schema1.xsd"/>
     </xsd:schema>
   </types>
-  <message name="getPriceAndAvailabilityOfItinerariesForDate">
-    <part name="parameters" element="tns:getPriceAndAvailabilityOfItinerariesForDate"/>
+  <message name="bookItinerary">
+    <part name="parameters" element="tns:bookItinerary"/>
   </message>
-  <message name="getPriceAndAvailabilityOfItinerariesForDateResponse">
-    <part name="parameters" element="tns:getPriceAndAvailabilityOfItinerariesForDateResponse"/>
+  <message name="bookItineraryResponse">
+    <part name="parameters" element="tns:bookItineraryResponse"/>
   </message>
   <message name="ping">
     <part name="parameters" element="tns:ping"/>
@@ -18,29 +18,29 @@
   <message name="pingResponse">
     <part name="parameters" element="tns:pingResponse"/>
   </message>
-  <message name="bookItinerary">
-    <part name="parameters" element="tns:bookItinerary"/>
+  <message name="getPriceAndAvailabilityOfItinerariesForDate">
+    <part name="parameters" element="tns:getPriceAndAvailabilityOfItinerariesForDate"/>
   </message>
-  <message name="bookItineraryResponse">
-    <part name="parameters" element="tns:bookItineraryResponse"/>
+  <message name="getPriceAndAvailabilityOfItinerariesForDateResponse">
+    <part name="parameters" element="tns:getPriceAndAvailabilityOfItinerariesForDateResponse"/>
   </message>
   <portType name="TicketService">
-    <operation name="getPriceAndAvailabilityOfItinerariesForDate">
-      <input wsam:Action="http://hw2.flightticketreservation/ticket.service/ticket/TicketService/getPriceAndAvailabilityOfItinerariesForDateRequest" message="tns:getPriceAndAvailabilityOfItinerariesForDate"/>
-      <output wsam:Action="http://hw2.flightticketreservation/ticket.service/ticket/TicketService/getPriceAndAvailabilityOfItinerariesForDateResponse" message="tns:getPriceAndAvailabilityOfItinerariesForDateResponse"/>
+    <operation name="bookItinerary">
+      <input wsam:Action="http://hw2.flightticketreservation/ticket.service/ticket/TicketService/bookItineraryRequest" message="tns:bookItinerary"/>
+      <output wsam:Action="http://hw2.flightticketreservation/ticket.service/ticket/TicketService/bookItineraryResponse" message="tns:bookItineraryResponse"/>
     </operation>
     <operation name="ping">
       <input wsam:Action="http://hw2.flightticketreservation/ticket.service/ticket/TicketService/pingRequest" message="tns:ping"/>
       <output wsam:Action="http://hw2.flightticketreservation/ticket.service/ticket/TicketService/pingResponse" message="tns:pingResponse"/>
     </operation>
-    <operation name="bookItinerary">
-      <input wsam:Action="http://hw2.flightticketreservation/ticket.service/ticket/TicketService/bookItineraryRequest" message="tns:bookItinerary"/>
-      <output wsam:Action="http://hw2.flightticketreservation/ticket.service/ticket/TicketService/bookItineraryResponse" message="tns:bookItineraryResponse"/>
+    <operation name="getPriceAndAvailabilityOfItinerariesForDate">
+      <input wsam:Action="http://hw2.flightticketreservation/ticket.service/ticket/TicketService/getPriceAndAvailabilityOfItinerariesForDateRequest" message="tns:getPriceAndAvailabilityOfItinerariesForDate"/>
+      <output wsam:Action="http://hw2.flightticketreservation/ticket.service/ticket/TicketService/getPriceAndAvailabilityOfItinerariesForDateResponse" message="tns:getPriceAndAvailabilityOfItinerariesForDateResponse"/>
     </operation>
   </portType>
   <binding name="TicketPortBinding" type="tns:TicketService">
     <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
-    <operation name="getPriceAndAvailabilityOfItinerariesForDate">
+    <operation name="bookItinerary">
       <soap:operation soapAction=""/>
       <input>
         <soap:body use="literal"/>
@@ -58,7 +58,7 @@
         <soap:body use="literal"/>
       </output>
     </operation>
-    <operation name="bookItinerary">
+    <operation name="getPriceAndAvailabilityOfItinerariesForDate">
       <soap:operation soapAction=""/>
       <input>
         <soap:body use="literal"/>

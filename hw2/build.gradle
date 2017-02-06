@@ -19,6 +19,16 @@ task copyItineraryClientHandlerXmlToResources(type: Copy) {
     into 'src/main/resources'
 }
 
+task copyTicketServerHandlerXmlToResources(type: Copy) {
+    from 'src/main/java/ticket/service/ticket_handler.xml'
+    into 'src/main/resources'
+}
+
+task copyTicketClientHandlerXmlToResources(type: Copy) {
+    from 'src/main/java/ticket/testclient/Ticket_Service_handler.xml'
+    into 'src/main/resources'
+}
+
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
     // https://mvnrepository.com/artifact/org.jgrapht/jgrapht-core
