@@ -6,4 +6,4 @@ javac -cp "../" testclient/AuthorizationTestClient.java
 
 echo "Running authorization test client"
 
-java -cp "../" authorization.testclient.AuthorizationTestClient http://localhost:8080/AuthorizationService/authorization?wsdl
+java -cp "../" authorization.testclient.AuthorizationTestClient http://localhost:12501/AuthorizationService/authorization?wsdl

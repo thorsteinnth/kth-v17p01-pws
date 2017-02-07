@@ -17,7 +17,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "Authorization", targetNamespace = "http://hw2.flightticketreservation/authorization.service/authorization", wsdlLocation = "http://localhost:8080/AuthorizationService/authorization?wsdl")
+@WebServiceClient(name = "Authorization", targetNamespace = "http://hw2.flightticketreservation/authorization.service/authorization", wsdlLocation = "http://localhost:12501/AuthorizationService/authorization?wsdl")
 public class Authorization
     extends Service
 {
@@ -30,7 +30,7 @@ public class Authorization
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("http://localhost:8080/AuthorizationService/authorization?wsdl");
+            url = new URL("http://localhost:12501/AuthorizationService/authorization?wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }
