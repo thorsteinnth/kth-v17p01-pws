@@ -125,16 +125,27 @@ public class TicketTestClient
         System.out.println("Service is " + ticketService);
         TicketService port = ticketService.getTicketPort();
 
-        // Set request date for today
-        String requestDate = "2017-02-07";
-
         try
         {
+            // Set request date for today
+            String requestDate = "2017-02-07";
+
+            System.out.println("Getting price and availability for " + requestDate);
             List<BookableItinerary> bookableItineraries =
                     port.getPriceAndAvailabilityOfItinerariesForDate(itineraries, requestDate);
 
-            System.out.println("Bookable itineraries2: " );
+            System.out.println("Bookable itineraries: " );
+            for (BookableItinerary bookableItinerary : bookableItineraries) {
+                System.out.println(printBookableItinerary(bookableItinerary));
+            }
 
+            requestDate = "2997-02-07";
+
+            System.out.println("Getting price and availability for " + requestDate);
+            bookableItineraries =
+                    port.getPriceAndAvailabilityOfItinerariesForDate(itineraries, requestDate);
+
+            System.out.println("Bookable itineraries: " );
             for (BookableItinerary bookableItinerary : bookableItineraries) {
                 System.out.println(printBookableItinerary(bookableItinerary));
             }
