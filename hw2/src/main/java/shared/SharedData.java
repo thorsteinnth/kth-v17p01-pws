@@ -6,13 +6,14 @@ public class SharedData
 {
     private static ArrayList<Node> nodes;
     private static ArrayList<Flight> flights;
+    private static String defaultAuthToken;
     private static String authToken;
 
     static
     {
         nodes = generateNodes();
         flights = generateFlights();
-        authToken = "thisisanauthenticationtokenthatshouldbebinary";
+        defaultAuthToken = "thisisanauthenticationtokenthatshouldbebinary";
     }
 
     public static ArrayList<Node> getNodes()
@@ -27,7 +28,15 @@ public class SharedData
 
     public static String getAuthToken()
     {
-        return authToken;
+        if (authToken == null || authToken.equals(""))
+            return defaultAuthToken;
+        else
+            return authToken;
+    }
+
+    public static void setAuthToken(String authToken)
+    {
+        SharedData.authToken = authToken;
     }
 
     private static ArrayList<Node> generateNodes()
