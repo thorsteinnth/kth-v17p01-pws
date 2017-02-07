@@ -5,9 +5,10 @@ import client.generated.authorization.AuthorizationService;
 import client.generated.authorization.InvalidCredentials_Exception;
 import client.generated.authorization.User;
 import client.generated.itinerary.*;
-import client.generated.ticket.BookableItinerary;
-import client.generated.ticket.TicketService;
-import client.generated.ticket.Ticket_Service;
+import client.generated.itinerary.Flight;
+import client.generated.itinerary.Itinerary;
+import client.generated.itinerary.Node;
+import client.generated.ticket.*;
 import shared.SharedData;
 
 import javax.xml.namespace.QName;
@@ -71,7 +72,14 @@ public class Client
         List<Itinerary> itineraries = findItineraries();
 
         if (itineraries.size() == 0)
+        {
+            System.out.println("No itineraries found");
             return;
+        }
+
+        System.out.println("Itineraries:");
+        for (Itinerary itinerary : itineraries)
+            System.out.println(printItinerary(itinerary));
 
         // Have to convert from itinerary.Itinerary to ticket.Itinerary
         List<client.generated.ticket.Itinerary> ticketItineraries = new ArrayList<>();
@@ -79,6 +87,22 @@ public class Client
             ticketItineraries.add(convertToTicketItinerary(itinerary));
 
         List<BookableItinerary> bookableItineraries = getPriceAndAvailabilityOfItineraries(ticketItineraries);
+
+        if (bookableItineraries.size() == 0)
+        {
+            System.out.println("No bookable itineraries");
+            return;
+        }
+
+        System.out.println("Bookable itineraries:");
+        for (BookableItinerary bookableItinerary : bookableItineraries)
+            System.out.println(printBookableItinerary(bookableItinerary));
+
+        List<Ticket> bookedTickets = bookCheapestItinerary(bookableItineraries);
+
+        System.out.println("Booked tickets:");
+        for (Ticket ticket : bookedTickets)
+            System.out.println(printTicket(ticket));
     }
 
     private boolean getAuthorization()
@@ -118,7 +142,6 @@ public class Client
         {
             System.out.println("Requesting intineraries from " + departure.getName() + " to " + destination.getName());
             List<Itinerary> itineraries = this.itineraryService.findItineraries(flight);
-            System.out.println(printItineraries(itineraries));
             return itineraries;
         }
         catch (NoRouteFoundException_Exception|javax.xml.ws.WebServiceException ex)
@@ -134,16 +157,32 @@ public class Client
         String requestDate = "2017-02-07";
 
         System.out.println("Getting bookable itineraries for date " + requestDate);
-        List<BookableItinerary> bookableItineraries = this.ticketService.getPriceAndAvailabilityOfItinerariesForDate(itineraries, requestDate);
+        return this.ticketService.getPriceAndAvailabilityOfItinerariesForDate(itineraries, requestDate);
+    }
 
-        System.out.println("Bookable itineraries: " );
+    private List<Ticket> bookCheapestItinerary(List<BookableItinerary> bookableItineraries)
+    {
+        System.out.println("Booking cheapest itinerary");
 
+        int cheapestPrice = Integer.MAX_VALUE;
+        BookableItinerary cheapestBookableItinerary = bookableItineraries.get(0);
+
+        // Find the cheapest bookable itinerary
         for (BookableItinerary bookableItinerary : bookableItineraries)
         {
-            System.out.println(printBookableItinerary(bookableItinerary));
+            if (bookableItinerary.getTotalPrice() <= cheapestPrice)
+            {
+                cheapestPrice = bookableItinerary.getTotalPrice();
+                cheapestBookableItinerary = bookableItinerary;
+            }
         }
 
-        return bookableItineraries;
+        PaymentInfo paymentInfo = new PaymentInfo();
+        paymentInfo.setCardHolder("Donald Trump");
+        paymentInfo.setCreditCardNumber("9999 9999 9999 9999");
+
+        // Book the cheapest itinerary
+        return this.ticketService.bookItinerary(cheapestBookableItinerary, paymentInfo);
     }
 
     private static URL getWSDLURL(String urlStr)
@@ -196,19 +235,6 @@ public class Client
 
     //region Print functions
 
-    private String printItineraries(List<Itinerary> itineraries)
-    {
-        StringBuilder sb = new StringBuilder();
-
-        for (Itinerary itinerary : itineraries)
-        {
-            sb.append(printItinerary(itinerary));
-            sb.append("\n");
-        }
-
-        return sb.toString();
-    }
-
     private String printItinerary(Itinerary itinerary)
     {
         StringBuilder sbFlights = new StringBuilder();
@@ -248,6 +274,25 @@ public class Client
                 "flightNumber='" + flight.getFlightNumber() + '\'' +
                 ", departure='" + flight.getDeparture().getName() + '\'' +
                 ", destination='" + flight.getDestination().getName() + '\'' +
+                '}';
+    }
+
+    private String printTicket(Ticket ticket)
+    {
+        return "Ticket{" +
+                "flight=" + printFlight(ticket.getFlight()) +
+                ", date='" + ticket.getDate() + '\'' +
+                ", isBooked=" + ticket.isBooked().toString() +
+                ", isIssued=" + ticket.isIssued().toString() +
+                ", paymentInfo=" + printPaymentInfo(ticket.getPaymentInfo()) +
+                '}';
+    }
+
+    private String printPaymentInfo(PaymentInfo paymentInfo)
+    {
+        return "PaymentInfo{" +
+                "cardHolder='" + paymentInfo.getCardHolder() + '\'' +
+                ", creditCardNumber='" + paymentInfo.getCreditCardNumber() + '\'' +
                 '}';
     }
 
