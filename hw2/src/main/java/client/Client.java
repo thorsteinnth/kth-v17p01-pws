@@ -157,7 +157,16 @@ public class Client
         String requestDate = "2017-02-07";
 
         System.out.println("Getting bookable itineraries for date " + requestDate);
-        return this.ticketService.getPriceAndAvailabilityOfItinerariesForDate(itineraries, requestDate);
+
+        try
+        {
+            return this.ticketService.getPriceAndAvailabilityOfItinerariesForDate(itineraries, requestDate);
+        }
+        catch (javax.xml.ws.WebServiceException ex)
+        {
+            System.out.println(ex);
+            return new ArrayList<>();
+        }
     }
 
     private List<Ticket> bookCheapestItinerary(List<BookableItinerary> bookableItineraries)
@@ -182,7 +191,16 @@ public class Client
         paymentInfo.setCreditCardNumber("9999 9999 9999 9999");
 
         // Book the cheapest itinerary
-        return this.ticketService.bookItinerary(cheapestBookableItinerary, paymentInfo);
+
+        try
+        {
+            return this.ticketService.bookItinerary(cheapestBookableItinerary, paymentInfo);
+        }
+        catch (javax.xml.ws.WebServiceException ex)
+        {
+            System.out.println(ex);
+            return new ArrayList<>();
+        }
     }
 
     private static URL getWSDLURL(String urlStr)
