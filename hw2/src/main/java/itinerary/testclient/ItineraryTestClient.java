@@ -56,7 +56,7 @@ public class ItineraryTestClient
 
         try
         {
-            System.out.println("Requesting intineraries from " + departure1.getName() + " to " + destination1.getName());
+            System.out.println("Requesting itineraries from " + departure1.getName() + " to " + destination1.getName());
             List<Itinerary> itineraries1 = port.findItineraries(flight1);
             System.out.println(printItineraries(itineraries1));
         }
@@ -76,7 +76,7 @@ public class ItineraryTestClient
 
         try
         {
-            System.out.println("Requesting intineraries from " + departure2.getName() + " to " + destination2.getName());
+            System.out.println("Requesting itineraries from " + departure2.getName() + " to " + destination2.getName());
             List<Itinerary> itineraries2 = port.findItineraries(flight2);
             System.out.println(printItineraries(itineraries2));
         }
@@ -96,7 +96,7 @@ public class ItineraryTestClient
 
         try
         {
-            System.out.println("Requesting intineraries from " + departure3.getName() + " to " + destination3.getName());
+            System.out.println("Requesting itineraries from " + departure3.getName() + " to " + destination3.getName());
             List<Itinerary> itineraries3 = port.findItineraries(flight3);
             System.out.println(printItineraries(itineraries3));
         }
