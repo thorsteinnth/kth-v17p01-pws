@@ -1,7 +1,6 @@
 
 package client.generated.authorization;
 
-import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -20,7 +19,6 @@ import javax.xml.ws.ResponseWrapper;
  * 
  */
 @WebService(name = "AuthorizationService", targetNamespace = "http://hw2.flightticketreservation/authorization.service/authorization")
-@HandlerChain(file = "AuthorizationService_handler.xml")
 @XmlSeeAlso({
     ObjectFactory.class
 })
