@@ -8,7 +8,6 @@ import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.xml.bind.annotation.XmlSeeAlso;
-import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.Action;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
@@ -56,7 +55,7 @@ public interface TicketService {
         @WebParam(name = "arg0", targetNamespace = "")
         List<Itinerary> arg0,
         @WebParam(name = "arg1", targetNamespace = "")
-        XMLGregorianCalendar arg1);
+        String arg1);
 
     /**
      * 

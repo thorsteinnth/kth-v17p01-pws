@@ -3,9 +3,7 @@ package ticket.testclient;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
@@ -19,7 +17,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="booked" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
- *         &lt;element name="date" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
+ *         &lt;element name="date" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *         &lt;element name="flight" type="{http://hw2.flightticketreservation/ticket.service/ticket}flight" minOccurs="0"/>
  *         &lt;element name="issued" type="{http://www.w3.org/2001/XMLSchema}boolean" minOccurs="0"/>
  *         &lt;element name="paymentInfo" type="{http://hw2.flightticketreservation/ticket.service/ticket}paymentInfo" minOccurs="0"/>
@@ -42,8 +40,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 public class Ticket {
 
     protected Boolean booked;
-    @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar date;
+    protected String date;
     protected Flight flight;
     protected Boolean issued;
     protected PaymentInfo paymentInfo;
@@ -77,10 +74,10 @@ public class Ticket {
      * 
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *     
      */
-    public XMLGregorianCalendar getDate() {
+    public String getDate() {
         return date;
     }
 
@@ -89,10 +86,10 @@ public class Ticket {
      * 
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *     
      */
-    public void setDate(XMLGregorianCalendar value) {
+    public void setDate(String value) {
         this.date = value;
     }
 

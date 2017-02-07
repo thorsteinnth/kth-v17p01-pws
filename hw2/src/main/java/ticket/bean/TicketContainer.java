@@ -6,15 +6,15 @@ import java.util.Date;
 
 public class TicketContainer
 {
-    private Date date;
+    private String date; // date needs to be on the format yyyy-MM-dd
     private int price;
     private int numberOfAvailableTickets;
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

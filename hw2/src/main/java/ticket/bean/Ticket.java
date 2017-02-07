@@ -7,7 +7,7 @@ import java.util.Date;
 public class Ticket {
 
     private Flight flight;
-    private Date date;
+    private String date; // date needs to be on the format yyyy-MM-dd
     private Boolean isBooked;
     private Boolean isIssued;
     private PaymentInfo paymentInfo;
@@ -20,11 +20,11 @@ public class Ticket {
         this.flight = flight;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

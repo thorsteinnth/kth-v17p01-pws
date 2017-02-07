@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
-import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
@@ -21,7 +19,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
  *         &lt;element name="arg0" type="{http://hw2.flightticketreservation/ticket.service/ticket}itinerary" maxOccurs="unbounded" minOccurs="0"/>
- *         &lt;element name="arg1" type="{http://www.w3.org/2001/XMLSchema}dateTime" minOccurs="0"/>
+ *         &lt;element name="arg1" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -38,8 +36,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 public class GetPriceAndAvailabilityOfItinerariesForDate {
 
     protected List<Itinerary> arg0;
-    @XmlSchemaType(name = "dateTime")
-    protected XMLGregorianCalendar arg1;
+    protected String arg1;
 
     /**
      * Gets the value of the arg0 property.
@@ -75,10 +72,10 @@ public class GetPriceAndAvailabilityOfItinerariesForDate {
      * 
      * @return
      *     possible object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *     
      */
-    public XMLGregorianCalendar getArg1() {
+    public String getArg1() {
         return arg1;
     }
 
@@ -87,10 +84,10 @@ public class GetPriceAndAvailabilityOfItinerariesForDate {
      * 
      * @param value
      *     allowed object is
-     *     {@link XMLGregorianCalendar }
+     *     {@link String }
      *     
      */
-    public void setArg1(XMLGregorianCalendar value) {
+    public void setArg1(String value) {
         this.arg1 = value;
     }
 
