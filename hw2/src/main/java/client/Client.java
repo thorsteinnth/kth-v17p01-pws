@@ -5,6 +5,9 @@ import client.generated.authorization.AuthorizationService;
 import client.generated.authorization.InvalidCredentials_Exception;
 import client.generated.authorization.User;
 import client.generated.itinerary.*;
+import client.generated.ticket.BookableItinerary;
+import client.generated.ticket.TicketService;
+import client.generated.ticket.Ticket_Service;
 import shared.SharedData;
 
 import javax.xml.namespace.QName;
@@ -18,11 +21,17 @@ import java.util.List;
  * */
 public class Client
 {
+    // NOTE: Since we have are talking to all services within the same class here we end up with some duplicate classes
+    // that we get from different web services, e.g. itinerary.Itinerary and ticket.Itinerary.
+    // We just make it work, but this should be done differently.
+
     private final QName authorizationQName = new QName("http://hw2.flightticketreservation/authorization.service/authorization", "Authorization");
     private final QName itineraryQName = new QName("http://hw2.flightticketreservation/itinerary.service/itinerary", "Itinerary");
+    private final QName ticketQName = new QName("http://hw2.flightticketreservation/ticket.service/ticket", "Ticket");
 
     private AuthorizationService authorizationService;
     private ItineraryService itineraryService;
+    private TicketService ticketService;
 
     public static void main(String[] args)
     {
@@ -34,11 +43,12 @@ public class Client
 
         URL authorizationUrl = getWSDLURL(args[0]);
         URL itineraryUrl = getWSDLURL(args[1]);
+        URL ticketUrl = getWSDLURL(args[2]);
 
-        new Client(authorizationUrl, itineraryUrl).run();
+        new Client(authorizationUrl, itineraryUrl, ticketUrl).run();
     }
 
-    public Client(URL authorizationUrl, URL itineraryUrl)
+    public Client(URL authorizationUrl, URL itineraryUrl, URL ticketUrl)
     {
         Authorization authorization = new Authorization(authorizationUrl, authorizationQName);
         System.out.println("Authorization service is " + authorization);
@@ -47,6 +57,10 @@ public class Client
         Itinerary_Service itineraryService = new Itinerary_Service(itineraryUrl, itineraryQName);
         System.out.println("Itinerary service is " + itineraryService);
         this.itineraryService = itineraryService.getItineraryPort();
+
+        Ticket_Service ticket = new Ticket_Service(ticketUrl, ticketQName);
+        System.out.println("Ticket service is " + ticket);
+        this.ticketService = ticket.getTicketPort();
     }
 
     private void run()
@@ -55,6 +69,16 @@ public class Client
             return;
 
         List<Itinerary> itineraries = findItineraries();
+
+        if (itineraries.size() == 0)
+            return;
+
+        // Have to convert from itinerary.Itinerary to ticket.Itinerary
+        List<client.generated.ticket.Itinerary> ticketItineraries = new ArrayList<>();
+        for (Itinerary itinerary : itineraries)
+            ticketItineraries.add(convertToTicketItinerary(itinerary));
+
+        List<BookableItinerary> bookableItineraries = getPriceAndAvailabilityOfItineraries(ticketItineraries);
     }
 
     private boolean getAuthorization()
@@ -104,6 +128,24 @@ public class Client
         }
     }
 
+    private List<BookableItinerary> getPriceAndAvailabilityOfItineraries(List<client.generated.ticket.Itinerary> itineraries)
+    {
+        // Set request date for today
+        String requestDate = "2017-02-07";
+
+        System.out.println("Getting bookable itineraries for date " + requestDate);
+        List<BookableItinerary> bookableItineraries = this.ticketService.getPriceAndAvailabilityOfItinerariesForDate(itineraries, requestDate);
+
+        System.out.println("Bookable itineraries: " );
+
+        for (BookableItinerary bookableItinerary : bookableItineraries)
+        {
+            System.out.println(printBookableItinerary(bookableItinerary));
+        }
+
+        return bookableItineraries;
+    }
+
     private static URL getWSDLURL(String urlStr)
     {
         URL url;
@@ -120,6 +162,39 @@ public class Client
 
         return url;
     }
+
+    //region Object converters
+    // This is a hack really. Convert between classes when we have duplicate generated classes from each web service
+
+    private client.generated.ticket.Itinerary convertToTicketItinerary(client.generated.itinerary.Itinerary itinerary)
+    {
+        client.generated.ticket.Itinerary ticketItinerary = new client.generated.ticket.Itinerary();
+
+        for (Flight flight : itinerary.getFlights())
+            ticketItinerary.getFlights().add(convertToTicketFlight(flight));
+
+        return ticketItinerary;
+    }
+
+    private client.generated.ticket.Flight convertToTicketFlight(client.generated.itinerary.Flight flight)
+    {
+        client.generated.ticket.Flight ticketFlight = new client.generated.ticket.Flight();
+        ticketFlight.setDeparture(convertToTicketNode(flight.getDeparture()));
+        ticketFlight.setDestination(convertToTicketNode(flight.getDestination()));
+        ticketFlight.setFlightNumber(flight.getFlightNumber());
+        return ticketFlight;
+    }
+
+    private client.generated.ticket.Node convertToTicketNode(client.generated.itinerary.Node node)
+    {
+        client.generated.ticket.Node ticketNode = new client.generated.ticket.Node();
+        ticketNode.setName(node.getName());
+        return ticketNode;
+    }
+
+    //endregion
+
+    //region Print functions
 
     private String printItineraries(List<Itinerary> itineraries)
     {
@@ -148,8 +223,33 @@ public class Client
     private String printFlight(Flight flight)
     {
         return "Flight{" +
+                "flightNumber='" + flight.getFlightNumber() + '\'' +
                 "departure='" + flight.getDeparture().getName() + '\'' +
                 ", destination='" + flight.getDestination().getName() + '\'' +
                 '}';
     }
+
+    private String printBookableItinerary(BookableItinerary itinerary) {
+
+        StringBuilder sbFlights = new StringBuilder();
+        for (client.generated.ticket.Flight flight : itinerary.getFlights())
+            sbFlights.append(printFlight(flight) + ",");
+
+        return "BookableItinerary{" +
+                "date='" + itinerary.getDate() + '\'' +
+                ", totalPrice=" + itinerary.getTotalPrice() +
+                ", numberOfAvailableTickets=" + itinerary.getNumberOfAvailableTickets() +
+                ", flights=" + sbFlights.toString() +
+                '}';
+    }
+
+    private String printFlight(client.generated.ticket.Flight flight) {
+        return "Flight{" +
+                "flightNumber='" + flight.getFlightNumber() + '\'' +
+                ", departure='" + flight.getDeparture().getName() + '\'' +
+                ", destination='" + flight.getDestination().getName() + '\'' +
+                '}';
+    }
+
+    //endregion
 }

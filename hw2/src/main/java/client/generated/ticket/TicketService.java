@@ -8,7 +8,6 @@ import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
 import javax.xml.bind.annotation.XmlSeeAlso;
-import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.Action;
 import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
@@ -27,24 +26,6 @@ import javax.xml.ws.ResponseWrapper;
 })
 public interface TicketService {
 
-
-    /**
-     * 
-     * @param arg1
-     * @param arg0
-     * @return
-     *     returns java.util.List<client.generated.ticket.BookableItinerary>
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "getPriceAndAvailabilityOfItinerariesForDate", targetNamespace = "http://hw2.flightticketreservation/ticket.service/ticket", className = "client.generated.ticket.GetPriceAndAvailabilityOfItinerariesForDate")
-    @ResponseWrapper(localName = "getPriceAndAvailabilityOfItinerariesForDateResponse", targetNamespace = "http://hw2.flightticketreservation/ticket.service/ticket", className = "client.generated.ticket.GetPriceAndAvailabilityOfItinerariesForDateResponse")
-    @Action(input = "http://hw2.flightticketreservation/ticket.service/ticket/TicketService/getPriceAndAvailabilityOfItinerariesForDateRequest", output = "http://hw2.flightticketreservation/ticket.service/ticket/TicketService/getPriceAndAvailabilityOfItinerariesForDateResponse")
-    public List<BookableItinerary> getPriceAndAvailabilityOfItinerariesForDate(
-        @WebParam(name = "arg0", targetNamespace = "")
-        List<Itinerary> arg0,
-        @WebParam(name = "arg1", targetNamespace = "")
-        XMLGregorianCalendar arg1);
 
     /**
      * 
@@ -75,5 +56,23 @@ public interface TicketService {
     @ResponseWrapper(localName = "pingResponse", targetNamespace = "http://hw2.flightticketreservation/ticket.service/ticket", className = "client.generated.ticket.PingResponse")
     @Action(input = "http://hw2.flightticketreservation/ticket.service/ticket/TicketService/pingRequest", output = "http://hw2.flightticketreservation/ticket.service/ticket/TicketService/pingResponse")
     public boolean ping();
+
+    /**
+     * 
+     * @param arg1
+     * @param arg0
+     * @return
+     *     returns java.util.List<client.generated.ticket.BookableItinerary>
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "getPriceAndAvailabilityOfItinerariesForDate", targetNamespace = "http://hw2.flightticketreservation/ticket.service/ticket", className = "client.generated.ticket.GetPriceAndAvailabilityOfItinerariesForDate")
+    @ResponseWrapper(localName = "getPriceAndAvailabilityOfItinerariesForDateResponse", targetNamespace = "http://hw2.flightticketreservation/ticket.service/ticket", className = "client.generated.ticket.GetPriceAndAvailabilityOfItinerariesForDateResponse")
+    @Action(input = "http://hw2.flightticketreservation/ticket.service/ticket/TicketService/getPriceAndAvailabilityOfItinerariesForDateRequest", output = "http://hw2.flightticketreservation/ticket.service/ticket/TicketService/getPriceAndAvailabilityOfItinerariesForDateResponse")
+    public List<BookableItinerary> getPriceAndAvailabilityOfItinerariesForDate(
+        @WebParam(name = "arg0", targetNamespace = "")
+        List<Itinerary> arg0,
+        @WebParam(name = "arg1", targetNamespace = "")
+        String arg1);
 
 }
