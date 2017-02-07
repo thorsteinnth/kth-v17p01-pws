@@ -3,7 +3,6 @@ package client.generated.authorization;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import javax.jws.HandlerChain;
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import javax.xml.ws.WebEndpoint;
@@ -19,7 +18,6 @@ import javax.xml.ws.WebServiceFeature;
  * 
  */
 @WebServiceClient(name = "Authorization", targetNamespace = "http://hw2.flightticketreservation/authorization.service/authorization", wsdlLocation = "http://localhost:12501/AuthorizationService/authorization?wsdl")
-@HandlerChain(file = "Authorization_handler.xml")
 public class Authorization
     extends Service
 {
