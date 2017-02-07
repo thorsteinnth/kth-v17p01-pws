@@ -29,24 +29,6 @@ public interface TicketService {
 
     /**
      * 
-     * @param arg1
-     * @param arg0
-     * @return
-     *     returns java.util.List<client.generated.ticket.Ticket>
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "bookItinerary", targetNamespace = "http://hw2.flightticketreservation/ticket.service/ticket", className = "client.generated.ticket.BookItinerary")
-    @ResponseWrapper(localName = "bookItineraryResponse", targetNamespace = "http://hw2.flightticketreservation/ticket.service/ticket", className = "client.generated.ticket.BookItineraryResponse")
-    @Action(input = "http://hw2.flightticketreservation/ticket.service/ticket/TicketService/bookItineraryRequest", output = "http://hw2.flightticketreservation/ticket.service/ticket/TicketService/bookItineraryResponse")
-    public List<Ticket> bookItinerary(
-        @WebParam(name = "arg0", targetNamespace = "")
-        BookableItinerary arg0,
-        @WebParam(name = "arg1", targetNamespace = "")
-        PaymentInfo arg1);
-
-    /**
-     * 
      * @return
      *     returns boolean
      */
@@ -74,5 +56,23 @@ public interface TicketService {
         List<Itinerary> arg0,
         @WebParam(name = "arg1", targetNamespace = "")
         String arg1);
+
+    /**
+     * 
+     * @param arg1
+     * @param arg0
+     * @return
+     *     returns java.util.List<client.generated.ticket.Ticket>
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "bookItinerary", targetNamespace = "http://hw2.flightticketreservation/ticket.service/ticket", className = "client.generated.ticket.BookItinerary")
+    @ResponseWrapper(localName = "bookItineraryResponse", targetNamespace = "http://hw2.flightticketreservation/ticket.service/ticket", className = "client.generated.ticket.BookItineraryResponse")
+    @Action(input = "http://hw2.flightticketreservation/ticket.service/ticket/TicketService/bookItineraryRequest", output = "http://hw2.flightticketreservation/ticket.service/ticket/TicketService/bookItineraryResponse")
+    public List<Ticket> bookItinerary(
+        @WebParam(name = "arg0", targetNamespace = "")
+        BookableItinerary arg0,
+        @WebParam(name = "arg1", targetNamespace = "")
+        PaymentInfo arg1);
 
 }

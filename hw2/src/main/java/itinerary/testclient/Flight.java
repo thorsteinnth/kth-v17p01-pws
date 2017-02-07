@@ -18,6 +18,7 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence>
  *         &lt;element name="departure" type="{http://hw2.flightticketreservation/itinerary.service/itinerary}node" minOccurs="0"/>
  *         &lt;element name="destination" type="{http://hw2.flightticketreservation/itinerary.service/itinerary}node" minOccurs="0"/>
+ *         &lt;element name="flightNumber" type="{http://www.w3.org/2001/XMLSchema}string" minOccurs="0"/>
  *       &lt;/sequence>
  *     &lt;/restriction>
  *   &lt;/complexContent>
@@ -29,12 +30,14 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "flight", propOrder = {
     "departure",
-    "destination"
+    "destination",
+    "flightNumber"
 })
 public class Flight {
 
     protected Node departure;
     protected Node destination;
+    protected String flightNumber;
 
     /**
      * Gets the value of the departure property.
@@ -82,6 +85,30 @@ public class Flight {
      */
     public void setDestination(Node value) {
         this.destination = value;
+    }
+
+    /**
+     * Gets the value of the flightNumber property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link String }
+     *     
+     */
+    public String getFlightNumber() {
+        return flightNumber;
+    }
+
+    /**
+     * Sets the value of the flightNumber property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link String }
+     *     
+     */
+    public void setFlightNumber(String value) {
+        this.flightNumber = value;
     }
 
 }
