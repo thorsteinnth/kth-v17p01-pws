@@ -128,13 +128,20 @@ public class TicketTestClient
         // Set request date for today
         String requestDate = "2017-02-07";
 
-        List<BookableItinerary> bookableItineraries =
-                port.getPriceAndAvailabilityOfItinerariesForDate(itineraries, requestDate);
+        try
+        {
+            List<BookableItinerary> bookableItineraries =
+                    port.getPriceAndAvailabilityOfItinerariesForDate(itineraries, requestDate);
 
-        System.out.println("Bookable itineraries2: " );
+            System.out.println("Bookable itineraries2: " );
 
-        for (BookableItinerary bookableItinerary : bookableItineraries) {
-            System.out.println(printBookableItinerary(bookableItinerary));
+            for (BookableItinerary bookableItinerary : bookableItineraries) {
+                System.out.println(printBookableItinerary(bookableItinerary));
+            }
+        }
+        catch (javax.xml.ws.WebServiceException ex)
+        {
+            System.out.println(ex);
         }
     }
 
@@ -200,12 +207,19 @@ public class TicketTestClient
         System.out.println("Service is " + ticketService);
         TicketService port = ticketService.getTicketPort();
 
-        List<Ticket> tickets = port.bookItinerary(bookableItinerary, paymentInfo);
+        try
+        {
+            List<Ticket> tickets = port.bookItinerary(bookableItinerary, paymentInfo);
 
-        System.out.println("Booked tickets: ");
+            System.out.println("Booked tickets: ");
 
-        for (Ticket ticket : tickets) {
-            System.out.println(printTicket(ticket));
+            for (Ticket ticket : tickets) {
+                System.out.println(printTicket(ticket));
+            }
+        }
+        catch (javax.xml.ws.WebServiceException ex)
+        {
+            System.out.println(ex);
         }
     }
 
