@@ -1,7 +1,5 @@
 package itinerary.testclient;
 
-import com.sun.xml.internal.ws.client.ClientTransportException;
-
 import javax.xml.namespace.QName;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -62,7 +60,7 @@ public class ItineraryTestClient
             List<Itinerary> itineraries1 = port.findItineraries(flight1);
             System.out.println(printItineraries(itineraries1));
         }
-        catch (NoRouteFoundException_Exception|ClientTransportException ex)
+        catch (NoRouteFoundException_Exception|javax.xml.ws.WebServiceException ex)
         {
             System.out.println(ex);
         }
@@ -82,7 +80,7 @@ public class ItineraryTestClient
             List<Itinerary> itineraries2 = port.findItineraries(flight2);
             System.out.println(printItineraries(itineraries2));
         }
-        catch (NoRouteFoundException_Exception|ClientTransportException ex)
+        catch (NoRouteFoundException_Exception|javax.xml.ws.WebServiceException ex)
         {
             System.out.println(ex);
         }
@@ -102,7 +100,7 @@ public class ItineraryTestClient
             List<Itinerary> itineraries3 = port.findItineraries(flight3);
             System.out.println(printItineraries(itineraries3));
         }
-        catch (NoRouteFoundException_Exception|ClientTransportException ex)
+        catch (NoRouteFoundException_Exception|javax.xml.ws.WebServiceException ex)
         {
             System.out.println(ex);
         }

@@ -29,15 +29,21 @@ public interface TicketService {
 
     /**
      * 
+     * @param arg1
+     * @param arg0
      * @return
-     *     returns boolean
+     *     returns java.util.List<ticket.testclient.Ticket>
      */
     @WebMethod
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "ping", targetNamespace = "http://hw2.flightticketreservation/ticket.service/ticket", className = "ticket.testclient.Ping")
-    @ResponseWrapper(localName = "pingResponse", targetNamespace = "http://hw2.flightticketreservation/ticket.service/ticket", className = "ticket.testclient.PingResponse")
-    @Action(input = "http://hw2.flightticketreservation/ticket.service/ticket/TicketService/pingRequest", output = "http://hw2.flightticketreservation/ticket.service/ticket/TicketService/pingResponse")
-    public boolean ping();
+    @RequestWrapper(localName = "bookItinerary", targetNamespace = "http://hw2.flightticketreservation/ticket.service/ticket", className = "ticket.testclient.BookItinerary")
+    @ResponseWrapper(localName = "bookItineraryResponse", targetNamespace = "http://hw2.flightticketreservation/ticket.service/ticket", className = "ticket.testclient.BookItineraryResponse")
+    @Action(input = "http://hw2.flightticketreservation/ticket.service/ticket/TicketService/bookItineraryRequest", output = "http://hw2.flightticketreservation/ticket.service/ticket/TicketService/bookItineraryResponse")
+    public List<Ticket> bookItinerary(
+        @WebParam(name = "arg0", targetNamespace = "")
+        BookableItinerary arg0,
+        @WebParam(name = "arg1", targetNamespace = "")
+        PaymentInfo arg1);
 
     /**
      * 
@@ -59,20 +65,14 @@ public interface TicketService {
 
     /**
      * 
-     * @param arg1
-     * @param arg0
      * @return
-     *     returns java.util.List<ticket.testclient.Ticket>
+     *     returns boolean
      */
     @WebMethod
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "bookItinerary", targetNamespace = "http://hw2.flightticketreservation/ticket.service/ticket", className = "ticket.testclient.BookItinerary")
-    @ResponseWrapper(localName = "bookItineraryResponse", targetNamespace = "http://hw2.flightticketreservation/ticket.service/ticket", className = "ticket.testclient.BookItineraryResponse")
-    @Action(input = "http://hw2.flightticketreservation/ticket.service/ticket/TicketService/bookItineraryRequest", output = "http://hw2.flightticketreservation/ticket.service/ticket/TicketService/bookItineraryResponse")
-    public List<Ticket> bookItinerary(
-        @WebParam(name = "arg0", targetNamespace = "")
-        BookableItinerary arg0,
-        @WebParam(name = "arg1", targetNamespace = "")
-        PaymentInfo arg1);
+    @RequestWrapper(localName = "ping", targetNamespace = "http://hw2.flightticketreservation/ticket.service/ticket", className = "ticket.testclient.Ping")
+    @ResponseWrapper(localName = "pingResponse", targetNamespace = "http://hw2.flightticketreservation/ticket.service/ticket", className = "ticket.testclient.PingResponse")
+    @Action(input = "http://hw2.flightticketreservation/ticket.service/ticket/TicketService/pingRequest", output = "http://hw2.flightticketreservation/ticket.service/ticket/TicketService/pingResponse")
+    public boolean ping();
 
 }

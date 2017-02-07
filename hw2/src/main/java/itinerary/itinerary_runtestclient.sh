@@ -6,4 +6,4 @@ javac -cp "../" ../shared/AuthSOAPHandlerClient.java testclient/ItineraryTestCli
 
 echo "Running itinerary test client"
 
-java -cp "../" itinerary.testclient.ItineraryTestClient http://localhost:8080/ItineraryService/itinerary?wsdl
+java -cp "../" itinerary.testclient.ItineraryTestClient http://localhost:12502/ItineraryService/itinerary?wsdl

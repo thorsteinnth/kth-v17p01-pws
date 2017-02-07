@@ -18,7 +18,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "Itinerary", targetNamespace = "http://hw2.flightticketreservation/itinerary.service/itinerary", wsdlLocation = "http://localhost:8080/ItineraryService/itinerary?wsdl")
+@WebServiceClient(name = "Itinerary", targetNamespace = "http://hw2.flightticketreservation/itinerary.service/itinerary", wsdlLocation = "http://localhost:12502/ItineraryService/itinerary?wsdl")
 @HandlerChain(file = "Itinerary_Service_handler.xml")
 public class Itinerary_Service
     extends Service
@@ -32,7 +32,7 @@ public class Itinerary_Service
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("http://localhost:8080/ItineraryService/itinerary?wsdl");
+            url = new URL("http://localhost:12502/ItineraryService/itinerary?wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }
