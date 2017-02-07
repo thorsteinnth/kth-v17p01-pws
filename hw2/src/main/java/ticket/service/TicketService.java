@@ -96,7 +96,7 @@ public class TicketService
             ticket.setBooked(true);
             ticket.setDate(itinerary.getDate());
 
-            TicketContainer tc = this.ticketMap.get(flight);
+            TicketContainer tc = this.ticketMap.get(flight.getFlightNumber());
             tc.setNumberOfAvailableTickets(tc.getNumberOfAvailableTickets() - itinerary.getNumberOfAvailableTickets());
 
             ticket.setIssued(true);

@@ -22,6 +22,7 @@ public class TicketTestClient
         TicketTestClient client = new TicketTestClient();
         client.ping(url);
         client.getPriceAndAvailabilityOfItineraries(url);
+        client.bookItinerary(url);
     }
 
     private static URL getWSDLURL(String urlStr)
@@ -43,6 +44,8 @@ public class TicketTestClient
 
     public void ping(URL url)
     {
+        System.out.println("Testing ping Ticket Service");
+
         Ticket_Service ticketService = new Ticket_Service(url, qName);
         System.out.println("Service is " + ticketService);
         TicketService port = ticketService.getTicketPort();
@@ -58,6 +61,8 @@ public class TicketTestClient
     }
 
     public void getPriceAndAvailabilityOfItineraries(URL url) {
+
+        System.out.println("Testing getPriceAndAvailabilityOfItineraries for Ticket Service");
 
         // Create two test itineraries
         List<Itinerary> itineraries = new ArrayList<>();
@@ -126,6 +131,99 @@ public class TicketTestClient
         List<BookableItinerary> bookableItineraries =
                 port.getPriceAndAvailabilityOfItinerariesForDate(itineraries, requestDate);
 
-        System.out.println("Bookable itineraries: " + bookableItineraries.toString());
+        System.out.println("Bookable itineraries2: " );
+
+        for (BookableItinerary bookableItinerary : bookableItineraries) {
+            System.out.println(printBookableItinerary(bookableItinerary));
+        }
+    }
+
+    private String printBookableItinerary(BookableItinerary itinerary) {
+
+        StringBuilder sbFlights = new StringBuilder();
+        for (Flight flight : itinerary.flights)
+            sbFlights.append(printFlight(flight) + ",");
+
+        return "BookableItinerary{" +
+                "date='" + itinerary.date + '\'' +
+                ", totalPrice=" + itinerary.totalPrice +
+                ", numberOfAvailableTickets=" + itinerary.numberOfAvailableTickets +
+                "flights=" + sbFlights.toString() +
+                '}';
+    }
+
+    private String printFlight(Flight flight) {
+        return "Flight{" +
+                "flightNumber='" + flight.flightNumber + '\'' +
+                ", departure='" + flight.getDeparture().getName() + '\'' +
+                ", destination='" + flight.getDestination().getName() + '\'' +
+                '}';
+        }
+
+    public void bookItinerary(URL url) {
+
+        System.out.println("Testing bookItinerary for Ticket Service");
+
+        BookableItinerary bookableItinerary = new BookableItinerary();
+
+        Node departure1 = new Node();
+        departure1.setName("Reykjavik");
+        Node destination1 = new Node();
+        destination1.setName("Stockholm");
+
+        Flight flight1 = new Flight();
+        flight1.setFlightNumber("FL1");
+        flight1.setDeparture(departure1);
+        flight1.setDestination(destination1);
+        bookableItinerary.getFlights().add(flight1);
+
+        Node departure2 = new Node();
+        departure2.setName("Stockholm");
+        Node destination2 = new Node();
+        destination2.setName("Tallinn");
+
+        Flight flight2 = new Flight();
+        flight2.setFlightNumber("FL2");
+        flight2.setDeparture(departure2);
+        flight2.setDestination(destination2);
+        bookableItinerary.getFlights().add(flight2);
+
+        bookableItinerary.setDate("2017-02-07");
+        bookableItinerary.setNumberOfAvailableTickets(200);
+        bookableItinerary.setTotalPrice(2500);
+
+        PaymentInfo paymentInfo = new PaymentInfo();
+        paymentInfo.setCardHolder("Jon Hansen");
+        paymentInfo.setCreditCardNumber("1234 1234 1234 1234");
+
+        Ticket_Service ticketService = new Ticket_Service(url, qName);
+        System.out.println("Service is " + ticketService);
+        TicketService port = ticketService.getTicketPort();
+
+        List<Ticket> tickets = port.bookItinerary(bookableItinerary, paymentInfo);
+
+        System.out.println("Booked tickets: ");
+
+        for (Ticket ticket : tickets) {
+            System.out.println(printTicket(ticket));
+        }
+    }
+
+    private String printTicket(Ticket ticket) {
+
+        return "Ticket{" +
+                "flight=" + printFlight(ticket.flight) +
+                ", date='" + ticket.date + '\'' +
+                ", isBooked=" + ticket.isBooked().toString() +
+                ", isIssued=" + ticket.isIssued().toString() +
+                ", paymentInfo=" + printPaymentInfo(ticket.paymentInfo) +
+                '}';
+    }
+
+    private String printPaymentInfo(PaymentInfo paymentInfo) {
+        return "PaymentInfo{" +
+                "cardHolder='" + paymentInfo.cardHolder + '\'' +
+                ", creditCardNumber='" + paymentInfo.creditCardNumber + '\'' +
+                '}';
     }
 }

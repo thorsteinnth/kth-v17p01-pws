@@ -26,11 +26,23 @@ public class BookableItinerary extends Itinerary{
         return date;
     }
 
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     public int getTotalPrice() {
         return totalPrice;
     }
 
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
     public int getNumberOfAvailableTickets() {
         return numberOfAvailableTickets;
+    }
+
+    public void setNumberOfAvailableTickets(int numberOfAvailableTickets) {
+        this.numberOfAvailableTickets = numberOfAvailableTickets;
     }
 }
