@@ -140,7 +140,7 @@ public class Client
 
         try
         {
-            System.out.println("Requesting intineraries from " + departure.getName() + " to " + destination.getName());
+            System.out.println("Requesting itineraries from " + departure.getName() + " to " + destination.getName());
             List<Itinerary> itineraries = this.itineraryService.findItineraries(flight);
             return itineraries;
         }
