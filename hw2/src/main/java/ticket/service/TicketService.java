@@ -24,7 +24,8 @@ import java.util.HashMap;
 @HandlerChain(file= "ticket_handler.xml")
 public class TicketService
 {
-    HashMap<Flight, TicketContainer> ticketMap;
+    // Maps flight number to flight ticket container
+    HashMap<String, TicketContainer> ticketMap;
 
     public TicketService()
     {
@@ -54,7 +55,7 @@ public class TicketService
             int numberOfAvailableTickets = Integer.MAX_VALUE;
 
             for(Flight flight : itinerary.getFlights()) {
-                TicketContainer tc = this.ticketMap.get(flight);
+                TicketContainer tc = this.ticketMap.get(flight.getFlightNumber());
 
                 // check if the requested date is the same as for the flight ticket container
                 if(tc != null && date.equals(tc.getDate())) {
@@ -116,7 +117,7 @@ public class TicketService
             ticketContainer.setPrice(2500);
             ticketContainer.setDate("2017-02-07");
 
-            this.ticketMap.put(flight, ticketContainer);
+            this.ticketMap.put(flight.getFlightNumber(), ticketContainer);
         }
     }
 }

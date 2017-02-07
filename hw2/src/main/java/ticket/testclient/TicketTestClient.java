@@ -71,6 +71,7 @@ public class TicketTestClient
         destination1.setName("Stockholm");
 
         Flight flight1 = new Flight();
+        flight1.setFlightNumber("FL1");
         flight1.setDeparture(departure1);
         flight1.setDestination(destination1);
         itinerary1.getFlights().add(flight1);
@@ -81,6 +82,7 @@ public class TicketTestClient
         destination2.setName("Tallinn");
 
         Flight flight2 = new Flight();
+        flight2.setFlightNumber("FL2");
         flight2.setDeparture(departure2);
         flight2.setDestination(destination2);
         itinerary1.getFlights().add(flight2);
@@ -96,6 +98,7 @@ public class TicketTestClient
         destination3.setName("Helsinki");
 
         Flight flight3 = new Flight();
+        flight3.setFlightNumber("FL6");
         flight3.setDeparture(departure3);
         flight3.setDestination(destination3);
         itinerary2.getFlights().add(flight3);
@@ -106,6 +109,7 @@ public class TicketTestClient
         destination4.setName("Riga");
 
         Flight flight4 = new Flight();
+        flight4.setFlightNumber("FL4");
         flight4.setDeparture(departure4);
         flight4.setDestination(destination4);
         itinerary2.getFlights().add(flight4);

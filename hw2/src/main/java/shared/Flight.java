@@ -2,8 +2,17 @@ package shared;
 
 public class Flight
 {
+    private String flightNumber;
     private Node departure;
     private Node destination;
+
+    public String getFlightNumber() {
+        return flightNumber;
+    }
+
+    public void setFlightNumber(String flightNumber) {
+        this.flightNumber = flightNumber;
+    }
 
     public Node getDeparture()
     {
