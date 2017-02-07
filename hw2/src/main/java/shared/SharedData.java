@@ -70,6 +70,7 @@ public class SharedData
         for (int i = 0; i < nodes.size()-1; i++)
         {
             Flight flight = new Flight();
+            flight.setFlightNumber("FL" + Integer.toString(i+1));
             flight.setDeparture(nodes.get(i));
             flight.setDestination(nodes.get(i+1));
             flights.add(flight);
@@ -77,6 +78,7 @@ public class SharedData
 
         // Reykjavik -> Helsinki
         Flight rvkToHelsinki = new Flight();
+        rvkToHelsinki.setFlightNumber("FL6");
         rvkToHelsinki.setDeparture(nodes.get(0));
         rvkToHelsinki.setDestination(nodes.get(3));
         flights.add(rvkToHelsinki);

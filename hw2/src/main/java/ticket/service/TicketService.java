@@ -24,7 +24,8 @@ import java.util.HashMap;
 @HandlerChain(file= "ticket_handler.xml")
 public class TicketService
 {
-    HashMap<Flight, TicketContainer> ticketMap;
+    // Maps flight number to flight ticket container
+    HashMap<String, TicketContainer> ticketMap;
 
     public TicketService()
     {
@@ -39,7 +40,7 @@ public class TicketService
 
     @WebMethod
     public ArrayList<BookableItinerary> getPriceAndAvailabilityOfItinerariesForDate(
-            ArrayList<Itinerary> itineraries, Date date) {
+            ArrayList<Itinerary> itineraries, String date) {
 
         if(itineraries.size() < 1) {
             return null;
@@ -54,11 +55,10 @@ public class TicketService
             int numberOfAvailableTickets = Integer.MAX_VALUE;
 
             for(Flight flight : itinerary.getFlights()) {
-                TicketContainer tc = this.ticketMap.get(flight);
+                TicketContainer tc = this.ticketMap.get(flight.getFlightNumber());
 
                 // check if the requested date is the same as for the flight ticket container
-                SimpleDateFormat fmt = new SimpleDateFormat("yyyyMMdd");
-                if(fmt.format(date).equals(fmt.format(tc.getDate()))) {
+                if(tc != null && date.equals(tc.getDate())) {
                     totalPriceForItinerary += tc.getPrice();
                     numberOfAvailableTickets = Integer.min(numberOfAvailableTickets, tc.getNumberOfAvailableTickets());
                 }
@@ -115,9 +115,9 @@ public class TicketService
             TicketContainer ticketContainer = new TicketContainer();
             ticketContainer.setNumberOfAvailableTickets(20);
             ticketContainer.setPrice(2500);
-            ticketContainer.setDate(new Date());
+            ticketContainer.setDate("2017-02-07");
 
-            this.ticketMap.put(flight, ticketContainer);
+            this.ticketMap.put(flight.getFlightNumber(), ticketContainer);
         }
     }
 }
