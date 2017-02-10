@@ -1,6 +1,7 @@
 package client;
 
 import bean.User;
+import exceptions.UserNotFoundException;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -8,6 +9,7 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MultivaluedHashMap;
+import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 
 public class MainClient {
@@ -41,11 +43,16 @@ public class MainClient {
 
     private void testGetUsers(String path) {
         System.out.println("Testing get users...");
-        String response = webTarget.path(path).request().get(String.class);
-        System.out.println(response);
+        Response response = webTarget.path(path).request().get(Response.class);
+        System.out.println("Response: " + response);
 
-        GenericType<ArrayList<User>> genericTypeUsers = new GenericType<ArrayList<User>>(){};
-        ArrayList<User> users = webTarget.path(path).request().get(genericTypeUsers);
+        try {
+            GenericType<ArrayList<User>> genericTypeUsers = new GenericType<ArrayList<User>>(){};
+            ArrayList<User> users = webTarget.path(path).request().get(genericTypeUsers);
+        }
+        catch (Exception ex) {
+            System.out.println(ex);
+        }
     }
 
     private void testCreateUser(String path) {
@@ -56,15 +63,44 @@ public class MainClient {
         formData.add("password", password);
 
         System.out.println("Testing create user...");
-        User user = webTarget.path(path).request().post(Entity.form(formData), User.class);
-        System.out.println(user.toString());
+        Response response = webTarget.path(path).request().post(Entity.form(formData), Response.class);
+        System.out.println("Response: " + response);
+
+        try {
+            User user = webTarget.path(path).request().post(Entity.form(formData), User.class);
+            System.out.println(user.toString());
+        }
+        catch (Exception ex) {
+            System.out.println(ex);
+        }
     }
 
     private void testGetUser(String path) {
-        String userId = "2";
-        System.out.println("Testing get user...");
-        User user = webTarget.path(path + "/" + userId).request().get(User.class);
-        System.out.println(user.toString());
+        String user2Id = "2";
+        System.out.println("Testing get user with id=2...");
+        Response response = webTarget.path(path + "/" + user2Id).request().get(Response.class);
+        System.out.println("Response=" + response);
+
+        try {
+            User user = webTarget.path(path + "/" + user2Id).request().get(User.class);
+            System.out.println(user.toString());
+        }
+        catch (Exception ex) {
+            System.out.println(ex);
+        }
+
+        String user22Id = "22";
+        System.out.println("Testing get user with id=22...");
+        Response response2 = webTarget.path(path + "/" + user22Id).request().get(Response.class);
+        System.out.println("Response=" + response2);
+
+        try {
+            User user = webTarget.path(path + "/" + user22Id).request().get(User.class);
+            System.out.println(user.toString());
+        }
+        catch (Exception ex) {
+            System.out.println(ex);
+        }
     }
 
     private void testUpdateUser(String path) {
@@ -75,15 +111,24 @@ public class MainClient {
         user.setPassword(newPassword);
 
         System.out.println("Testing update user...");
-        User updatedUser = webTarget.path(path).request().put(Entity.xml(user), User.class);
-        System.out.println(updatedUser.toString());
+        Response response = webTarget.path(path).request().put(Entity.xml(user), Response.class);
+        System.out.println("Response: " + response);
+
+        try {
+            User updatedUser = webTarget.path(path).request().put(Entity.xml(user), User.class);
+            System.out.println(updatedUser.toString());
+        }
+        catch (Exception ex) {
+            System.out.println(ex);
+        }
     }
 
     private void testDeleteUser(String path) {
         System.out.println("Testing delete user...");
         String userIdToDelete = "2";
-        String response = webTarget.path(path + "/" + userIdToDelete).request().delete(String.class);
-        System.out.println(response);
+
+        Response response = webTarget.path(path + "/" + userIdToDelete).request().delete(Response.class);
+        System.out.println("Response: " + response);
     }
 
 }
