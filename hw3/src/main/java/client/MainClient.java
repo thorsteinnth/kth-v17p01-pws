@@ -36,13 +36,13 @@ public class MainClient {
     }
 
     private void testHelloResource(String path) {
-        System.out.println("Testing hello resource...");
+        System.out.println("-- Testing hello resource...");
         String response = webTarget.path(path).request().get(String.class);
         System.out.println(response);
     }
 
     private void testGetUsers(String path) {
-        System.out.println("Testing get users...");
+        System.out.println("-- Testing get users...");
         Response response = webTarget.path(path).request().get(Response.class);
         System.out.println("Response: " + response);
 
@@ -56,12 +56,13 @@ public class MainClient {
     }
 
     private void testCreateUser(String path) {
-        String username = "newUser";
+        String username = "newUser4";
         String password = "pass123";
         MultivaluedHashMap<String, String> formData = new MultivaluedHashMap<>();
         formData.add("username", username);
         formData.add("password", password);
 
+        System.out.println();
         System.out.println("Testing create user...");
         Response response = webTarget.path(path).request().post(Entity.form(formData), Response.class);
         System.out.println("Response: " + response);
@@ -77,6 +78,7 @@ public class MainClient {
 
     private void testGetUser(String path) {
         String user2Id = "2";
+        System.out.println();
         System.out.println("Testing get user with id=2...");
         Response response = webTarget.path(path + "/" + user2Id).request().get(Response.class);
         System.out.println("Response=" + response);
@@ -90,6 +92,7 @@ public class MainClient {
         }
 
         String user22Id = "22";
+        System.out.println();
         System.out.println("Testing get user with id=22...");
         Response response2 = webTarget.path(path + "/" + user22Id).request().get(Response.class);
         System.out.println("Response=" + response2);
@@ -110,6 +113,7 @@ public class MainClient {
         String newPassword = "newPassword123";
         user.setPassword(newPassword);
 
+        System.out.println();
         System.out.println("Testing update user...");
         Response response = webTarget.path(path).request().put(Entity.xml(user), Response.class);
         System.out.println("Response: " + response);
@@ -124,6 +128,7 @@ public class MainClient {
     }
 
     private void testDeleteUser(String path) {
+        System.out.println();
         System.out.println("Testing delete user...");
         String userIdToDelete = "2";
 
