@@ -56,8 +56,7 @@ public class UserStore
         if (getUserByUsername(username) != null)
             throw new UsernameAlreadyExistsException("Username " + username + " is already taken");
 
-        User newUser = new User();
-        newUser.setId(getNextId());
+        User newUser = new User(getNextId());
         newUser.setUsername(username);
         newUser.setPassword(password);
         newUser.setToken("");
@@ -86,8 +85,7 @@ public class UserStore
     {
         for (int i=0; i<=10; i++)
         {
-            User user = new User();
-            user.setId(i);
+            User user = new User(i);
             user.setUsername("user" + i);
             user.setPassword("user" + i + "pass");
             user.setToken("");
