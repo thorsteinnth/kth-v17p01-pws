@@ -39,6 +39,36 @@ public class UserStore
         return userMap.get(id);
     }
 
+    public User createUser(String username, String password)
+    {
+        // TODO Check that username is unique?
+
+        User newUser = new User();
+        newUser.setId(getNextId());
+        newUser.setUsername(username);
+        newUser.setPassword(password);
+        newUser.setToken("");
+
+        userMap.put(newUser.getId(), newUser);
+
+        return newUser;
+    }
+
+    private int getNextId()
+    {
+        // Next ID should be one higher than the largest ID already present
+
+        int highestId = Integer.MIN_VALUE;
+
+        for (int id : userMap.keySet())
+        {
+            if (id > highestId)
+                highestId = id;
+        }
+
+        return highestId + 1;
+    }
+
     private void generateUsers()
     {
         for (int i=0; i<=10; i++)
