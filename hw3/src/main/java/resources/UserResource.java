@@ -2,6 +2,7 @@ package resources;
 
 import bean.User;
 import exceptions.UserNotFoundException;
+import exceptions.UsernameAlreadyExistsException;
 import storage.UserStore;
 
 import javax.ws.rs.*;
@@ -39,8 +40,16 @@ public class UserResource
     @Produces(MediaType.APPLICATION_XML)
     public Response createUser(@FormParam("username") String username, @FormParam("password") String password)
     {
-        User newUser = UserStore.getUserStore().createUser(username, password);
-        return Response.ok(newUser).build();
+        try
+        {
+            User newUser = UserStore.getUserStore().createUser(username, password);
+            return Response.ok(newUser).build();
+        }
+        catch (UsernameAlreadyExistsException ex)
+        {
+            // TODO What HTTP code to return here?
+            return Response.status(Response.Status.CONFLICT).entity(ex.getMessage()).build();
+        }
     }
 
     @GET

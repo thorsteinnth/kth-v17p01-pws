@@ -2,6 +2,7 @@ package storage;
 
 import bean.User;
 import exceptions.UserNotFoundException;
+import exceptions.UsernameAlreadyExistsException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,9 +40,21 @@ public class UserStore
         return userMap.get(id);
     }
 
-    public User createUser(String username, String password)
+    private User getUserByUsername(String username)
     {
-        // TODO Check that username is unique?
+        for (User user : userMap.values())
+        {
+            if (user.getUsername().equals(username))
+                return user;
+        }
+
+        return null;
+    }
+
+    public User createUser(String username, String password) throws UsernameAlreadyExistsException
+    {
+        if (getUserByUsername(username) != null)
+            throw new UsernameAlreadyExistsException("Username " + username + " is already taken");
 
         User newUser = new User();
         newUser.setId(getNextId());
