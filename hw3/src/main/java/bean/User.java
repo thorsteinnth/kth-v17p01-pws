@@ -1,25 +1,34 @@
 package bean;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class User
 {
-    private int id;
+    private final int id;
     private String username;
     private String password;
     private String token;
 
+    // Need to have a parameterless constructor too, for XML marshalling probably
+    public User()
+    {
+        this.id = -1;
+    }
+
+    public User(int id)
+    {
+        this.id = id;
+    }
+
+    @XmlElement
     public int getId()
     {
         return id;
     }
 
-    public void setId(int id)
-    {
-        this.id = id;
-    }
-
+    @XmlElement
     public String getUsername() {
         return username;
     }
@@ -28,6 +37,7 @@ public class User
         this.username = username;
     }
 
+    @XmlElement
     public String getPassword() {
         return password;
     }
@@ -36,6 +46,7 @@ public class User
         this.password = password;
     }
 
+    @XmlElement
     public String getToken() {
         return token;
     }
