@@ -11,17 +11,17 @@ import javax.xml.bind.JAXBElement;
 import java.util.List;
 
 @Path("/users")
-public class UserResource
+public class UsersResource
 {
     @Context
     UriInfo uriInfo;
     @Context
     Request request;
 
-    public UserResource()
+    public UsersResource()
     {}
 
-    public UserResource(UriInfo uriInfo, Request request)
+    public UsersResource(UriInfo uriInfo, Request request)
     {
         this.uriInfo = uriInfo;
         this.request = request;
