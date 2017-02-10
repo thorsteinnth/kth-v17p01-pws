@@ -11,4 +11,6 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile 'org.glassfish.jersey.containers:jersey-container-servlet:2.14'
+    compile 'org.glassfish.jersey.media:jersey-media-json-jackson:2.14'
 }
