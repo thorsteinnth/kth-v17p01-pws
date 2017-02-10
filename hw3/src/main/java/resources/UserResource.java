@@ -4,10 +4,7 @@ import bean.User;
 import exceptions.UserNotFoundException;
 import storage.UserStore;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.*;
 import java.util.List;
 
@@ -36,6 +33,14 @@ public class UserResource
         GenericEntity<List<User>> genericEntityUserList =
                 new GenericEntity<List<User>>(UserStore.getUserStore().getAllUsers()){};
         return Response.ok(genericEntityUserList).build();
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_XML)
+    public Response createUser(@FormParam("username") String username, @FormParam("password") String password)
+    {
+        User newUser = UserStore.getUserStore().createUser(username, password);
+        return Response.ok(newUser).build();
     }
 
     @GET
