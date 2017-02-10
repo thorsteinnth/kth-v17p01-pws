@@ -1,7 +1,7 @@
 package storage;
 
 import bean.User;
-import com.sun.org.apache.bcel.internal.generic.ARRAYLENGTH;
+import exceptions.UserNotFoundException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +29,14 @@ public class UserStore
     public ArrayList<User> getAllUsers()
     {
         return new ArrayList<User>(userMap.values());
+    }
+
+    public User getUserWithId(int id) throws UserNotFoundException
+    {
+        if (!userMap.containsKey(id))
+            throw new UserNotFoundException("User with ID " + id + " not found.");
+
+        return userMap.get(id);
     }
 
     private void generateUsers()
