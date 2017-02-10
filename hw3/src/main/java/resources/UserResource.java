@@ -7,6 +7,7 @@ import storage.UserStore;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+import javax.xml.bind.JAXBElement;
 import java.util.List;
 
 @Path("/users")
@@ -64,6 +65,27 @@ public class UserResource
         catch (UserNotFoundException ex)
         {
             return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
+        }
+    }
+
+    @PUT
+    @Consumes(MediaType.APPLICATION_XML)
+    public Response updateUser(JAXBElement<User> jaxbUser)
+    {
+        User userToUpdate = jaxbUser.getValue();
+
+        try
+        {
+            User updatedUser = UserStore.getUserStore().updateUser(userToUpdate);
+            return Response.ok(updatedUser).build();
+        }
+        catch (UserNotFoundException ex)
+        {
+            return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
+        }
+        catch (UsernameAlreadyExistsException ex)
+        {
+            return Response.status(Response.Status.CONFLICT).entity(ex.getMessage()).build();
         }
     }
 }

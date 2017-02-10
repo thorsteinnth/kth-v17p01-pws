@@ -56,7 +56,8 @@ public class UserStore
         if (getUserByUsername(username) != null)
             throw new UsernameAlreadyExistsException("Username " + username + " is already taken");
 
-        User newUser = new User(getNextId());
+        User newUser = new User();
+        newUser.setId(getNextId());
         newUser.setUsername(username);
         newUser.setPassword(password);
         newUser.setToken("");
@@ -64,6 +65,23 @@ public class UserStore
         userMap.put(newUser.getId(), newUser);
 
         return newUser;
+    }
+
+    public User updateUser(User userToUpdate) throws UserNotFoundException, UsernameAlreadyExistsException
+    {
+        // Return the user instance from the map
+
+        User foundUser = getUserWithId(userToUpdate.getId());
+
+        // Check that username is unique
+        User foundUserByUsername = getUserByUsername(userToUpdate.getUsername());
+        if (foundUserByUsername != null && foundUserByUsername.getId() != userToUpdate.getId())
+            throw new UsernameAlreadyExistsException("Username " + userToUpdate.getUsername() + " is already taken");
+
+        foundUser.setUsername(userToUpdate.getUsername());
+        foundUser.setPassword(userToUpdate.getPassword());
+
+        return foundUser;
     }
 
     private int getNextId()
@@ -85,7 +103,8 @@ public class UserStore
     {
         for (int i=0; i<=10; i++)
         {
-            User user = new User(i);
+            User user = new User();
+            user.setId(i);
             user.setUsername("user" + i);
             user.setPassword("user" + i + "pass");
             user.setToken("");

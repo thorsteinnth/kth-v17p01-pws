@@ -6,26 +6,21 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 public class User
 {
-    private final int id;
+    private int id;
     private String username;
     private String password;
     private String token;
-
-    // Need to have a parameterless constructor too, for XML marshalling probably
-    public User()
-    {
-        this.id = -1;
-    }
-
-    public User(int id)
-    {
-        this.id = id;
-    }
 
     @XmlElement
     public int getId()
     {
         return id;
+    }
+
+    // Need to have a setter here for JAXB ... should never update the ID though
+    public void setId(int id)
+    {
+        this.id = id;
     }
 
     @XmlElement
