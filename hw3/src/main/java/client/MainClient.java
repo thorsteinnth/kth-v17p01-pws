@@ -22,6 +22,10 @@ public class MainClient {
         MainClient mainClient = new MainClient();
         mainClient.testHelloResource("/hello");
         mainClient.testGetUsers("/users");
+        mainClient.testCreateUser("/users");
+        mainClient.testGetUser("/users");
+        mainClient.testUpdateUser("/users");
+        mainClient.testDeleteUser("/users");
     }
 
     public MainClient() {
@@ -56,14 +60,29 @@ public class MainClient {
         System.out.println(user.toString());
     }
 
+    private void testGetUser(String path) {
+        String userId = "2";
+        System.out.println("Testing get user...");
+        User user = webTarget.path(path + "/" + userId).request().get(User.class);
+        System.out.println(user.toString());
+    }
+
     private void testUpdateUser(String path) {
 
+        String userId = "2";
+        User user = webTarget.path(path + "/" + userId).request().get(User.class);
+        String newPassword = "newPassword123";
+        user.setPassword(newPassword);
+
+        System.out.println("Testing update user...");
+        User updatedUser = webTarget.path(path).request().put(Entity.xml(user), User.class);
+        System.out.println(updatedUser.toString());
     }
 
     private void testDeleteUser(String path) {
         System.out.println("Testing delete user...");
-        String userToDelete = "user2";
-        String response = webTarget.path(path + userToDelete).request().delete(String.class);
+        String userIdToDelete = "2";
+        String response = webTarget.path(path + "/" + userIdToDelete).request().delete(String.class);
         System.out.println(response);
     }
 
