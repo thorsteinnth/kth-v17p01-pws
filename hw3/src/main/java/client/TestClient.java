@@ -1,6 +1,6 @@
 package client;
 
-import bean.User;
+import bean.*;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -27,6 +27,8 @@ public class TestClient {
         testClient.testUpdateUser("/users");
         testClient.testDeleteUser("/users");
         testClient.testLogin("/users");
+
+        testClient.testGetItineraries("/itineraries");
     }
 
     public TestClient() {
@@ -140,4 +142,33 @@ public class TestClient {
         System.out.println("Testing login...");
     }
 
+
+    private void testGetItineraries(String path) {
+        System.out.println();
+        System.out.println("Testing get itineraries...");
+
+        Node departure = new Node();
+        departure.setName("Reykjavik");
+        Node destination = new Node();
+        destination.setName("Tallinn");
+
+        Flight flight = new Flight();
+        flight.setDeparture(departure);
+        flight.setDestination(destination);
+
+        Response response = webTarget.path(path).request().get(Response.class);
+        System.out.println("Response: " + response);
+
+        try {
+
+            // TODO : Find out if possible to inject JAXBElement in GET method
+            GenericType<ArrayList<Itinerary>> genericTypeItineraries = new GenericType<ArrayList<Itinerary>>(){};
+            ArrayList<Itinerary> itineraries = webTarget.path(path).request().put(Entity.xml(flight), genericTypeItineraries);
+
+            System.out.println(itineraries.toString());
+        }
+        catch (Exception ex) {
+            System.out.println(ex);
+        }
+    }
 }
