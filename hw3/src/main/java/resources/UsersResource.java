@@ -55,11 +55,16 @@ public class UsersResource
 
     @GET
     @Path("{id}")
-    public Response getUser(@PathParam("id") String id)
+    public Response getUser(@Context SecurityContext securityContext, @PathParam("id") String id)
     {
         try
         {
             User user = UserStore.getUserStore().getUserWithId(Integer.valueOf(id));
+
+            // Only allow a user to get himself
+            if (!securityContext.getUserPrincipal().getName().equals(user.getUsername()))
+                return Response.status(Response.Status.UNAUTHORIZED).build();
+
             return Response.ok(user).build();
         }
         catch (UserNotFoundException ex)
