@@ -70,12 +70,17 @@ public class UsersResource
 
     @PUT
     @Consumes(MediaType.APPLICATION_XML)
-    public Response updateUser(JAXBElement<User> jaxbUser)
+    public Response updateUser(@Context SecurityContext securityContext, JAXBElement<User> jaxbUser)
     {
         User userToUpdate = jaxbUser.getValue();
 
         try
         {
+            // Only allow a user to update himself
+            User existingUser = UserStore.getUserStore().getUserWithId(userToUpdate.getId());
+            if (!securityContext.getUserPrincipal().getName().equals(existingUser.getUsername()))
+                return Response.status(Response.Status.UNAUTHORIZED).build();
+
             User updatedUser = UserStore.getUserStore().updateUser(userToUpdate);
             return Response.ok(updatedUser).build();
         }
