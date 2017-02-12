@@ -3,6 +3,7 @@ package storage;
 import bean.User;
 import exceptions.UserNotFoundException;
 import exceptions.UsernameAlreadyExistsException;
+import exceptions.UsernameOrPasswordIncorrectException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -40,7 +41,7 @@ public class UserStore
         return userMap.get(id);
     }
 
-    private User getUserByUsername(String username)
+    public User getUserByUsername(String username)
     {
         for (User user : userMap.values())
         {
@@ -49,6 +50,19 @@ public class UserStore
         }
 
         return null;
+    }
+
+    public User login(String username, String password) throws UsernameOrPasswordIncorrectException
+    {
+        User foundUser = getUserByUsername(username);
+
+        if (foundUser == null)
+            throw new UsernameOrPasswordIncorrectException("Username or password incorrect");
+
+        if (!foundUser.getPassword().equals(password))
+            throw new UsernameOrPasswordIncorrectException("Username or password incorrect");
+
+        return foundUser;
     }
 
     public User createUser(String username, String password) throws UsernameAlreadyExistsException
@@ -60,7 +74,6 @@ public class UserStore
         newUser.setId(getNextId());
         newUser.setUsername(username);
         newUser.setPassword(password);
-        newUser.setToken("");
 
         userMap.put(newUser.getId(), newUser);
 
@@ -107,7 +120,6 @@ public class UserStore
             user.setId(i);
             user.setUsername("user" + i);
             user.setPassword("user" + i + "pass");
-            user.setToken("");
 
             userMap.put(user.getId(), user);
         }
