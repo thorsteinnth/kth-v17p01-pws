@@ -97,6 +97,12 @@ public class UserStore
         return foundUser;
     }
 
+    public boolean deleteUser(int userId) throws UserNotFoundException
+    {
+        userMap.remove(userId);
+        return true;
+    }
+
     private int getNextId()
     {
         // Next ID should be one higher than the largest ID already present

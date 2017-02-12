@@ -98,4 +98,25 @@ public class UsersResource
             return Response.status(Response.Status.CONFLICT).entity(ex.getMessage()).build();
         }
     }
+
+    @DELETE
+    @Path("{id}")
+    public Response deleteUser(@Context SecurityContext securityContext, @PathParam("id") String id)
+    {
+        try
+        {
+            // Only allow a user to delete himself
+            User existingUser = UserStore.getUserStore().getUserWithId(Integer.valueOf(id));
+            if (!securityContext.getUserPrincipal().getName().equals(existingUser.getUsername()))
+                return Response.status(Response.Status.UNAUTHORIZED).build();
+
+            boolean success = UserStore.getUserStore().deleteUser(Integer.valueOf(id));
+
+            return Response.ok(success).build();
+        }
+        catch (UserNotFoundException ex)
+        {
+            return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
+        }
+    }
 }
