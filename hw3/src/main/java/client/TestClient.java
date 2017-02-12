@@ -1,8 +1,6 @@
 package client;
 
 import bean.User;
-import exceptions.UserNotFoundException;
-
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -12,7 +10,7 @@ import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 
-public class MainClient {
+public class TestClient {
 
     private static String baseURL = "http://localhost:8080";
 
@@ -21,16 +19,17 @@ public class MainClient {
 
     public static void main(String[] args) {
 
-        MainClient mainClient = new MainClient();
-        mainClient.testHelloResource("/hello");
-        mainClient.testGetUsers("/users");
-        mainClient.testCreateUser("/users");
-        mainClient.testGetUser("/users");
-        mainClient.testUpdateUser("/users");
-        mainClient.testDeleteUser("/users");
+        TestClient testClient = new TestClient();
+        testClient.testHelloResource("/hello");
+        testClient.testGetUsers("/users");
+        testClient.testCreateUser("/users");
+        testClient.testGetUser("/users");
+        testClient.testUpdateUser("/users");
+        testClient.testDeleteUser("/users");
+        testClient.testLogin("/users");
     }
 
-    public MainClient() {
+    public TestClient() {
         this.webClient = ClientBuilder.newClient();
         this.webTarget = webClient.target(baseURL);
     }
@@ -134,6 +133,11 @@ public class MainClient {
 
         Response response = webTarget.path(path + "/" + userIdToDelete).request().delete(Response.class);
         System.out.println("Response: " + response);
+    }
+
+    private void testLogin(String path) {
+        System.out.println();
+        System.out.println("Testing login...");
     }
 
 }
