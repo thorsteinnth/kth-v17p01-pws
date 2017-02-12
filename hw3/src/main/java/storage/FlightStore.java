@@ -3,6 +3,7 @@ package storage;
 import bean.Edge;
 import bean.Flight;
 import bean.Node;
+import org.jgrapht.alg.shortestpath.KShortestPaths;
 import org.jgrapht.graph.DefaultDirectedGraph;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ public class FlightStore {
     private static ArrayList<Node> nodes;
     private static ArrayList<Flight> flights;
     private static DefaultDirectedGraph<Node, Edge> graph;
+    private static KShortestPaths kShortestPaths;
     private static FlightStore instance = null;
 
     private FlightStore() {
@@ -19,6 +21,7 @@ public class FlightStore {
         this.nodes = generateNodes();
         this.flights = generateFlights();
         this.graph = generateGraph();
+        this.kShortestPaths = new KShortestPaths(this.graph, 10);
     }
 
     public static FlightStore getFlightStore()
@@ -39,6 +42,10 @@ public class FlightStore {
 
     public DefaultDirectedGraph<Node, Edge> getGraph() {
         return graph;
+    }
+
+    public KShortestPaths getkShortestPaths() {
+        return kShortestPaths;
     }
 
     private ArrayList<Node> generateNodes()
