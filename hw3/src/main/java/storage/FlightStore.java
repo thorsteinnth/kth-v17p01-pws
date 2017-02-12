@@ -29,19 +29,19 @@ public class FlightStore {
         return instance;
     }
 
-    public static ArrayList<Node> getNodes() {
+    public ArrayList<Node> getNodes() {
         return nodes;
     }
 
-    public static ArrayList<Flight> getFlights() {
+    public ArrayList<Flight> getFlights() {
         return flights;
     }
 
-    public static DefaultDirectedGraph<Node, Edge> getGraph() {
+    public DefaultDirectedGraph<Node, Edge> getGraph() {
         return graph;
     }
 
-    private static ArrayList<Node> generateNodes()
+    private ArrayList<Node> generateNodes()
     {
         ArrayList<Node> nodes = new ArrayList<>();
 
@@ -72,7 +72,7 @@ public class FlightStore {
         return nodes;
     }
 
-    private static ArrayList<Flight> generateFlights()
+    private ArrayList<Flight> generateFlights()
     {
         ArrayList<Flight> flights = new ArrayList<>();
 
