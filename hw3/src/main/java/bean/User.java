@@ -9,7 +9,6 @@ public class User
     private int id;
     private String username;
     private String password;
-    private String token;
 
     @XmlElement
     public int getId()
@@ -41,22 +40,13 @@ public class User
         this.password = password;
     }
 
-    @XmlElement
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "User{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", token='" + token + '\'' +
                 '}';
     }
 }
