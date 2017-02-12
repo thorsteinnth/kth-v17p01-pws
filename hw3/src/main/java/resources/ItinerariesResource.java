@@ -35,6 +35,7 @@ public class ItinerariesResource {
         this.request = request;
     }
 
+    // TODO : Change this to use Query/Path/Form .. some sort of string parameter
     @GET
     @Produces({MediaType.APPLICATION_XML})
     public Response findItineraries(JAXBElement<Flight> flightJAXBElement) {

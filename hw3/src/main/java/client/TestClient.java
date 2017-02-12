@@ -161,7 +161,7 @@ public class TestClient {
 
         try {
 
-            // TODO : Find out if possible to inject JAXBElement in GET method
+            // TODO : Change this to Query/Path/Form .. some sort of string inject parameter
             GenericType<ArrayList<Itinerary>> genericTypeItineraries = new GenericType<ArrayList<Itinerary>>(){};
             ArrayList<Itinerary> itineraries = webTarget.path(path).request().put(Entity.xml(flight), genericTypeItineraries);
 
