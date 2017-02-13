@@ -206,9 +206,13 @@ public class TestClient {
 
         String departure = "Reykjavik";
         String destination = "Tallinn";
+        String date = "2017-02-13";
 
         Response response = webTarget.path(path)
-                .queryParam("departure", departure).queryParam("destination", destination).request()
+                .queryParam("departure", departure)
+                .queryParam("destination", destination)
+                .queryParam("date", date)
+                .request()
                 .property(HTTP_AUTHENTICATION_BASIC_USERNAME, "user1")
                 .property(HTTP_AUTHENTICATION_BASIC_PASSWORD, "user1pass")
                 .get(Response.class);
@@ -217,7 +221,10 @@ public class TestClient {
         try {
             GenericType<ArrayList<Itinerary>> genericTypeItineraries = new GenericType<ArrayList<Itinerary>>(){};
             ArrayList<Itinerary> itineraries = webTarget.path(path)
-                    .queryParam("departure", departure).queryParam("destination", destination).request()
+                    .queryParam("departure", departure)
+                    .queryParam("destination", destination)
+                    .queryParam("date", date)
+                    .request()
                     .property(HTTP_AUTHENTICATION_BASIC_USERNAME, "user1")
                     .property(HTTP_AUTHENTICATION_BASIC_PASSWORD, "user1pass")
                     .get(genericTypeItineraries);

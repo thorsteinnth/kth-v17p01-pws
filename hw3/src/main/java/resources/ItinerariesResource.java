@@ -1,20 +1,17 @@
 package resources;
 
-import bean.Edge;
-import bean.Flight;
-import bean.Itinerary;
-import bean.Node;
+import bean.*;
 import exceptions.NoRouteFoundException;
 import org.jgrapht.GraphPath;
 import org.jgrapht.graph.DefaultDirectedGraph;
 import storage.FlightStore;
+import storage.TicketStore;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.*;
-import javax.xml.bind.JAXBElement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +34,11 @@ public class ItinerariesResource {
 
     @GET
     @Produces({MediaType.APPLICATION_XML})
-    public Response findItineraries(@QueryParam("departure") String departure, @QueryParam("destination") String destination) {
+    // date needs to be on the format yyyy-MM-dd
+    public Response findItineraries(
+            @QueryParam("departure") String departure,
+            @QueryParam("destination") String destination,
+            @QueryParam("date") String date) {
 
         Node dep = new Node();
         dep.setName(departure);
@@ -48,13 +49,52 @@ public class ItinerariesResource {
         flight.setDeparture(dep);
         flight.setDestination(dest);
 
+        List<Itinerary> allItineraries = new ArrayList<>();
+        List<Itinerary> bookableItineraries = new ArrayList<>();
+
         try {
-            GenericEntity<List<Itinerary>> genericEntityItineraryList =
-                    new GenericEntity<List<Itinerary>>(findKShortestPaths(flight.getDeparture(), flight.getDestination())){};
-            return Response.ok(genericEntityItineraryList).build();
+            allItineraries = findKShortestPaths(flight.getDeparture(), flight.getDestination());
         }
         catch (NoRouteFoundException ex) {
             return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();
+        }
+
+        for (Itinerary itinerary : allItineraries) {
+            int totalPriceForItinerary = 0;
+            int numberOfAvailableTickets = Integer.MAX_VALUE;
+
+            for(Flight itineraryFlight : itinerary.getFlights()) {
+                TicketContainer tc = TicketStore.getTicketStore().getTicketContainer(itineraryFlight.getFlightNumber());
+
+                // check if the requested date is the same as for the flight ticket container
+                if(tc != null && date.equals(tc.getDate())) {
+                    totalPriceForItinerary += tc.getPrice();
+                    numberOfAvailableTickets = Integer.min(numberOfAvailableTickets, tc.getNumberOfAvailableTickets());
+                }
+                else {
+                    numberOfAvailableTickets = 0;
+                    break;
+                }
+            }
+
+            if(numberOfAvailableTickets > 0) {
+
+                Itinerary bookableItinerary = new Itinerary();
+                bookableItinerary.setDate(date);
+                bookableItinerary.setFlights(itinerary.getFlights());
+                bookableItinerary.setTotalPrice(totalPriceForItinerary);
+                bookableItinerary.setNumberOfAvailableTickets(numberOfAvailableTickets);
+                bookableItineraries.add(bookableItinerary);
+            }
+        }
+
+        if(bookableItineraries.size() > 0) {
+            GenericEntity<List<Itinerary>> genericEntityItineraryList =
+                    new GenericEntity<List<Itinerary>>(bookableItineraries){};
+            return Response.ok(genericEntityItineraryList).build();
+        }
+        else {
+            return Response.status(Response.Status.NOT_FOUND).build();
         }
     }
 
