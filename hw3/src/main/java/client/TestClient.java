@@ -1,6 +1,8 @@
 package client;
 
 import bean.*;
+import org.glassfish.jersey.client.authentication.HttpAuthenticationFeature;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -15,6 +17,7 @@ public class TestClient {
     private static String baseURL = "http://localhost:8080";
 
     private Client webClient;
+    private HttpAuthenticationFeature httpAuthenticationFeature;
     private WebTarget webTarget;
 
     public static void main(String[] args) {
@@ -33,6 +36,8 @@ public class TestClient {
 
     public TestClient() {
         this.webClient = ClientBuilder.newClient();
+        this.httpAuthenticationFeature = HttpAuthenticationFeature.basic("user0", "user0pass");
+        this.webClient.register(this.httpAuthenticationFeature);
         this.webTarget = webClient.target(baseURL);
     }
 
