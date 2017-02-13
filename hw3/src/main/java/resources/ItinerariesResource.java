@@ -49,8 +49,9 @@ public class ItinerariesResource {
         flight.setDestination(dest);
 
         try {
-            List<Itinerary> itineraries = findKShortestPaths(flight.getDeparture(), flight.getDestination());
-            return Response.ok(itineraries).build();
+            GenericEntity<List<Itinerary>> genericEntityItineraryList =
+                    new GenericEntity<List<Itinerary>>(findKShortestPaths(flight.getDeparture(), flight.getDestination())){};
+            return Response.ok(genericEntityItineraryList).build();
         }
         catch (NoRouteFoundException ex) {
             return Response.status(Response.Status.NOT_FOUND).entity(ex.getMessage()).build();

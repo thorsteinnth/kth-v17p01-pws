@@ -20,8 +20,8 @@ public class TestClient {
     private static String baseURL = "http://localhost:8080";
 
     private Client webClient;
-    private HttpAuthenticationFeature httpAuthenticationFeature;
     private WebTarget webTarget;
+    private HttpAuthenticationFeature feature;
 
     public static void main(String[] args) {
 
@@ -32,33 +32,46 @@ public class TestClient {
         testClient.testCreateUser("/users");
         testClient.testUpdateUser("/users");
         testClient.testDeleteUser("/users");
-        testClient.testLogin("/users");
+        testClient.testLogin("/login");
 
         testClient.testGetItineraries("/itineraries");
     }
 
     public TestClient() {
         this.webClient = ClientBuilder.newClient();
-        this.httpAuthenticationFeature = HttpAuthenticationFeature.basic("user0", "user0pass");
-        this.webClient.register(this.httpAuthenticationFeature);
+        this.feature = HttpAuthenticationFeature.basic("user0", "user0pass");
+        this.webClient.register(this.feature);
         this.webTarget = webClient.target(baseURL);
     }
 
     private void testHelloResource(String path) {
         System.out.println();
         System.out.println("-- Testing hello resource...");
-        String response = webTarget.path(path).request().get(String.class);
+        String response = webTarget.path(path).request()
+                .property(HTTP_AUTHENTICATION_BASIC_USERNAME, "user0")
+                .property(HTTP_AUTHENTICATION_BASIC_PASSWORD, "user0pass")
+                .get(String.class);
         System.out.println(response);
     }
 
     private void testGetUsers(String path) {
         System.out.println("-- Testing get users...");
-        Response response = webTarget.path(path).request().get(Response.class);
+        Response response = webTarget.path(path).request()
+                .property(HTTP_AUTHENTICATION_BASIC_USERNAME, "user0")
+                .property(HTTP_AUTHENTICATION_BASIC_PASSWORD, "user0pass")
+                .get(Response.class);
         System.out.println("Response: " + response);
 
         try {
             GenericType<ArrayList<User>> genericTypeUsers = new GenericType<ArrayList<User>>(){};
-            ArrayList<User> users = webTarget.path(path).request().get(genericTypeUsers);
+            ArrayList<User> users = webTarget.path(path).request()
+                    .property(HTTP_AUTHENTICATION_BASIC_USERNAME, "user0")
+                    .property(HTTP_AUTHENTICATION_BASIC_PASSWORD, "user0pass")
+                    .get(genericTypeUsers);
+
+            for (User user : users) {
+                System.out.println(user.toString());
+            }
         }
         catch (Exception ex) {
             System.out.println(ex);
@@ -90,11 +103,17 @@ public class TestClient {
         String user0Id = "0";
         System.out.println();
         System.out.println("Testing get user with id=0...");
-        Response response = webTarget.path(path + "/" + user0Id).request().get(Response.class);
+        Response response = webTarget.path(path + "/" + user0Id).request()
+                .property(HTTP_AUTHENTICATION_BASIC_USERNAME, "user0")
+                .property(HTTP_AUTHENTICATION_BASIC_PASSWORD, "user0pass")
+                .get(Response.class);
         System.out.println("Response=" + response);
 
         try {
-            User user = webTarget.path(path + "/" + user0Id).request().get(User.class);
+            User user = webTarget.path(path + "/" + user0Id).request()
+                    .property(HTTP_AUTHENTICATION_BASIC_USERNAME, "user0")
+                    .property(HTTP_AUTHENTICATION_BASIC_PASSWORD, "user0pass")
+                    .get(User.class);
             System.out.println(user.toString());
         }
         catch (Exception ex) {
@@ -104,11 +123,17 @@ public class TestClient {
         String user22Id = "22";
         System.out.println();
         System.out.println("Testing get user with id=22...");
-        Response response2 = webTarget.path(path + "/" + user22Id).request().get(Response.class);
+        Response response2 = webTarget.path(path + "/" + user22Id).request()
+                .property(HTTP_AUTHENTICATION_BASIC_USERNAME, "user0")
+                .property(HTTP_AUTHENTICATION_BASIC_PASSWORD, "user0pass")
+                .get(Response.class);
         System.out.println("Response=" + response2);
 
         try {
-            User user = webTarget.path(path + "/" + user22Id).request().get(User.class);
+            User user = webTarget.path(path + "/" + user22Id).request()
+                    .property(HTTP_AUTHENTICATION_BASIC_USERNAME, "user0")
+                    .property(HTTP_AUTHENTICATION_BASIC_PASSWORD, "user0pass")
+                    .get(User.class);
             System.out.println(user.toString());
         }
         catch (Exception ex) {
@@ -156,7 +181,22 @@ public class TestClient {
         System.out.println();
         System.out.println("Testing login...");
 
-        //TODO
+        Response response = webTarget.path(path).request()
+                .property(HTTP_AUTHENTICATION_BASIC_USERNAME, "user1")
+                .property(HTTP_AUTHENTICATION_BASIC_PASSWORD, "user1pass")
+                .get(Response.class);
+        System.out.println("Response: " + response);
+
+        try {
+            User loggedInUser = webTarget.path(path).request()
+                    .property(HTTP_AUTHENTICATION_BASIC_USERNAME, "user1")
+                    .property(HTTP_AUTHENTICATION_BASIC_PASSWORD, "user1pass")
+                    .get(User.class);
+            System.out.println("Logged in user: " + loggedInUser.toString());
+        }
+        catch (Exception ex) {
+            System.out.println(ex.toString());
+        }
     }
 
 
@@ -168,15 +208,19 @@ public class TestClient {
         String destination = "Tallinn";
 
         Response response = webTarget.path(path)
-                .queryParam("departure", departure).queryParam("destination", destination).request().get(Response.class);
+                .queryParam("departure", departure).queryParam("destination", destination).request()
+                .property(HTTP_AUTHENTICATION_BASIC_USERNAME, "user1")
+                .property(HTTP_AUTHENTICATION_BASIC_PASSWORD, "user1pass")
+                .get(Response.class);
         System.out.println("Response: " + response);
 
         try {
-
             GenericType<ArrayList<Itinerary>> genericTypeItineraries = new GenericType<ArrayList<Itinerary>>(){};
             ArrayList<Itinerary> itineraries = webTarget.path(path)
-                    .queryParam("departure", departure).queryParam("destination", destination)
-                    .request().get(genericTypeItineraries);
+                    .queryParam("departure", departure).queryParam("destination", destination).request()
+                    .property(HTTP_AUTHENTICATION_BASIC_USERNAME, "user1")
+                    .property(HTTP_AUTHENTICATION_BASIC_PASSWORD, "user1pass")
+                    .get(genericTypeItineraries);
 
             System.out.println(itineraries.toString());
         }

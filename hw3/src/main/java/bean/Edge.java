@@ -1,8 +1,10 @@
 package bean;
 
+import org.jgrapht.graph.DefaultWeightedEdge;
+
 import javax.xml.bind.annotation.XmlElement;
 
-public class Edge {
+public class Edge extends DefaultWeightedEdge{
 
     private Flight flight;
 

@@ -40,4 +40,13 @@ public class Flight {
     {
         this.destination = destination;
     }
+
+    @Override
+    public String toString() {
+        return "Flight{" +
+                "flightNumber='" + flightNumber + '\'' +
+                ", departure=" + departure +
+                ", destination=" + destination +
+                '}';
+    }
 }

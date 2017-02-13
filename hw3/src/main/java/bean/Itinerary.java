@@ -17,4 +17,11 @@ public class Itinerary {
     public void setFlights(List<Flight> flights) {
         this.flights = flights;
     }
+
+    @Override
+    public String toString() {
+        return "Itinerary{" +
+                "flights=" + flights +
+                '}';
+    }
 }
