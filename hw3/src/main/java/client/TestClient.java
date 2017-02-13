@@ -24,9 +24,9 @@ public class TestClient {
 
         TestClient testClient = new TestClient();
         testClient.testHelloResource("/hello");
+        testClient.testGetUser("/users");
         testClient.testGetUsers("/users");
         testClient.testCreateUser("/users");
-        testClient.testGetUser("/users");
         testClient.testUpdateUser("/users");
         testClient.testDeleteUser("/users");
         testClient.testLogin("/users");
@@ -83,14 +83,14 @@ public class TestClient {
     }
 
     private void testGetUser(String path) {
-        String user2Id = "2";
+        String user0Id = "0";
         System.out.println();
-        System.out.println("Testing get user with id=2...");
-        Response response = webTarget.path(path + "/" + user2Id).request().get(Response.class);
+        System.out.println("Testing get user with id=0...");
+        Response response = webTarget.path(path + "/" + user0Id).request().get(Response.class);
         System.out.println("Response=" + response);
 
         try {
-            User user = webTarget.path(path + "/" + user2Id).request().get(User.class);
+            User user = webTarget.path(path + "/" + user0Id).request().get(User.class);
             System.out.println(user.toString());
         }
         catch (Exception ex) {
@@ -114,7 +114,7 @@ public class TestClient {
 
     private void testUpdateUser(String path) {
 
-        String userId = "2";
+        String userId = "0";
         User user = webTarget.path(path + "/" + userId).request().get(User.class);
         String newPassword = "newPassword123";
         user.setPassword(newPassword);
@@ -123,6 +123,10 @@ public class TestClient {
         System.out.println("Testing update user...");
         Response response = webTarget.path(path).request().put(Entity.xml(user), Response.class);
         System.out.println("Response: " + response);
+
+        // need to update the credentials registered with the web client
+        this.httpAuthenticationFeature = HttpAuthenticationFeature.basic("user0", "newPassword123");
+        this.webClient.register(this.httpAuthenticationFeature);
 
         try {
             User updatedUser = webTarget.path(path).request().put(Entity.xml(user), User.class);
@@ -136,7 +140,7 @@ public class TestClient {
     private void testDeleteUser(String path) {
         System.out.println();
         System.out.println("Testing delete user...");
-        String userIdToDelete = "2";
+        String userIdToDelete = "0";
 
         Response response = webTarget.path(path + "/" + userIdToDelete).request().delete(Response.class);
         System.out.println("Response: " + response);
