@@ -12,6 +12,9 @@ import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
 
+import static org.glassfish.jersey.client.authentication.HttpAuthenticationFeature.HTTP_AUTHENTICATION_BASIC_PASSWORD;
+import static org.glassfish.jersey.client.authentication.HttpAuthenticationFeature.HTTP_AUTHENTICATION_BASIC_USERNAME;
+
 public class TestClient {
 
     private static String baseURL = "http://localhost:8080";
@@ -42,6 +45,7 @@ public class TestClient {
     }
 
     private void testHelloResource(String path) {
+        System.out.println();
         System.out.println("-- Testing hello resource...");
         String response = webTarget.path(path).request().get(String.class);
         System.out.println(response);
@@ -124,12 +128,11 @@ public class TestClient {
         Response response = webTarget.path(path).request().put(Entity.xml(user), Response.class);
         System.out.println("Response: " + response);
 
-        // need to update the credentials registered with the web client
-        this.httpAuthenticationFeature = HttpAuthenticationFeature.basic("user0", "newPassword123");
-        this.webClient.register(this.httpAuthenticationFeature);
-
         try {
-            User updatedUser = webTarget.path(path).request().put(Entity.xml(user), User.class);
+            User updatedUser = webTarget.path(path).request()
+                    .property(HTTP_AUTHENTICATION_BASIC_USERNAME, "user0")
+                    .property(HTTP_AUTHENTICATION_BASIC_PASSWORD, "newPassword123")
+                    .put(Entity.xml(user), User.class);
             System.out.println(updatedUser.toString());
         }
         catch (Exception ex) {
@@ -142,13 +145,18 @@ public class TestClient {
         System.out.println("Testing delete user...");
         String userIdToDelete = "0";
 
-        Response response = webTarget.path(path + "/" + userIdToDelete).request().delete(Response.class);
+        Response response = webTarget.path(path + "/" + userIdToDelete).request()
+                .property(HTTP_AUTHENTICATION_BASIC_USERNAME, "user0")
+                .property(HTTP_AUTHENTICATION_BASIC_PASSWORD, "newPassword123")
+                .delete(Response.class);
         System.out.println("Response: " + response);
     }
 
     private void testLogin(String path) {
         System.out.println();
         System.out.println("Testing login...");
+
+        //TODO
     }
 
 
