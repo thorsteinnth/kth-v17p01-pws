@@ -57,6 +57,9 @@ public class UsersResource
     @Path("{id}")
     public Response getUser(@Context SecurityContext securityContext, @PathParam("id") String id)
     {
+        // Shouldn't have the ID as a parameter here ... should just get the user from the security context
+        // The ID here makes sense though if we would have an admin that is able to manage other users
+
         try
         {
             User user = UserStore.getUserStore().getUserWithId(Integer.valueOf(id));
@@ -103,6 +106,9 @@ public class UsersResource
     @Path("{id}")
     public Response deleteUser(@Context SecurityContext securityContext, @PathParam("id") String id)
     {
+        // Shouldn't have the ID as a parameter here ... should just get the user from the security context
+        // The ID here makes sense though if we would have an admin that is able to manage other users
+
         try
         {
             // Only allow a user to delete himself
