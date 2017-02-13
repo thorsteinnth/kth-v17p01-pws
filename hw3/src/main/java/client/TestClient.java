@@ -147,23 +147,19 @@ public class TestClient {
         System.out.println();
         System.out.println("Testing get itineraries...");
 
-        Node departure = new Node();
-        departure.setName("Reykjavik");
-        Node destination = new Node();
-        destination.setName("Tallinn");
+        String departure = "Reykjavik";
+        String destination = "Tallinn";
 
-        Flight flight = new Flight();
-        flight.setDeparture(departure);
-        flight.setDestination(destination);
-
-        Response response = webTarget.path(path).request().get(Response.class);
+        Response response = webTarget.path(path)
+                .queryParam("departure", departure).queryParam("destination", destination).request().get(Response.class);
         System.out.println("Response: " + response);
 
         try {
 
-            // TODO : Change this to Query/Path/Form .. some sort of string inject parameter
             GenericType<ArrayList<Itinerary>> genericTypeItineraries = new GenericType<ArrayList<Itinerary>>(){};
-            ArrayList<Itinerary> itineraries = webTarget.path(path).request().put(Entity.xml(flight), genericTypeItineraries);
+            ArrayList<Itinerary> itineraries = webTarget.path(path)
+                    .queryParam("departure", departure).queryParam("destination", destination)
+                    .request().get(genericTypeItineraries);
 
             System.out.println(itineraries.toString());
         }

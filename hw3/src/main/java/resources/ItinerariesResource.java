@@ -35,12 +35,18 @@ public class ItinerariesResource {
         this.request = request;
     }
 
-    // TODO : Change this to use Query/Path/Form .. some sort of string parameter
     @GET
     @Produces({MediaType.APPLICATION_XML})
-    public Response findItineraries(JAXBElement<Flight> flightJAXBElement) {
+    public Response findItineraries(@QueryParam("departure") String departure, @QueryParam("destination") String destination) {
 
-        Flight flight = flightJAXBElement.getValue();
+        Node dep = new Node();
+        dep.setName(departure);
+        Node dest = new Node();
+        dest.setName(destination);
+
+        Flight flight = new Flight();
+        flight.setDeparture(dep);
+        flight.setDestination(dest);
 
         try {
             List<Itinerary> itineraries = findKShortestPaths(flight.getDeparture(), flight.getDestination());
