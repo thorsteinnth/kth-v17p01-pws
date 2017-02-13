@@ -54,16 +54,23 @@ public class MainClient {
 
         String departure = "Reykjavik";
         String destination = "Tallinn";
+        String date = "2017-02-13";
 
         Response getItinerariesResponse = webTarget.path("/itineraries")
-                .queryParam("departure", departure).queryParam("destination", destination).request()
+                .queryParam("departure", departure)
+                .queryParam("destination", destination)
+                .queryParam("date", date)
+                .request()
                 .get(Response.class);
         System.out.println("Response: " + getItinerariesResponse);
 
         try {
             GenericType<ArrayList<Itinerary>> genericTypeItineraries = new GenericType<ArrayList<Itinerary>>(){};
             ArrayList<Itinerary> itineraries = webTarget.path("/itineraries")
-                    .queryParam("departure", departure).queryParam("destination", destination).request()
+                    .queryParam("departure", departure)
+                    .queryParam("destination", destination)
+                    .queryParam("date", date)
+                    .request()
                     .get(genericTypeItineraries);
 
             System.out.println(itineraries.toString());

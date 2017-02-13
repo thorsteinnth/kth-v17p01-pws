@@ -38,7 +38,7 @@ public class TicketStore
             TicketContainer ticketContainer = new TicketContainer();
             ticketContainer.setNumberOfAvailableTickets(20);
             ticketContainer.setPrice(2500);
-            ticketContainer.setDate("2017-02-07");
+            ticketContainer.setDate("2017-02-13");
 
             map.put(flight.getFlightNumber(), ticketContainer);
         }
