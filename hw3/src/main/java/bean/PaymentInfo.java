@@ -26,4 +26,13 @@ public class PaymentInfo {
     public void setCreditCardNumber(String creditCardNumber) {
         this.creditCardNumber = creditCardNumber;
     }
+
+    @Override
+    public String toString()
+    {
+        return "PaymentInfo{" +
+                "cardHolder='" + cardHolder + '\'' +
+                ", creditCardNumber='" + creditCardNumber + '\'' +
+                '}';
+    }
 }

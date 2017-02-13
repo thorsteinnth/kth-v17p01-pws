@@ -11,6 +11,7 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.glassfish.jersey.client.authentication.HttpAuthenticationFeature.HTTP_AUTHENTICATION_BASIC_PASSWORD;
 import static org.glassfish.jersey.client.authentication.HttpAuthenticationFeature.HTTP_AUTHENTICATION_BASIC_USERNAME;
@@ -34,6 +35,11 @@ public class TestClient {
         testClient.testDeleteUser("/users");
         testClient.testLogin("/login");
 
+        List<Itinerary> itineraries = testClient.testGetItineraries("/itineraries");
+        if (itineraries.size() > 0)
+            testClient.testBooking("/booking", itineraries);
+
+        // Call get itineraries again to verify that tickets have been withdrawn
         testClient.testGetItineraries("/itineraries");
     }
 
@@ -200,7 +206,8 @@ public class TestClient {
     }
 
 
-    private void testGetItineraries(String path) {
+    private List<Itinerary> testGetItineraries(String path)
+    {
         System.out.println();
         System.out.println("Testing get itineraries...");
 
@@ -218,7 +225,8 @@ public class TestClient {
                 .get(Response.class);
         System.out.println("Response: " + response);
 
-        try {
+        try
+        {
             GenericType<ArrayList<Itinerary>> genericTypeItineraries = new GenericType<ArrayList<Itinerary>>(){};
             ArrayList<Itinerary> itineraries = webTarget.path(path)
                     .queryParam("departure", departure)
@@ -230,8 +238,71 @@ public class TestClient {
                     .get(genericTypeItineraries);
 
             System.out.println(itineraries.toString());
+            return itineraries;
         }
-        catch (Exception ex) {
+        catch (Exception ex)
+        {
+            System.out.println(ex);
+            return new ArrayList<>();
+        }
+    }
+
+    private void testBooking(String path, List<Itinerary> itineraries)
+    {
+        System.out.println();
+        System.out.println("Testing booking ...");
+
+        // Let's just book the itinerary with the most number of flights, we love flying
+        Itinerary selectedItinerary = null;
+        int maxNumberOfFlights = -1;
+        for (Itinerary itinerary : itineraries)
+        {
+            if (itinerary.getFlights().size() > maxNumberOfFlights)
+            {
+                maxNumberOfFlights = itinerary.getFlights().size();
+                selectedItinerary = itinerary;
+            }
+        }
+
+        if (selectedItinerary == null)
+        {
+            System.out.println("No suitable itinerary found, aborting booking ...");
+            return;
+        }
+
+        // Create payment info
+        PaymentInfo paymentInfo = new PaymentInfo();
+        paymentInfo.setCardHolder("Donald Trump");
+        paymentInfo.setCreditCardNumber("1234 5678 9999 9999");
+
+        // Create the booking request container object
+        BookingRequest request = new BookingRequest();
+        request.setItinerary(selectedItinerary);
+        request.setPaymentInfo(paymentInfo);
+
+        // Make two calls, one that gets the response object and one that returns the list of tickets
+
+        // Get the response object
+        Response response = webTarget.path(path)
+                .request()
+                .property(HTTP_AUTHENTICATION_BASIC_USERNAME, "user1")
+                .property(HTTP_AUTHENTICATION_BASIC_PASSWORD, "user1pass")
+                .post(Entity.xml(request), Response.class);
+        System.out.println("Response: " + response);
+
+        try
+        {
+            // Get the list of tickets straight away
+            ArrayList<Ticket> tickets = webTarget.path(path)
+                    .request()
+                    .property(HTTP_AUTHENTICATION_BASIC_USERNAME, "user1")
+                    .property(HTTP_AUTHENTICATION_BASIC_PASSWORD, "user1pass")
+                    .post(Entity.xml(request), new GenericType<ArrayList<Ticket>>(){});
+
+            System.out.println(tickets.toString());
+        }
+        catch (Exception ex)
+        {
             System.out.println(ex);
         }
     }

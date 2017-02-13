@@ -56,4 +56,16 @@ public class Ticket {
     public void setPaymentInfo(PaymentInfo paymentInfo) {
         this.paymentInfo = paymentInfo;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Ticket{" +
+                "flight=" + flight +
+                ", date='" + date + '\'' +
+                ", isBooked=" + isBooked +
+                ", isIssued=" + isIssued +
+                ", paymentInfo=" + paymentInfo +
+                '}';
+    }
 }

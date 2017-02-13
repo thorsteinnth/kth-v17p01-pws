@@ -35,6 +35,7 @@ public class ItinerariesResource {
     @GET
     @Produces({MediaType.APPLICATION_XML})
     // date needs to be on the format yyyy-MM-dd
+    // Returns bookable itineraries (i.e. on the correct date and with available tickets)
     public Response findItineraries(
             @QueryParam("departure") String departure,
             @QueryParam("destination") String destination,
