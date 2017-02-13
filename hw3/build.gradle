@@ -2,15 +2,19 @@ group 'se.kth.v17p01.pws.fannarttsi'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'war'
 
 sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
+    flatDir {
+        dirs 'lib'
+    }
 }
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
     compile 'org.glassfish.jersey.containers:jersey-container-servlet:2.14'
-    //compile 'org.glassfish.jersey.media:jersey-media-json-jackson:2.14'
+    compile name: 'jgrapht-core-1.0.1'
 }
