@@ -5,14 +5,14 @@ import bean.TicketContainer;
 
 import java.util.HashMap;
 
-public class TicketStore {
-
+public class TicketStore
+{
     // Maps flight number to flight ticket container
     private static HashMap<String, TicketContainer> ticketMap;
     private static TicketStore instance = null;
 
-    public TicketStore() {
-
+    public TicketStore()
+    {
         ticketMap = generateTicketMap();
     }
 
@@ -24,8 +24,8 @@ public class TicketStore {
         return instance;
     }
 
-    public TicketContainer getTicketContainer(String flightNumber) {
-
+    public TicketContainer getTicketContainer(String flightNumber)
+    {
         return ticketMap.get(flightNumber);
     }
 

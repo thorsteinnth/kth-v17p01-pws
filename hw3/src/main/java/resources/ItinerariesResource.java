@@ -76,13 +76,13 @@ public class ItinerariesResource {
                 destinationGraphNode = graphNode;
 
         if (departureGraphNode == null || destinationGraphNode == null)
-            throw new NoRouteFoundException();
+            throw new NoRouteFoundException("No route found");
 
         List<GraphPath> paths =
                 FlightStore.getFlightStore().getkShortestPaths().getPaths(departureGraphNode, destinationGraphNode);
 
         if (paths == null || paths.isEmpty())
-            throw new NoRouteFoundException();
+            throw new NoRouteFoundException("No route found");
 
         List<Itinerary> itineraries = new ArrayList<>();
 

@@ -205,7 +205,7 @@ public class TestClient {
         System.out.println("Testing get itineraries...");
 
         String departure = "Reykjavik";
-        String destination = "Tallinn";
+        String destination = "Riga";
 
         Response response = webTarget.path(path)
                 .queryParam("departure", departure).queryParam("destination", destination).request()
