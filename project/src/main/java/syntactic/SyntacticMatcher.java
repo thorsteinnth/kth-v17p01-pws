@@ -1,5 +1,7 @@
 package syntactic;
 
+import common.OperationContainer;
+import common.PortTypeContainer;
 import common.WSMatching;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +21,9 @@ import javax.xml.bind.Marshaller;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class SyntacticMatcher
 {
@@ -52,10 +56,10 @@ public class SyntacticMatcher
                 }
 
                 compare(WSDLs[i], WSDLs[y]);
-                break;
+                //break;
             }
 
-            break;
+            //break;
         }
     }
 
@@ -66,17 +70,21 @@ public class SyntacticMatcher
      */
     private void compare(File wsdl1, File wsdl2)
     {
-        //LOG.debug("Should compare WSDLs: " + wsdl1.toString() + " - " + wsdl2.toString());
-        parseOutputOfOperations(wsdl1);
+        List<PortTypeContainer> wsdl1PortTypeContainers =  parsePortTypes(wsdl1);
+        LOG.debug("WSDL1 parsed port type containers: " + wsdl1PortTypeContainers);
+
+        List<PortTypeContainer> wsdl2PortTypeContainers =  parsePortTypes(wsdl2);
+        LOG.debug("WSDL2 parsed port type containers: " + wsdl2PortTypeContainers);
     }
 
-    private void parseOutputOfOperations(File wsdl)
+    private List<PortTypeContainer> parsePortTypes(File wsdl)
     {
         try
         {
+            List<PortTypeContainer> portTypeContainers = new ArrayList<>();
+
             DocumentBuilder builder = this.documentBuilderFactory.newDocumentBuilder();
             Document doc = builder.parse(wsdl);
-
             XPath xpath = xPathfactory.newXPath();
             xpath.setNamespaceContext(getWsdlNamespaceContext());
 
@@ -87,7 +95,7 @@ public class SyntacticMatcher
             {
                 Node node = nodeList.item(i);
                 String portTypeName = node.getAttributes().getNamedItem("name").getNodeValue();
-                LOG.debug(portTypeName);
+                PortTypeContainer portTypeContainer = new PortTypeContainer(portTypeName);
 
                 XPathExpression operationExpr = xpath.compile("wsdl:operation");
                 NodeList operationNodeList = (NodeList) operationExpr.evaluate(node, XPathConstants.NODESET);
@@ -96,16 +104,26 @@ public class SyntacticMatcher
                 {
                     Node operationNode = operationNodeList.item(j);
                     String operationName = operationNode.getAttributes().getNamedItem("name").getNodeValue();
-                    LOG.debug(operationName);
+                    OperationContainer operationContainer = new OperationContainer(operationName);
+
+                    String operationInputMessage = xpath.compile("wsdl:input/@message").evaluate(operationNode);
+                    operationContainer.inputMessage = operationInputMessage;
 
                     String operationOutputMessage = xpath.compile("wsdl:output/@message").evaluate(operationNode);
-                    LOG.debug(operationOutputMessage);
+                    operationContainer.outputMessage = operationOutputMessage;
+
+                    portTypeContainer.operations.add(operationContainer);
                 }
+
+                portTypeContainers.add(portTypeContainer);
             }
+
+            return portTypeContainers;
         }
         catch (ParserConfigurationException|SAXException|XPathExpressionException|IOException ex)
         {
             LOG.error(ex.toString());
+            return new ArrayList<>();
         }
     }
 
