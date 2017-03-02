@@ -21,7 +21,7 @@ public class Test_MyOntManager {
 	private static OWLOntologyManager manager = null;
 	private static OWLOntology ontology = null;
 	private static Reasoner reasoner = null;
-	private static String ontLocation = "data/travel.owl";
+	private static String ontLocation = "file:data/travel.owl";
 	private static MyOntManager ontsum = null;
 
 
