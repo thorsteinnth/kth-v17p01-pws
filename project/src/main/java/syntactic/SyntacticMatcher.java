@@ -28,6 +28,9 @@ import java.util.List;
 public class SyntacticMatcher
 {
     private final static Logger LOG = LoggerFactory.getLogger(SyntacticMatcher.class);
+
+    private WSMatching wsMatching;
+
     private DocumentBuilderFactory documentBuilderFactory;
     private XPathFactory xPathfactory;
 
@@ -39,6 +42,8 @@ public class SyntacticMatcher
 
     public SyntacticMatcher()
     {
+        this.wsMatching = new WSMatching();
+
         this.documentBuilderFactory = DocumentBuilderFactory.newInstance();
         this.documentBuilderFactory.setNamespaceAware(true);
         this.xPathfactory = XPathFactory.newInstance();
@@ -47,6 +52,9 @@ public class SyntacticMatcher
 
         for (int i=0; i<WSDLs.length; i++)
         {
+            List<PortTypeContainer> outputServicePortTypes =  parsePortTypes(WSDLs[i]);
+            LOG.debug("OutputService parsed port type containers: " + outputServicePortTypes);
+
             for (int y=0; y<WSDLs.length; y++)
             {
                 if (i == y)
@@ -55,7 +63,9 @@ public class SyntacticMatcher
                     continue;
                 }
 
-                compare(WSDLs[i], WSDLs[y]);
+                List<PortTypeContainer> inputServicePortTypes =  parsePortTypes(WSDLs[y]);
+                LOG.debug("InputService parsed port type containers: " + inputServicePortTypes);
+                compare(outputServicePortTypes, inputServicePortTypes);
                 break;
             }
 
@@ -65,16 +75,19 @@ public class SyntacticMatcher
 
     /**
      * Compare outputs of operations of wsdl1 with inputs of operations of wsdl2
-     * @param wsdl1
-     * @param wsdl2
+     * @param outputServicePortTypes
+     * @param inputServicePortTypes
      */
-    private void compare(File wsdl1, File wsdl2)
+    private void compare(List<PortTypeContainer> outputServicePortTypes, List<PortTypeContainer> inputServicePortTypes)
     {
-        List<PortTypeContainer> wsdl1PortTypeContainers =  parsePortTypes(wsdl1);
-        LOG.debug("WSDL1 parsed port type containers: " + wsdl1PortTypeContainers);
-
-        //List<PortTypeContainer> wsdl2PortTypeContainers =  parsePortTypes(wsdl2);
-        //LOG.debug("WSDL2 parsed port type containers: " + wsdl2PortTypeContainers);
+        for (PortTypeContainer ptc : outputServicePortTypes)
+        {
+            for (OperationContainer opc : ptc.operations)
+            {
+                //TODO : Loop trough message containers and if it contains a simple type
+                //TODO: pass it to a new function that compares it with all the input service port types
+            }
+        }
     }
 
     private List<PortTypeContainer> parsePortTypes(File wsdl)
