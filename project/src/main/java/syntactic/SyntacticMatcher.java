@@ -56,10 +56,10 @@ public class SyntacticMatcher
                 }
 
                 compare(WSDLs[i], WSDLs[y]);
-                //break;
+                break;
             }
 
-            //break;
+            break;
         }
     }
 
@@ -73,8 +73,8 @@ public class SyntacticMatcher
         List<PortTypeContainer> wsdl1PortTypeContainers =  parsePortTypes(wsdl1);
         LOG.debug("WSDL1 parsed port type containers: " + wsdl1PortTypeContainers);
 
-        List<PortTypeContainer> wsdl2PortTypeContainers =  parsePortTypes(wsdl2);
-        LOG.debug("WSDL2 parsed port type containers: " + wsdl2PortTypeContainers);
+        //List<PortTypeContainer> wsdl2PortTypeContainers =  parsePortTypes(wsdl2);
+        //LOG.debug("WSDL2 parsed port type containers: " + wsdl2PortTypeContainers);
     }
 
     private List<PortTypeContainer> parsePortTypes(File wsdl)
@@ -85,6 +85,7 @@ public class SyntacticMatcher
 
             DocumentBuilder builder = this.documentBuilderFactory.newDocumentBuilder();
             Document doc = builder.parse(wsdl);
+
             XPath xpath = xPathfactory.newXPath();
             xpath.setNamespaceContext(getWsdlNamespaceContext());
 
@@ -100,20 +101,7 @@ public class SyntacticMatcher
                 XPathExpression operationExpr = xpath.compile("wsdl:operation");
                 NodeList operationNodeList = (NodeList) operationExpr.evaluate(node, XPathConstants.NODESET);
 
-                for (int j = 0; j < operationNodeList.getLength(); j++)
-                {
-                    Node operationNode = operationNodeList.item(j);
-                    String operationName = operationNode.getAttributes().getNamedItem("name").getNodeValue();
-                    OperationContainer operationContainer = new OperationContainer(operationName);
-
-                    String operationInputMessage = xpath.compile("wsdl:input/@message").evaluate(operationNode);
-                    operationContainer.inputMessage = operationInputMessage;
-
-                    String operationOutputMessage = xpath.compile("wsdl:output/@message").evaluate(operationNode);
-                    operationContainer.outputMessage = operationOutputMessage;
-
-                    portTypeContainer.operations.add(operationContainer);
-                }
+                portTypeContainer.operations = parseOperations(operationNodeList);
 
                 portTypeContainers.add(portTypeContainer);
             }
@@ -121,6 +109,42 @@ public class SyntacticMatcher
             return portTypeContainers;
         }
         catch (ParserConfigurationException|SAXException|XPathExpressionException|IOException ex)
+        {
+            LOG.error(ex.toString());
+            return new ArrayList<>();
+        }
+    }
+
+    private List<OperationContainer> parseOperations(NodeList operationNodeList)
+    {
+        try
+        {
+            List<OperationContainer> operationContainers = new ArrayList<>();
+
+            XPath xpath = xPathfactory.newXPath();
+            xpath.setNamespaceContext(getWsdlNamespaceContext());
+
+            for (int i = 0; i < operationNodeList.getLength(); i++)
+            {
+                Node operationNode = operationNodeList.item(i);
+                String operationName = operationNode.getAttributes().getNamedItem("name").getNodeValue();
+                OperationContainer operationContainer = new OperationContainer(operationName);
+
+                String operationInputMessage = xpath.compile("wsdl:input/@message").evaluate(operationNode);
+                operationContainer.inputMessage = operationInputMessage;
+
+                //XPathExpression operationExpr = xpath.compile("//wsdl:message/[@name=" + operationInputMessage + "]");
+                //NodeList operationNodeList = (NodeList) operationExpr.evaluate(node, XPathConstants.NODESET);
+
+                String operationOutputMessage = xpath.compile("wsdl:output/@message").evaluate(operationNode);
+                operationContainer.outputMessage = operationOutputMessage;
+
+                operationContainers.add(operationContainer);
+            }
+
+            return operationContainers;
+        }
+        catch (XPathExpressionException ex)
         {
             LOG.error(ex.toString());
             return new ArrayList<>();
