@@ -1,5 +1,3 @@
-package transition;
-
 /**
  * Copyright 2010 Websoft research group, Nanjing University, PR China
  * 
