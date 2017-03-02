@@ -1,5 +1,6 @@
 package syntactic;
 
+import common.MatchedElement;
 import common.OperationContainer;
 import common.PortTypeContainer;
 import common.WSMatching;
@@ -86,9 +87,21 @@ public class SyntacticMatcher
             {
                 //TODO : Loop trough message containers and if it contains a simple type
                 //TODO: pass it to a new function that compares it with all the input service port types
+
+                //It could return a List of Matched elements, and if the list is bigger then 0,
+                //then create Matched Operation and add the matched elements to it.
             }
         }
     }
+
+    /*
+    private List<MatchedElement> findMatchingElements(
+            MessageContainer outputMessageContainer,
+            List<PortTypeContainer> inputServicePortTypes)
+    {
+
+    }
+    */
 
     private List<PortTypeContainer> parsePortTypes(File wsdl)
     {
