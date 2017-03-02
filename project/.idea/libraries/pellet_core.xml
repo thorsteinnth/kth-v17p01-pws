@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="pellet-core">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/pellet2.0/pellet-core.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

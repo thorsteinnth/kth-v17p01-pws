@@ -1,0 +1,22 @@
+<component name="libraryTable">
+  <library name="aterm-java-1.6">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/pellet2.0/aterm-java-1.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/pellet2.0/pellet-cli.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/pellet2.0/pellet-core.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/pellet2.0/pellet-datatypes.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/pellet2.0/pellet-dig.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/pellet2.0/pellet-el.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/pellet2.0/pellet-explanation.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/pellet2.0/pellet-jena.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/pellet2.0/pellet-modularity.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/pellet2.0/pellet-owlapi.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/pellet2.0/pellet-owlapiv3.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/pellet2.0/pellet-pellint.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/pellet2.0/pellet-test.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/pellet2.0/servlet.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
