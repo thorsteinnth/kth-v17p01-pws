@@ -52,7 +52,10 @@ public class SyntacticMatcher
                 }
 
                 compare(WSDLs[i], WSDLs[y]);
+                break;
             }
+
+            break;
         }
     }
 
@@ -80,10 +83,24 @@ public class SyntacticMatcher
             XPathExpression expr = xpath.compile("//wsdl:portType");
             NodeList nodeList = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 
-            for (int i = 0; i<nodeList.getLength(); i++)
+            for (int i = 0; i < nodeList.getLength(); i++)
             {
                 Node node = nodeList.item(i);
-                System.out.println("Found node: " + node.getLocalName());
+                String portTypeName = node.getAttributes().getNamedItem("name").getNodeValue();
+                LOG.debug(portTypeName);
+
+                XPathExpression operationExpr = xpath.compile("wsdl:operation");
+                NodeList operationNodeList = (NodeList) operationExpr.evaluate(node, XPathConstants.NODESET);
+
+                for (int j = 0; j < operationNodeList.getLength(); j++)
+                {
+                    Node operationNode = operationNodeList.item(j);
+                    String operationName = operationNode.getAttributes().getNamedItem("name").getNodeValue();
+                    LOG.debug(operationName);
+
+                    String operationOutputMessage = xpath.compile("wsdl:output/@message").evaluate(operationNode);
+                    LOG.debug(operationOutputMessage);
+                }
             }
         }
         catch (ParserConfigurationException|SAXException|XPathExpressionException|IOException ex)
