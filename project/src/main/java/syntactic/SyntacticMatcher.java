@@ -1,9 +1,15 @@
 package syntactic;
 
+import common.WSMatching;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.PropertyException;
 import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 
 public class SyntacticMatcher
@@ -12,7 +18,7 @@ public class SyntacticMatcher
 
     public static void main(String[] args)
     {
-        LOG.debug("Starting ...");
+        LOG.debug("Starting Syntactic Matcher...");
         new SyntacticMatcher();
     }
 
@@ -46,6 +52,25 @@ public class SyntacticMatcher
         {
             LOG.error(ex.toString());
             return new File[0];
+        }
+    }
+
+
+
+    private void generateOutputXML(WSMatching wsMatching)
+    {
+        File syntacticOutputXML = new File("output_xml/SyntacticOutput.xml");
+
+        try
+        {
+            JAXBContext jaxbContext = JAXBContext.newInstance(WSMatching.class);
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            jaxbMarshaller.marshal(wsMatching, syntacticOutputXML);
+        }
+        catch (JAXBException ex)
+        {
+            System.err.println(ex);
         }
     }
 }
