@@ -22,35 +22,22 @@ public class SyntacticMatcher
 {
     private final static Logger LOG = LoggerFactory.getLogger(SyntacticMatcher.class);
     private WSMatching wsMatching;
+    private List<List<ServiceContainer>> parsedServiceContainers;
 
     public static void main(String[] args)
     {
-        LOG.debug("Starting Syntactic Matcher...");
+        LOG.info("Starting Syntactic Matcher...");
         new SyntacticMatcher();
     }
 
     public SyntacticMatcher()
     {
+        parseWSDLs();
         this.wsMatching = new WSMatching();
 
-        File[] WSDLs = getWSDLs();
-        List<ServiceContainer> outputServiceContainers;
-        List<ServiceContainer> inputServiceContainers;
-
-        for (int i=0; i<WSDLs.length; i++)
+        for (int i = 0; i < parsedServiceContainers.size(); i++)
         {
-            try
-            {
-                outputServiceContainers = parseServices(WSDLs[i]);
-                LOG.debug("OutputService - parsed services for: " + WSDLs[i] + " - " + outputServiceContainers);
-            }
-            catch (Exception ex)
-            {
-                LOG.error("Could not parse WSDL: " + WSDLs[i] + " - " + ex.toString());
-                continue;
-            }
-
-            for (int y=0; y<WSDLs.length; y++)
+            for (int y = 0; y < parsedServiceContainers.size(); y++)
             {
                 if (i == y)
                 {
@@ -58,20 +45,9 @@ public class SyntacticMatcher
                     continue;
                 }
 
-                try
+                for (ServiceContainer outputService : parsedServiceContainers.get(i))
                 {
-                    inputServiceContainers = parseServices(WSDLs[y]);
-                    LOG.debug("InputService - parsed services for: " + WSDLs[y] + " - " + inputServiceContainers);
-                }
-                catch (Exception ex)
-                {
-                    LOG.error("Could not parse WSDL: " + WSDLs[y] + " - " + ex.toString());
-                    continue;
-                }
-
-                for (ServiceContainer outputService : outputServiceContainers)
-                {
-                    for (ServiceContainer inputService : inputServiceContainers)
+                    for (ServiceContainer inputService : parsedServiceContainers.get(y))
                     {
                         if (outputService != null && outputService.portContainers != null
                                 && inputService != null && inputService.portContainers != null)
@@ -79,15 +55,33 @@ public class SyntacticMatcher
                     }
                 }
 
-                break; // for now
+                //break; // for now
             }
 
-            break;
+            //break;
         }
 
         generateOutputXML(this.wsMatching);
     }
 
+    private void parseWSDLs()
+    {
+        File[] WSDLs = getWSDLs();
+        this.parsedServiceContainers = new ArrayList<>();
+        for (int i = 0; i < WSDLs.length; i++)
+        {
+            try
+            {
+                List<ServiceContainer> serviceContainers = parseServices(WSDLs[i]);
+                this.parsedServiceContainers.add(serviceContainers);
+                LOG.info("Parsed services for: " + WSDLs[i] + " - " + serviceContainers);
+            }
+            catch (Exception ex)
+            {
+                LOG.error("Could not parse WSDL: " + WSDLs[i] + " - " + ex.toString());
+            }
+        }
+    }
 
     /**
      * Compare outputs of operations of wsdl1 with inputs of operations of wsdl2
@@ -96,6 +90,8 @@ public class SyntacticMatcher
      */
     private void compare(ServiceContainer outputService, ServiceContainer inputService)
     {
+        LOG.info("Comparing: " + outputService.name + " - " + inputService.name);
+
         Matching matching = null;
         List<MatchedOperation> matchedOperations = new ArrayList<>();
 
@@ -397,7 +393,7 @@ public class SyntacticMatcher
 
     private List<ServiceContainer> parseServices(File wsdl)
     {
-        LOG.debug("Parsing services for: " + wsdl);
+        LOG.info("Parsing services for: " + wsdl);
 
         WSDLParser parser = new WSDLParser();
         Definitions defs = parser.parse(wsdl.getAbsolutePath());
