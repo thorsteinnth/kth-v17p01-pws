@@ -53,12 +53,8 @@ public class SyntacticMatcher
 
         File[] WSDLs = getWSDLs();
 
-        List<ServiceContainer> serviceContainers = parseServices(WSDLs[0]);
-        LOG.debug("OutputService - parsed services for: " + WSDLs[0] + " - " + serviceContainers);
-
         for (int i=0; i<WSDLs.length; i++)
         {
-
             List<ServiceContainer> outputServiceContainers = parseServices(WSDLs[i]);
             LOG.debug("OutputService - parsed services for: " + WSDLs[i] + " - " + outputServiceContainers);
 
@@ -363,6 +359,8 @@ public class SyntacticMatcher
 
     private List<ServiceContainer> parseServices(File wsdl)
     {
+        LOG.debug("Parsing services for: " + wsdl);
+
         WSDLParser parser = new WSDLParser();
         Definitions defs = parser.parse(wsdl.getAbsolutePath());
 
