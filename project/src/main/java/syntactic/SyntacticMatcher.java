@@ -5,6 +5,7 @@ import com.predic8.schema.Element;
 import com.predic8.schema.Schema;
 import com.predic8.schema.Sequence;
 import com.predic8.wsdl.*;
+import com.sun.xml.internal.bind.v2.util.EditDistance;
 import common.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,12 +79,14 @@ public class SyntacticMatcher
                             compare(outputService, inputService);
                     }
                 }
+
+                break; // for now
             }
 
             break;
         }
 
-        //generateOutputXML(this.wsMatching);
+        generateOutputXML(this.wsMatching);
     }
 
 
@@ -163,7 +166,43 @@ public class SyntacticMatcher
     {
         List<MatchedElement> matchedElements = new ArrayList<>();
 
-        //TODO
+        for (ElementContainer outputElements : outputOC.outputMessage.elements)
+        {
+            for (ElementContainer inputElements : inputOC.inputMessage.elements)
+            {
+                matchedElements = compareElementContainers(matchedElements, outputElements, inputElements);
+            }
+        }
+
+        return matchedElements;
+    }
+
+    private List<MatchedElement> compareElementContainers(
+            List<MatchedElement> matchedElements,
+            ElementContainer outPutElementContainer,
+            ElementContainer inputElementContainer)
+    {
+        // Compare subelements
+
+        for (TypeNameTuple typeNameOutput : outPutElementContainer.subelements)
+        {
+            for (TypeNameTuple typeNameInput : inputElementContainer.subelements)
+            {
+                if (typeNameOutput.type.equals(typeNameInput.type))
+                {
+                    int distance = EditDistance.editDistance(typeNameOutput.name, typeNameInput.name);
+
+                    if (distance >= 0.8)
+                    {
+                        MatchedElement matchedElement = new MatchedElement();
+                        matchedElement.setOutputElement(typeNameOutput.name);
+                        matchedElement.setInputElement(typeNameOutput.name);
+                        matchedElement.setScore(distance);
+                        matchedElements.add(matchedElement);
+                    }
+                }
+            }
+        }
 
         return matchedElements;
     }
