@@ -50,8 +50,19 @@ public class SyntacticMatcher
 
         for (int i=0; i<WSDLs.length; i++)
         {
-            List<PortTypeContainer> outputServicePortTypes =  parsePortTypes(WSDLs[i]);
-            LOG.debug("OutputService parsed port type containers: " + outputServicePortTypes);
+            List<PortTypeContainer> inputServicePortTypes;
+            List<PortTypeContainer> outputServicePortTypes;
+
+            try
+            {
+                outputServicePortTypes = parsePortTypes(WSDLs[i]);
+                LOG.debug("OutputService - parsed port type containers for: " + WSDLs[i] + " - " + outputServicePortTypes);
+            }
+            catch (SAXException ex)
+            {
+                LOG.error("Unable to parse output service " + WSDLs[i] + " - " + ex.toString());
+                continue;
+            }
 
             for (int y=0; y<WSDLs.length; y++)
             {
@@ -61,10 +72,19 @@ public class SyntacticMatcher
                     continue;
                 }
 
-                List<PortTypeContainer> inputServicePortTypes =  parsePortTypes(WSDLs[y]);
-                LOG.debug("InputService parsed port type containers: " + inputServicePortTypes);
-                compare(outputServicePortTypes, inputServicePortTypes);
-                break;
+                try
+                {
+                    inputServicePortTypes =  parsePortTypes(WSDLs[y]);
+                    LOG.debug("InputService - parsed port type containers for: " + WSDLs[y] + " - " + inputServicePortTypes);
+                }
+                catch (SAXException ex)
+                {
+                    LOG.error("Unable to parse input service " + WSDLs[y] + " - " + ex.toString());
+                    continue;
+                }
+
+                if (inputServicePortTypes != null && outputServicePortTypes != null)
+                    compare(outputServicePortTypes, inputServicePortTypes);
             }
 
             break;
@@ -108,7 +128,7 @@ public class SyntacticMatcher
         return matchedOperations;
     }
 
-    private List<PortTypeContainer> parsePortTypes(File wsdl)
+    private List<PortTypeContainer> parsePortTypes(File wsdl) throws SAXException
     {
         try
         {
@@ -151,7 +171,7 @@ public class SyntacticMatcher
 
             return portTypeContainers;
         }
-        catch (ParserConfigurationException|SAXException|XPathExpressionException|IOException ex)
+        catch (ParserConfigurationException|XPathExpressionException|IOException ex)
         {
             LOG.error(ex.toString());
             return new ArrayList<>();
