@@ -1,14 +1,14 @@
 package common;
 
 import javax.xml.bind.annotation.XmlElement;
-import java.util.ArrayList;
+import java.util.List;
 
 public class MatchedOperation {
 
     private String outputOperationName;
     private String inputOperationName;
     private float opScore;
-    private ArrayList<MatchedElement> matchedElement;
+    private List<MatchedElement> matchedElement;
 
     public MatchedOperation() {
     }
@@ -40,12 +40,12 @@ public class MatchedOperation {
         this.opScore = opScore;
     }
 
-    public ArrayList<MatchedElement> getMatchedElement() {
+    public List<MatchedElement> getMatchedElement() {
         return matchedElement;
     }
 
     @XmlElement(name = "MatchedElement")
-    public void setMatchedElement(ArrayList<MatchedElement> matchedElement) {
+    public void setMatchedElement(List<MatchedElement> matchedElement) {
         this.matchedElement = matchedElement;
     }
 }

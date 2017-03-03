@@ -102,6 +102,7 @@ public class SyntacticMatcher
     private void compare(ServiceContainer outputService, ServiceContainer inputService)
     {
         Matching matching = null;
+        List<MatchedOperation> matchedOperations = new ArrayList<>();
 
         for (PortTypeContainer outputPTC : outputService.portTypeContainers)
         {
@@ -111,7 +112,7 @@ public class SyntacticMatcher
                 // and if there are matches add the Matched operation to the list of matched operations
                 // in the Matched object for the two services
 
-                List<MatchedOperation> matchedOperations = findMatchedOperations(outputOC, inputService.portTypeContainers);
+                matchedOperations = findMatchedOperations(outputOC, inputService.portTypeContainers);
 
                 if (matchedOperations.size() > 0)
                 {
@@ -141,16 +142,37 @@ public class SyntacticMatcher
             List<PortTypeContainer> inputServicePortTypes)
     {
         List<MatchedOperation> matchedOperations = new ArrayList<>();
+        List<MatchedElement> matchedElements = new ArrayList<>();
 
         for (PortTypeContainer inputPTC : inputServicePortTypes)
         {
             for (OperationContainer inputOC : inputPTC.operations)
             {
-                //TODO compare outputOC to every input OC
+                // Compare outputOC to every inputOC
+                matchedElements = findMatchedElements(outputOC, inputOC);
+
+                if (matchedElements.size() > 0)
+                {
+                    MatchedOperation matchedOperation = new MatchedOperation();
+                    matchedOperation.setOutputOperationName(outputOC.name);
+                    matchedOperation.setInputOperationName(inputOC.name);
+                    matchedOperation.setMatchedElement(matchedElements);
+                    matchedOperation.setOpScore(calculateOpScore(matchedElements));
+                    matchedOperations.add(matchedOperation);
+                }
             }
         }
 
         return matchedOperations;
+    }
+
+    private List<MatchedElement> findMatchedElements(OperationContainer outputOC, OperationContainer inputOC)
+    {
+        List<MatchedElement> matchedElements = new ArrayList<>();
+
+        //TODO
+
+        return matchedElements;
     }
 
     private ServiceContainer parseService(File wsdl) throws SAXException
