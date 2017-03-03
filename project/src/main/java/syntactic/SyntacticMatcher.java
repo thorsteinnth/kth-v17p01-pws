@@ -1,5 +1,10 @@
 package syntactic;
 
+import com.predic8.schema.ComplexType;
+import com.predic8.schema.Element;
+import com.predic8.schema.Schema;
+import com.predic8.schema.Sequence;
+import com.predic8.wsdl.*;
 import common.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,21 +53,14 @@ public class SyntacticMatcher
 
         File[] WSDLs = getWSDLs();
 
+        List<ServiceContainer> serviceContainers = parseServices(WSDLs[0]);
+        LOG.debug("OutputService - parsed services for: " + WSDLs[0] + " - " + serviceContainers);
+
         for (int i=0; i<WSDLs.length; i++)
         {
-            ServiceContainer outputService;
-            ServiceContainer inputService;
 
-            try
-            {
-                outputService = parseService(WSDLs[i]);
-                LOG.debug("OutputService - parsed service for: " + WSDLs[i] + " - " + outputService);
-            }
-            catch (SAXException ex)
-            {
-                LOG.error("Unable to parse output service " + WSDLs[i] + " - " + ex.toString());
-                continue;
-            }
+            List<ServiceContainer> outputServiceContainers = parseServices(WSDLs[i]);
+            LOG.debug("OutputService - parsed services for: " + WSDLs[i] + " - " + outputServiceContainers);
 
             for (int y=0; y<WSDLs.length; y++)
             {
@@ -72,20 +70,18 @@ public class SyntacticMatcher
                     continue;
                 }
 
-                try
-                {
-                    inputService = parseService(WSDLs[y]);
-                    LOG.debug("InputService - parsed service for: " + WSDLs[y] + " - " + inputService);
-                }
-                catch (SAXException ex)
-                {
-                    LOG.error("Unable to parse input service " + WSDLs[y] + " - " + ex.toString());
-                    continue;
-                }
+                List<ServiceContainer> inputServiceContainers = parseServices(WSDLs[y]);
+                LOG.debug("InputService - parsed services for: " + WSDLs[y] + " - " + inputServiceContainers);
 
-                if (outputService != null && outputService.portTypeContainers != null
-                        && inputService != null && inputService.portTypeContainers != null)
-                    compare(outputService, inputService);
+                for (ServiceContainer outputService : outputServiceContainers)
+                {
+                    for (ServiceContainer inputService : inputServiceContainers)
+                    {
+                        if (outputService != null && outputService.portContainers != null
+                                && inputService != null && inputService.portContainers != null)
+                            compare(outputService, inputService);
+                    }
+                }
             }
 
             break;
@@ -93,6 +89,7 @@ public class SyntacticMatcher
 
         //generateOutputXML(this.wsMatching);
     }
+
 
     /**
      * Compare outputs of operations of wsdl1 with inputs of operations of wsdl2
@@ -104,15 +101,15 @@ public class SyntacticMatcher
         Matching matching = null;
         List<MatchedOperation> matchedOperations = new ArrayList<>();
 
-        for (PortTypeContainer outputPTC : outputService.portTypeContainers)
+        for (PortContainer outputServicePortContainer : outputService.portContainers)
         {
-            for (OperationContainer outputOC : outputPTC.operations)
+            for (OperationContainer outputOC : outputServicePortContainer.portTypeContainer.operations)
             {
                 // For each operation compare it to every operation for the input service,
                 // and if there are matches add the Matched operation to the list of matched operations
                 // in the Matched object for the two services
 
-                matchedOperations = findMatchedOperations(outputOC, inputService.portTypeContainers);
+                matchedOperations = findMatchedOperations(outputOC, inputService.portContainers);
 
                 if (matchedOperations.size() > 0)
                 {
@@ -139,14 +136,14 @@ public class SyntacticMatcher
 
     private List<MatchedOperation> findMatchedOperations(
             OperationContainer outputOC,
-            List<PortTypeContainer> inputServicePortTypes)
+            List<PortContainer> inputServicePortContainers)
     {
         List<MatchedOperation> matchedOperations = new ArrayList<>();
         List<MatchedElement> matchedElements = new ArrayList<>();
 
-        for (PortTypeContainer inputPTC : inputServicePortTypes)
+        for (PortContainer inputServicePortContainer : inputServicePortContainers)
         {
-            for (OperationContainer inputOC : inputPTC.operations)
+            for (OperationContainer inputOC : inputServicePortContainer.portTypeContainer.operations)
             {
                 // Compare outputOC to every inputOC
                 matchedElements = findMatchedElements(outputOC, inputOC);
@@ -174,6 +171,9 @@ public class SyntacticMatcher
 
         return matchedElements;
     }
+
+    //region Homemade parsers
+    /*
 
     private ServiceContainer parseService(File wsdl) throws SAXException
     {
@@ -356,6 +356,146 @@ public class SyntacticMatcher
         }
     }
 
+    */
+    //endregion
+
+    //region Predic8 parsers
+
+    private List<ServiceContainer> parseServices(File wsdl)
+    {
+        WSDLParser parser = new WSDLParser();
+        Definitions defs = parser.parse(wsdl.getAbsolutePath());
+
+        List<ServiceContainer> serviceContainers = new ArrayList<>();
+
+        for (Service service : defs.getServices())
+        {
+            ServiceContainer serviceContainer = new ServiceContainer(service.getName());
+            serviceContainer.portContainers.addAll(parsePorts(service.getPorts()));
+            serviceContainers.add(serviceContainer);
+        }
+
+        return serviceContainers;
+    }
+
+    private List<PortContainer> parsePorts(List<Port> ports)
+    {
+        /*
+        https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.0/html/Using_the_Web_Services_Bindings_and_Transports/files/FUSECXFBindingIntro.html
+        To ensure that an endpoint defines only a single service, WSDL requires that a binding can only represent a single port type.
+        For example, if you had a contract with two port types, you could not write a single binding that mapped both of them
+        into a concrete data format. You would need two bindings.
+        */
+
+        List<PortContainer> portContainers = new ArrayList<>();
+
+        for (Port port : ports)
+        {
+            PortContainer portContainer = new PortContainer(port.getName());
+
+            PortType portType = port.getBinding().getPortType();
+            PortTypeContainer portTypeContainer = new PortTypeContainer(portType.getName());
+
+            for (Operation operation : portType.getOperations())
+            {
+                OperationContainer operationContainer = new OperationContainer(operation.getName());
+                operationContainer.inputMessage = parseMessage(operation.getInput().getMessage());
+                operationContainer.outputMessage = parseMessage(operation.getOutput().getMessage());
+
+                portTypeContainer.operations.add(operationContainer);
+            }
+
+            portContainer.portTypeContainer = portTypeContainer;
+            portContainers.add(portContainer);
+        }
+
+        return portContainers;
+    }
+
+    private MessageContainer parseMessage(Message message)
+    {
+        MessageContainer messageContainer = new MessageContainer(message.getName());
+
+        for (Part part : message.getParts())
+        {
+            Element partElement = part.getElement();
+            ElementContainer elementContainer = new ElementContainer(partElement.getName());
+            if (partElement.getEmbeddedType() instanceof ComplexType)
+            {
+                ComplexType partElementComplexType = (ComplexType)partElement.getEmbeddedType();
+
+                // Flatten all complex types below here to their basic types
+                elementContainer.subelements.addAll(flattenComplexTypeRecursive(partElementComplexType));
+            }
+
+            messageContainer.elements.add(elementContainer);
+        }
+
+        return messageContainer;
+    }
+
+    private List<TypeNameTuple> flattenComplexTypeRecursive(ComplexType complexType)
+    {
+        List<TypeNameTuple> typeNameTuples = new ArrayList<>();
+
+        for (Element sequenceElement : complexType.getSequence().getElements())
+        {
+            if (isElementComplexType(sequenceElement))
+            {
+                // This is a complex type
+                ComplexType sequenceElementComplex = getComplexTypeByTypeName(sequenceElement.getSchema(),
+                        sequenceElement.getTypeString(sequenceElement.getType()));
+
+                typeNameTuples.addAll(flattenComplexTypeRecursive(sequenceElementComplex));
+            }
+            else
+            {
+                TypeNameTuple typeNameTuple = new TypeNameTuple(sequenceElement.getTypeString(sequenceElement.getType()), sequenceElement.getName());
+                typeNameTuples.add(typeNameTuple);
+            }
+        }
+
+        return typeNameTuples;
+    }
+
+    private ComplexType getComplexTypeByTypeName(Schema schema, String typeName)
+    {
+        // Complex type names in schema do not contain namespaces. Remove it if it is there.
+        typeName = removeNamespace(typeName);
+        ComplexType foundComplexType = schema.getComplexType(typeName);
+        return foundComplexType;
+    }
+
+    private boolean isElementComplexType(Element element)
+    {
+        // Let's compare the name of the element with the complex types in the schema.
+        // complexTypes.contains() does not work here
+
+        List<String> complexTypeNames = new ArrayList<>();
+        for (ComplexType complexType : element.getSchema().getComplexTypes())
+            complexTypeNames.add(complexType.getName());
+
+        String elementTypeName = element.getTypeString(element.getType());
+        // This element type name may contain a namespace, but the complex type names do not. Remove namespace
+        elementTypeName = removeNamespace(elementTypeName);
+
+        if (complexTypeNames.contains(elementTypeName))
+            return true;
+
+        return false;
+    }
+
+    private String removeNamespace(String name)
+    {
+        String[] split = name.split(":");
+        if (split.length == 2)
+            return split[1];
+        else
+            return name;
+    }
+
+    //endregion
+
     private File[] getWSDLs()
     {
         try
@@ -401,6 +541,7 @@ public class SyntacticMatcher
     /**
      * Only consider basic elements (those with built-in types such as int, double, string, date, ...) for matching
      */
+    /*
     private boolean shouldMatchElementType(String type)
     {
         if (type.equals("s:string"))
@@ -414,6 +555,7 @@ public class SyntacticMatcher
         else
             return false;
     }
+    */
 
     private double calculateWsScore(List<MatchedOperation> matchedOperations)
     {

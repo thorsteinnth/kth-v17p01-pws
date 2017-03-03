@@ -1,21 +1,25 @@
 package common;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ServiceContainer {
 
     public String name;
-    public List<PortTypeContainer> portTypeContainers;
+    public List<PortContainer> portContainers;
 
-    public ServiceContainer()
+    public ServiceContainer(String name)
     {
+        this.name = name;
+        this.portContainers = new ArrayList<>();
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "ServiceContainer{" +
                 "name='" + name + '\'' +
-                ", portTypeContainers=" + portTypeContainers +
+                ", portContainers=" + portContainers +
                 '}';
     }
 }
