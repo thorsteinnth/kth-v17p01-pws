@@ -2,22 +2,22 @@ package common;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.ArrayList;
+import java.util.List;
 
 @XmlRootElement
 public class WSMatching {
 
-    private ArrayList<Matching> matching;
+    private List<Matching> matching;
 
     public WSMatching() {
     }
 
-    public ArrayList<Matching> getMatching() {
+    public List<Matching> getMatching() {
         return matching;
     }
 
     @XmlElement(name="Matching")
-    public void setMatching(ArrayList<Matching> matching) {
+    public void setMatching(List<Matching> matching) {
         this.matching = matching;
     }
 

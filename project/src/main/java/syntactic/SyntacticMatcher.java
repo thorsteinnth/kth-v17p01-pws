@@ -73,21 +73,43 @@ public class SyntacticMatcher
 
     /**
      * Compare outputs of operations of wsdl1 with inputs of operations of wsdl2
-     * @param outputServicePortTypes
-     * @param inputServicePortTypes
+     * @param outputService
+     * @param inputService
      */
-    private void compare(List<PortTypeContainer> outputServicePortTypes, List<PortTypeContainer> inputServicePortTypes)
+    private void compare(ServiceContainer outputService, ServiceContainer inputService)
     {
-        for (PortTypeContainer outputPTC : outputServicePortTypes)
+        Matching matching = null;
+
+        for (PortTypeContainer outputPTC : outputService.portTypeContainers)
         {
             for (OperationContainer outputOC : outputPTC.operations)
             {
-                //TODO : For each operation compare it to every operation for the input service,
-                //TODO : and if there are matches add the Matched operation to the list of matched operations
-                //TODO : in the Matched object for the two services
+                // For each operation compare it to every operation for the input service,
+                // and if there are matches add the Matched operation to the list of matched operations
+                // in the Matched object for the two services
 
-                List<MatchedOperation> matchedOperations = findMatchedOperations(outputOC, inputServicePortTypes);
+                List<MatchedOperation> matchedOperations = findMatchedOperations(outputOC, inputService.portTypeContainers);
+
+                if (matchedOperations.size() > 0)
+                {
+                    if (matching == null)
+                    {
+                        matching = new Matching();
+                        matching.setOutputServiceName(outputService.name);
+                        matching.setInputServiceName(inputService.name);
+                    }
+
+                    matching.setMatchedOperation(matchedOperations);
+                    matching.setWsScore("0"); //TODO : calculate this
+                }
             }
+        }
+
+        if (matching != null)
+        {
+            List<Matching> matchingList = this.wsMatching.getMatching();
+            matchingList.add(matching);
+            this.wsMatching.setMatching(matchingList);
         }
     }
 
@@ -101,19 +123,18 @@ public class SyntacticMatcher
         {
             for (OperationContainer inputOC : inputPTC.operations)
             {
-                //TODO
+                //TODO compare outputOC to every input OC
             }
         }
 
         return matchedOperations;
     }
 
-    private List<PortTypeContainer> parsePortTypes(File wsdl)
+    private ServiceContainer parseService(File wsdl)
     {
+        ServiceContainer serviceContainer = new ServiceContainer();
         try
         {
-            List<PortTypeContainer> portTypeContainers = new ArrayList<>();
-
             DocumentBuilder builder = this.documentBuilderFactory.newDocumentBuilder();
             Document doc = builder.parse(wsdl);
 
@@ -132,6 +153,67 @@ public class SyntacticMatcher
                     break;
             }
 
+            serviceContainer.name = serviceName;
+
+            XPathExpression getPortTypesExptr = xpath.compile("//wsdl:portType");
+            NodeList portTypeNodes = (NodeList) getPortTypesExptr.evaluate(doc, XPathConstants.NODESET);
+
+            serviceContainer.portTypeContainers = parsePortTypes(portTypeNodes);
+        }
+        catch (ParserConfigurationException|SAXException|XPathExpressionException|IOException ex)
+        {
+            LOG.error(ex.toString());
+        }
+        finally
+        {
+            return serviceContainer;
+        }
+    }
+
+    private List<PortTypeContainer> parsePortTypes(NodeList portTypeNodeList)
+    {
+        try
+        {
+            List<PortTypeContainer> portTypeContainers = new ArrayList<>();
+
+            XPath xpath = xPathfactory.newXPath();
+            xpath.setNamespaceContext(getWsdlNamespaceContext());
+
+            for (int i = 0; i < portTypeNodeList.getLength(); i++)
+            {
+                Node node = portTypeNodeList.item(i);
+                String portTypeName = node.getAttributes().getNamedItem("name").getNodeValue();
+                PortTypeContainer portTypeContainer = new PortTypeContainer(portTypeName);
+
+                XPathExpression operationExpr = xpath.compile("wsdl:operation");
+                NodeList operationNodeList = (NodeList) operationExpr.evaluate(node, XPathConstants.NODESET);
+
+                portTypeContainer.operations = parseOperations(operationNodeList);
+
+                portTypeContainers.add(portTypeContainer);
+            }
+
+            return portTypeContainers;
+        }
+        catch (XPathExpressionException ex)
+        {
+            LOG.error(ex.toString());
+            return new ArrayList<>();
+        }
+    }
+
+    private List<PortTypeContainer> parsePortTypes(File wsdl)
+    {
+        try
+        {
+            List<PortTypeContainer> portTypeContainers = new ArrayList<>();
+
+            DocumentBuilder builder = this.documentBuilderFactory.newDocumentBuilder();
+            Document doc = builder.parse(wsdl);
+
+            XPath xpath = xPathfactory.newXPath();
+            xpath.setNamespaceContext(getWsdlNamespaceContext());
+
             XPathExpression expr = xpath.compile("//wsdl:portType");
             NodeList nodeList = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 
@@ -139,7 +221,7 @@ public class SyntacticMatcher
             {
                 Node node = nodeList.item(i);
                 String portTypeName = node.getAttributes().getNamedItem("name").getNodeValue();
-                PortTypeContainer portTypeContainer = new PortTypeContainer(serviceName, portTypeName);
+                PortTypeContainer portTypeContainer = new PortTypeContainer(portTypeName);
 
                 XPathExpression operationExpr = xpath.compile("wsdl:operation");
                 NodeList operationNodeList = (NodeList) operationExpr.evaluate(node, XPathConstants.NODESET);

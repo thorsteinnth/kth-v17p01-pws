@@ -5,23 +5,19 @@ import java.util.List;
 
 public class PortTypeContainer
 {
-    public String serviceName;
-    public String portTypeName;
+    public String name;
     public List<OperationContainer> operations;
 
-    public PortTypeContainer(String serviceName, String portTypeName)
+    public PortTypeContainer(String name)
     {
-        this.serviceName = serviceName;
-        this.portTypeName = portTypeName;
+        this.name = name;
         this.operations = new ArrayList<>();
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "PortTypeContainer{" +
-                "serviceName='" + serviceName +'\'' +
-                "portTypeName='" + portTypeName + '\'' +
+                "name='" + name + '\'' +
                 ", operations=" + operations +
                 '}';
     }

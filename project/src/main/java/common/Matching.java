@@ -2,13 +2,13 @@ package common;
 
 
 import javax.xml.bind.annotation.XmlElement;
-import java.util.ArrayList;
+import java.util.List;
 
 public class Matching {
 
     private String outputServiceName;
     private String inputServiceName;
-    private ArrayList<MatchedOperation> matchedOperation;
+    private List<MatchedOperation> matchedOperation;
     private String wsScore;
 
     public Matching() {
@@ -32,12 +32,12 @@ public class Matching {
         this.inputServiceName = inputServiceName;
     }
 
-    public ArrayList<MatchedOperation> getMatchedOperation() {
+    public List<MatchedOperation> getMatchedOperation() {
         return matchedOperation;
     }
 
     @XmlElement(name = "MatchedOperation")
-    public void setMatchedOperation(ArrayList<MatchedOperation> matchedOperation) {
+    public void setMatchedOperation(List<MatchedOperation> matchedOperation) {
         this.matchedOperation = matchedOperation;
     }
 
