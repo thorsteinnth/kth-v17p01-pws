@@ -38,7 +38,7 @@ public class SemanticMatcher {
 
     private double getMatchingDegree(OWLClass output, OWLClass input) {
 
-        if (output.equals(input)){ //TODO : Not sure how to find out if output "is same as" input
+        if (output.equals(input)){
             return 1; // Exact
         }
         else if (reasoner.isSubClassOf(input, output)) {
@@ -47,7 +47,7 @@ public class SemanticMatcher {
         else if (reasoner.isSubClassOf(output, input)) {
             return 0.6; // Plug-in
         }
-        else if (false) { // TODO : Find out how to check if output "has relation with" input
+        else if (ontsum.findRelationship (output, input, reasoner).size() > 0) {
             return 0.5; // Structural
         }
         else {

@@ -443,6 +443,8 @@ public class SyntacticMatcher
     {
         File syntacticOutputXML = new File("output_xml/SyntacticOutput.xml");
 
+        // TODO : generate namespace for XML output file?
+
         try
         {
             JAXBContext jaxbContext = JAXBContext.newInstance(WSMatching.class);
