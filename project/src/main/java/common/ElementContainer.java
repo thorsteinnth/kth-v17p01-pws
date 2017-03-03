@@ -6,7 +6,7 @@ import java.util.List;
 public class ElementContainer
 {
     public String name;
-    public List<String> subelements;
+    public List<TypeNameTuple> subelements;
 
     public ElementContainer(String name)
     {

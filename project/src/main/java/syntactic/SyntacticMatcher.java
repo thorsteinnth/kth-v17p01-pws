@@ -1,5 +1,10 @@
 package syntactic;
 
+import com.predic8.schema.ComplexType;
+import com.predic8.schema.Element;
+import com.predic8.schema.Schema;
+import com.predic8.schema.Sequence;
+import com.predic8.wsdl.*;
 import common.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +53,10 @@ public class SyntacticMatcher
 
         File[] WSDLs = getWSDLs();
 
+        List<PortTypeContainer> portTypeContainers = parsePortTypes(WSDLs[0]);
+        LOG.debug("OutputService - parsed service for: " + WSDLs[0] + " - " + portTypeContainers);
+
+        /*
         for (int i=0; i<WSDLs.length; i++)
         {
             ServiceContainer outputService;
@@ -89,7 +98,7 @@ public class SyntacticMatcher
             }
 
             break;
-        }
+        }*/
 
         //generateOutputXML(this.wsMatching);
     }
@@ -174,6 +183,9 @@ public class SyntacticMatcher
 
         return matchedElements;
     }
+
+    //region Homemade parsers
+    /*
 
     private ServiceContainer parseService(File wsdl) throws SAXException
     {
@@ -355,6 +367,123 @@ public class SyntacticMatcher
             return null;
         }
     }
+
+    */
+    //endregion
+
+    //region Predic8 parsers
+
+    private List<PortTypeContainer> parsePortTypes(File wsdl)
+    {
+        WSDLParser parser = new WSDLParser();
+        Definitions defs = parser.parse(wsdl.getAbsolutePath());
+
+        List<PortTypeContainer> portTypeContainers = new ArrayList<>();
+
+        List<PortType> portTypes = defs.getPortTypes();
+
+        for (PortType portType : portTypes)
+        {
+            PortTypeContainer portTypeContainer = new PortTypeContainer(portType.getName());
+
+            for (Operation operation : portType.getOperations())
+            {
+                OperationContainer operationContainer = new OperationContainer(operation.getName());
+                operationContainer.inputMessage = parseMessage(defs, operation.getInput().getMessage());
+                operationContainer.outputMessage = parseMessage(defs, operation.getOutput().getMessage());
+
+                portTypeContainer.operations.add(operationContainer);
+            }
+
+            portTypeContainers.add(portTypeContainer);
+        }
+
+        return portTypeContainers;
+    }
+
+    private MessageContainer parseMessage(Definitions defs, Message message)
+    {
+        MessageContainer messageContainer = new MessageContainer(message.getName());
+
+        for (Part part : message.getParts())
+        {
+            Element partElement = part.getElement();
+            ElementContainer elementContainer = new ElementContainer(partElement.getName());
+            if (partElement.getEmbeddedType() instanceof ComplexType)
+            {
+                ComplexType partElementComplexType = (ComplexType)partElement.getEmbeddedType();
+
+                // Flatten all complex types below here to their basic types
+                elementContainer.subelements.addAll(flattenComplexTypeRecursive(partElementComplexType));
+            }
+
+            messageContainer.elements.add(elementContainer);
+        }
+
+        return messageContainer;
+    }
+
+    private List<TypeNameTuple> flattenComplexTypeRecursive(ComplexType complexType)
+    {
+        List<TypeNameTuple> typeNameTuples = new ArrayList<>();
+
+        for (Element sequenceElement : complexType.getSequence().getElements())
+        {
+            if (isElementComplexType(sequenceElement))
+            {
+                // This is a complex type
+                ComplexType sequenceElementComplex = getComplexTypeByTypeName(sequenceElement.getSchema(),
+                        sequenceElement.getTypeString(sequenceElement.getType()));
+
+                typeNameTuples.addAll(flattenComplexTypeRecursive(sequenceElementComplex));
+            }
+            else
+            {
+                TypeNameTuple typeNameTuple = new TypeNameTuple(sequenceElement.getTypeString(sequenceElement.getType()), sequenceElement.getName());
+                typeNameTuples.add(typeNameTuple);
+            }
+        }
+
+        return typeNameTuples;
+    }
+
+    private ComplexType getComplexTypeByTypeName(Schema schema, String typeName)
+    {
+        // Complex type names in schema do not contain namespaces. Remove it if it is there.
+        typeName = removeNamespace(typeName);
+        ComplexType foundComplexType = schema.getComplexType(typeName);
+        return foundComplexType;
+    }
+
+    private boolean isElementComplexType(Element element)
+    {
+        // Let's compare the name of the element with the complex types in the schema.
+        // complexTypes.contains() does not work here
+
+        List<String> complexTypeNames = new ArrayList<>();
+        for (ComplexType complexType : element.getSchema().getComplexTypes())
+            complexTypeNames.add(complexType.getName());
+
+        String elementTypeName = element.getTypeString(element.getType());
+        // This element type name may contain a namespace, but the complex type names do not. Remove namespace
+        elementTypeName = removeNamespace(elementTypeName);
+
+        if (complexTypeNames.contains(elementTypeName))
+            return true;
+
+        return false;
+    }
+
+    private String removeNamespace(String name)
+    {
+        String[] split = name.split(":");
+        if (split.length == 2)
+            return split[1];
+        else
+            return name;
+    }
+
+    //endregion
 
     private File[] getWSDLs()
     {
