@@ -78,15 +78,34 @@ public class SyntacticMatcher
      */
     private void compare(List<PortTypeContainer> outputServicePortTypes, List<PortTypeContainer> inputServicePortTypes)
     {
-        for (PortTypeContainer ptc : outputServicePortTypes)
+        for (PortTypeContainer outputPTC : outputServicePortTypes)
         {
-            for (OperationContainer opc : ptc.operations)
+            for (OperationContainer outputOC : outputPTC.operations)
             {
                 //TODO : For each operation compare it to every operation for the input service,
                 //TODO : and if there are matches add the Matched operation to the list of matched operations
                 //TODO : in the Matched object for the two services
+
+                List<MatchedOperation> matchedOperations = findMatchedOperations(outputOC, inputServicePortTypes);
             }
         }
+    }
+
+    private List<MatchedOperation> findMatchedOperations(
+            OperationContainer outputOC,
+            List<PortTypeContainer> inputServicePortTypes)
+    {
+        List<MatchedOperation> matchedOperations = new ArrayList<>();
+
+        for (PortTypeContainer inputPTC : inputServicePortTypes)
+        {
+            for (OperationContainer inputOC : inputPTC.operations)
+            {
+                //TODO
+            }
+        }
+
+        return matchedOperations;
     }
 
     private List<PortTypeContainer> parsePortTypes(File wsdl)
@@ -101,6 +120,18 @@ public class SyntacticMatcher
             XPath xpath = xPathfactory.newXPath();
             xpath.setNamespaceContext(getWsdlNamespaceContext());
 
+            XPathExpression getServiceNameExpr = xpath.compile("//wsdl:service");
+            NodeList serviceNameNodes = (NodeList) getServiceNameExpr.evaluate(doc, XPathConstants.NODESET);
+            String serviceName = "";
+
+            for (int i = 0; i < serviceNameNodes.getLength(); i++) {
+                Node node = serviceNameNodes.item(i);
+                serviceName = node.getAttributes().getNamedItem("name").getNodeValue();
+
+                if (!serviceName.equals(""))
+                    break;
+            }
+
             XPathExpression expr = xpath.compile("//wsdl:portType");
             NodeList nodeList = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
 
@@ -108,7 +139,7 @@ public class SyntacticMatcher
             {
                 Node node = nodeList.item(i);
                 String portTypeName = node.getAttributes().getNamedItem("name").getNodeValue();
-                PortTypeContainer portTypeContainer = new PortTypeContainer(portTypeName);
+                PortTypeContainer portTypeContainer = new PortTypeContainer(serviceName, portTypeName);
 
                 XPathExpression operationExpr = xpath.compile("wsdl:operation");
                 NodeList operationNodeList = (NodeList) operationExpr.evaluate(node, XPathConstants.NODESET);
