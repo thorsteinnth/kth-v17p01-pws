@@ -75,9 +75,11 @@ public class SemanticMatcher {
                     continue;
                 }
 
+                /*
                 if (outputService != null && outputService.portTypeContainers != null
                         && inputService != null && inputService.portTypeContainers != null)
                     compare(outputService, inputService);
+                    */
             }
 
             break;
