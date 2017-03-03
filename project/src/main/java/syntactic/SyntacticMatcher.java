@@ -83,12 +83,15 @@ public class SyntacticMatcher
                     continue;
                 }
 
-                if (outputService != null && inputService != null)
+                if (outputService != null && outputService.portTypeContainers != null
+                        && inputService != null && inputService.portTypeContainers != null)
                     compare(outputService, inputService);
             }
 
             break;
         }
+
+        //generateOutputXML(this.wsMatching);
     }
 
     /**
@@ -120,7 +123,7 @@ public class SyntacticMatcher
                     }
 
                     matching.setMatchedOperation(matchedOperations);
-                    matching.setWsScore("0"); //TODO : calculate this
+                    matching.setWsScore(calculateWsScore(matchedOperations));
                 }
             }
         }
@@ -388,6 +391,30 @@ public class SyntacticMatcher
             return true;
         else
             return false;
+    }
+
+    private float calculateWsScore(List<MatchedOperation> matchedOperations)
+    {
+        float totalScore = 0;
+
+        for (MatchedOperation mo : matchedOperations)
+        {
+            totalScore = totalScore + mo.getOpScore();
+        }
+
+        return totalScore / matchedOperations.size();
+    }
+
+    private float calculateOpScore(List<MatchedElement> matchedElements)
+    {
+        float totalScore = 0;
+
+        for (MatchedElement me : matchedElements)
+        {
+            totalScore = totalScore + me.getScore();
+        }
+
+        return totalScore / matchedElements.size();
     }
 
     private void generateOutputXML(WSMatching wsMatching)

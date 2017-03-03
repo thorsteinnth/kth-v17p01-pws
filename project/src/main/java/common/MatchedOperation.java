@@ -7,7 +7,7 @@ public class MatchedOperation {
 
     private String outputOperationName;
     private String inputOperationName;
-    private String opScore;
+    private float opScore;
     private ArrayList<MatchedElement> matchedElement;
 
     public MatchedOperation() {
@@ -31,12 +31,12 @@ public class MatchedOperation {
         this.inputOperationName = inputOperationName;
     }
 
-    public String getOpScore() {
+    public float getOpScore() {
         return opScore;
     }
 
     @XmlElement(name = "OpScore")
-    public void setOpScore(String opScore) {
+    public void setOpScore(float opScore) {
         this.opScore = opScore;
     }
 

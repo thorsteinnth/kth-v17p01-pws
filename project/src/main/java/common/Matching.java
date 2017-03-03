@@ -9,7 +9,7 @@ public class Matching {
     private String outputServiceName;
     private String inputServiceName;
     private List<MatchedOperation> matchedOperation;
-    private String wsScore;
+    private float wsScore;
 
     public Matching() {
     }
@@ -41,12 +41,12 @@ public class Matching {
         this.matchedOperation = matchedOperation;
     }
 
-    public String getWsScore() {
+    public float getWsScore() {
         return wsScore;
     }
 
     @XmlElement(name = "WsScore")
-    public void setWsScore(String wsScore) {
+    public void setWsScore(float wsScore) {
         this.wsScore = wsScore;
     }
 }
