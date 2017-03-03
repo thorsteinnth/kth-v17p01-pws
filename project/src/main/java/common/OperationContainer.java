@@ -3,8 +3,8 @@ package common;
 public class OperationContainer
 {
     public String name;
-    public String inputMessage;
-    public String outputMessage;
+    public MessageContainer inputMessage;
+    public MessageContainer outputMessage;
 
     public OperationContainer(String name)
     {
@@ -16,8 +16,8 @@ public class OperationContainer
     {
         return "OperationContainer{" +
                 "name='" + name + '\'' +
-                ", inputMessage='" + inputMessage + '\'' +
-                ", outputMessage='" + outputMessage + '\'' +
+                ", inputMessage=" + inputMessage +
+                ", outputMessage=" + outputMessage +
                 '}';
     }
 }

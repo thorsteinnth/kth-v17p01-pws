@@ -1,9 +1,6 @@
 package syntactic;
 
-import common.MatchedElement;
-import common.OperationContainer;
-import common.PortTypeContainer;
-import common.WSMatching;
+import common.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -116,7 +113,7 @@ public class SyntacticMatcher
                 XPathExpression operationExpr = xpath.compile("wsdl:operation");
                 NodeList operationNodeList = (NodeList) operationExpr.evaluate(node, XPathConstants.NODESET);
 
-                portTypeContainer.operations = parseOperations(operationNodeList);
+                portTypeContainer.operations = parseOperations(doc, operationNodeList);
 
                 portTypeContainers.add(portTypeContainer);
             }
@@ -130,7 +127,7 @@ public class SyntacticMatcher
         }
     }
 
-    private List<OperationContainer> parseOperations(NodeList operationNodeList)
+    private List<OperationContainer> parseOperations(Document doc, NodeList operationNodeList)
     {
         try
         {
@@ -145,14 +142,11 @@ public class SyntacticMatcher
                 String operationName = operationNode.getAttributes().getNamedItem("name").getNodeValue();
                 OperationContainer operationContainer = new OperationContainer(operationName);
 
-                String operationInputMessage = xpath.compile("wsdl:input/@message").evaluate(operationNode);
-                operationContainer.inputMessage = operationInputMessage;
+                String operationInputMessageName = xpath.compile("wsdl:input/@message").evaluate(operationNode);
+                operationContainer.inputMessage = parseMessage(doc, operationInputMessageName);
 
-                //XPathExpression operationExpr = xpath.compile("//wsdl:message/[@name=" + operationInputMessage + "]");
-                //NodeList operationNodeList = (NodeList) operationExpr.evaluate(node, XPathConstants.NODESET);
-
-                String operationOutputMessage = xpath.compile("wsdl:output/@message").evaluate(operationNode);
-                operationContainer.outputMessage = operationOutputMessage;
+                String operationOutputMessageName = xpath.compile("wsdl:output/@message").evaluate(operationNode);
+                operationContainer.outputMessage = parseMessage(doc, operationOutputMessageName);
 
                 operationContainers.add(operationContainer);
             }
@@ -163,6 +157,81 @@ public class SyntacticMatcher
         {
             LOG.error(ex.toString());
             return new ArrayList<>();
+        }
+    }
+
+    private MessageContainer parseMessage(Document doc, String messageName)
+    {
+        try
+        {
+            String[] messageNameNamespaceSplit = messageName.split(":");
+            if (messageNameNamespaceSplit.length == 2)
+                messageName = messageNameNamespaceSplit[1];
+
+            MessageContainer messageContainer = new MessageContainer(messageName);
+
+            XPath xpath = xPathfactory.newXPath();
+            xpath.setNamespaceContext(getWsdlNamespaceContext());
+
+            // Search for the message element somewhere in the doc
+            XPathExpression messageExpr = xpath.compile("//wsdl:message[@name='" + messageName + "']");
+            Node messageNode = (Node) messageExpr.evaluate(doc, XPathConstants.NODE);
+
+            XPathExpression messagePartExpr = xpath.compile("wsdl:part");
+            NodeList messageParts = (NodeList) messagePartExpr.evaluate(messageNode, XPathConstants.NODESET);
+
+            for (int i = 0; i < messageParts.getLength(); i++)
+            {
+                Node partNode = messageParts.item(i);
+                String partElementName = partNode.getAttributes().getNamedItem("element").getNodeValue();
+                messageContainer.elements.add(parseElement(doc, partElementName));
+            }
+
+            return messageContainer;
+        }
+        catch (XPathExpressionException ex)
+        {
+            LOG.error(ex.toString());
+            return null;
+        }
+    }
+
+    private ElementContainer parseElement(Document doc, String elementName)
+    {
+        try
+        {
+            String[] elementNameNamespaceSplit = elementName.split(":");
+            if (elementNameNamespaceSplit.length == 2)
+                elementName = elementNameNamespaceSplit[1];
+
+            ElementContainer elementContainer = new ElementContainer(elementName);
+
+            XPath xpath = xPathfactory.newXPath();
+            xpath.setNamespaceContext(getWsdlNamespaceContext());
+
+            // Search for the element somewhere in the doc
+            XPathExpression elementExpr = xpath.compile("//wsdl:types/s:schema/s:element[@name='" + elementName + "']");
+            Node elementNode = (Node) elementExpr.evaluate(doc, XPathConstants.NODE);
+
+            // Hierarchy should be elementNode -> complexType -> sequence -> elements that we are looking for
+            XPathExpression elementSequenceExpr = xpath.compile("s:complexType/s:sequence/s:element");
+            NodeList sequenceElements = (NodeList) elementSequenceExpr.evaluate(elementNode, XPathConstants.NODESET);
+
+            for (int i = 0; i < sequenceElements.getLength(); i++)
+            {
+                Node sequenceElement = sequenceElements.item(i);
+                String sequenceElementName = sequenceElement.getAttributes().getNamedItem("name").getNodeValue();
+                String sequenceElementType = sequenceElement.getAttributes().getNamedItem("type").getNodeValue();
+                if (shouldMatchElementType(sequenceElementType))
+                    elementContainer.subelements.add(sequenceElementName);
+            }
+
+            return elementContainer;
+        }
+        catch (XPathExpressionException ex)
+        {
+            LOG.error(ex.toString());
+            return null;
         }
     }
 
@@ -186,7 +255,12 @@ public class SyntacticMatcher
             @Override
             public String getNamespaceURI(String prefix)
             {
-                return prefix.equals("wsdl") ? "http://schemas.xmlsoap.org/wsdl/" : null;
+                if (prefix.equals("wsdl"))
+                    return "http://schemas.xmlsoap.org/wsdl/";
+                else if (prefix.equals("s"))
+                    return "http://www.w3.org/2001/XMLSchema";
+                else
+                    return null;
             }
 
             @Override
@@ -201,6 +275,23 @@ public class SyntacticMatcher
                 return null;
             }
         };
+    }
+
+    /**
+     * Only consider basic elements (those with built-in types such as int, double, string, date, ...) for matching
+     */
+    private boolean shouldMatchElementType(String type)
+    {
+        if (type.equals("s:string"))
+            return true;
+        else if (type.equals("s:double"))
+            return true;
+        else if (type.equals("s:dateTime"))
+            return true;
+        else if (type.equals("s:int"))
+            return true;
+        else
+            return false;
     }
 
     private void generateOutputXML(WSMatching wsMatching)
