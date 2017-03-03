@@ -50,13 +50,13 @@ public class SyntacticMatcher
 
         for (int i=0; i<WSDLs.length; i++)
         {
-            List<PortTypeContainer> inputServicePortTypes;
-            List<PortTypeContainer> outputServicePortTypes;
+            ServiceContainer outputService;
+            ServiceContainer inputService;
 
             try
             {
-                outputServicePortTypes = parsePortTypes(WSDLs[i]);
-                LOG.debug("OutputService - parsed port type containers for: " + WSDLs[i] + " - " + outputServicePortTypes);
+                outputService = parseService(WSDLs[i]);
+                LOG.debug("OutputService - parsed service for: " + WSDLs[i] + " - " + outputService);
             }
             catch (SAXException ex)
             {
@@ -74,8 +74,8 @@ public class SyntacticMatcher
 
                 try
                 {
-                    inputServicePortTypes =  parsePortTypes(WSDLs[y]);
-                    LOG.debug("InputService - parsed port type containers for: " + WSDLs[y] + " - " + inputServicePortTypes);
+                    inputService = parseService(WSDLs[y]);
+                    LOG.debug("InputService - parsed service for: " + WSDLs[y] + " - " + inputService);
                 }
                 catch (SAXException ex)
                 {
@@ -83,8 +83,8 @@ public class SyntacticMatcher
                     continue;
                 }
 
-                if (inputServicePortTypes != null && outputServicePortTypes != null)
-                    compare(outputServicePortTypes, inputServicePortTypes);
+                if (outputService != null && inputService != null)
+                    compare(outputService, inputService);
             }
 
             break;
@@ -150,9 +150,10 @@ public class SyntacticMatcher
         return matchedOperations;
     }
 
-    private ServiceContainer parseService(File wsdl)
+    private ServiceContainer parseService(File wsdl) throws SAXException
     {
         ServiceContainer serviceContainer = new ServiceContainer();
+
         try
         {
             DocumentBuilder builder = this.documentBuilderFactory.newDocumentBuilder();
@@ -178,9 +179,9 @@ public class SyntacticMatcher
             XPathExpression getPortTypesExptr = xpath.compile("//wsdl:portType");
             NodeList portTypeNodes = (NodeList) getPortTypesExptr.evaluate(doc, XPathConstants.NODESET);
 
-            serviceContainer.portTypeContainers = parsePortTypes(portTypeNodes);
+            serviceContainer.portTypeContainers = parsePortTypes(doc, portTypeNodes);
         }
-        catch (ParserConfigurationException|SAXException|XPathExpressionException|IOException ex)
+        catch (ParserConfigurationException|XPathExpressionException|IOException ex)
         {
             LOG.error(ex.toString());
         }
@@ -190,7 +191,7 @@ public class SyntacticMatcher
         }
     }
 
-    private List<PortTypeContainer> parsePortTypes(NodeList portTypeNodeList)
+    private List<PortTypeContainer> parsePortTypes(Document doc, NodeList portTypeNodeList)
     {
         try
         {
@@ -208,56 +209,6 @@ public class SyntacticMatcher
                 XPathExpression operationExpr = xpath.compile("wsdl:operation");
                 NodeList operationNodeList = (NodeList) operationExpr.evaluate(node, XPathConstants.NODESET);
 
-                portTypeContainer.operations = parseOperations(operationNodeList);
-
-                portTypeContainers.add(portTypeContainer);
-            }
-
-            return portTypeContainers;
-        }
-        catch (XPathExpressionException ex)
-        {
-            LOG.error(ex.toString());
-            return new ArrayList<>();
-        }
-    }
-
-    private List<PortTypeContainer> parsePortTypes(File wsdl) throws SAXException
-    {
-        try
-        {
-            List<PortTypeContainer> portTypeContainers = new ArrayList<>();
-
-            DocumentBuilder builder = this.documentBuilderFactory.newDocumentBuilder();
-            Document doc = builder.parse(wsdl);
-
-            XPath xpath = xPathfactory.newXPath();
-            xpath.setNamespaceContext(getWsdlNamespaceContext());
-
-            XPathExpression getServiceNameExpr = xpath.compile("//wsdl:service");
-            NodeList serviceNameNodes = (NodeList) getServiceNameExpr.evaluate(doc, XPathConstants.NODESET);
-            String serviceName = "";
-
-            for (int i = 0; i < serviceNameNodes.getLength(); i++) {
-                Node node = serviceNameNodes.item(i);
-                serviceName = node.getAttributes().getNamedItem("name").getNodeValue();
-
-                if (!serviceName.equals(""))
-                    break;
-            }
-
-            XPathExpression expr = xpath.compile("//wsdl:portType");
-            NodeList nodeList = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-
-            for (int i = 0; i < nodeList.getLength(); i++)
-            {
-                Node node = nodeList.item(i);
-                String portTypeName = node.getAttributes().getNamedItem("name").getNodeValue();
-                PortTypeContainer portTypeContainer = new PortTypeContainer(serviceName, portTypeName);
-
-                XPathExpression operationExpr = xpath.compile("wsdl:operation");
-                NodeList operationNodeList = (NodeList) operationExpr.evaluate(node, XPathConstants.NODESET);
-
                 portTypeContainer.operations = parseOperations(doc, operationNodeList);
 
                 portTypeContainers.add(portTypeContainer);
@@ -265,7 +216,7 @@ public class SyntacticMatcher
 
             return portTypeContainers;
         }
-        catch (ParserConfigurationException|XPathExpressionException|IOException ex)
+        catch (XPathExpressionException ex)
         {
             LOG.error(ex.toString());
             return new ArrayList<>();
