@@ -3,27 +3,17 @@ package syntactic;
 import com.predic8.schema.ComplexType;
 import com.predic8.schema.Element;
 import com.predic8.schema.Schema;
-import com.predic8.schema.Sequence;
 import com.predic8.wsdl.*;
 import com.sun.xml.internal.bind.v2.util.EditDistance;
 import common.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import javax.xml.namespace.NamespaceContext;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.*;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.File;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -32,11 +22,7 @@ import java.util.List;
 public class SyntacticMatcher
 {
     private final static Logger LOG = LoggerFactory.getLogger(SyntacticMatcher.class);
-
     private WSMatching wsMatching;
-
-    private DocumentBuilderFactory documentBuilderFactory;
-    private XPathFactory xPathfactory;
 
     public static void main(String[] args)
     {
@@ -47,10 +33,6 @@ public class SyntacticMatcher
     public SyntacticMatcher()
     {
         this.wsMatching = new WSMatching();
-
-        this.documentBuilderFactory = DocumentBuilderFactory.newInstance();
-        this.documentBuilderFactory.setNamespaceAware(true);
-        this.xPathfactory = XPathFactory.newInstance();
 
         File[] WSDLs = getWSDLs();
 
