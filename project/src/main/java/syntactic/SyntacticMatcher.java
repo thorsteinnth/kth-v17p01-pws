@@ -4,7 +4,6 @@ import com.predic8.schema.ComplexType;
 import com.predic8.schema.Element;
 import com.predic8.schema.Schema;
 import com.predic8.wsdl.*;
-import com.sun.xml.internal.bind.v2.util.EditDistance;
 import common.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -190,7 +189,7 @@ public class SyntacticMatcher
             {
                 if (typeNameOutput.type.equals(typeNameInput.type))
                 {
-                    int distance = EditDistance.editDistance(typeNameOutput.name, typeNameInput.name);
+                    double distance = EditDistance.getSimilarity(typeNameOutput.name, typeNameInput.name);
 
                     if (distance >= 0.8)
                     {

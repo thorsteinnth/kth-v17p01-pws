@@ -1,4 +1,4 @@
-/**
+package syntactic; /**
  * Copyright 2010 Websoft research group, Nanjing University, PR China
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
