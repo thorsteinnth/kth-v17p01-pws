@@ -35,11 +35,21 @@ public class SyntacticMatcher
         this.wsMatching = new WSMatching();
 
         File[] WSDLs = getWSDLs();
+        List<ServiceContainer> outputServiceContainers;
+        List<ServiceContainer> inputServiceContainers;
 
         for (int i=0; i<WSDLs.length; i++)
         {
-            List<ServiceContainer> outputServiceContainers = parseServices(WSDLs[i]);
-            LOG.debug("OutputService - parsed services for: " + WSDLs[i] + " - " + outputServiceContainers);
+            try
+            {
+                outputServiceContainers = parseServices(WSDLs[i]);
+                LOG.debug("OutputService - parsed services for: " + WSDLs[i] + " - " + outputServiceContainers);
+            }
+            catch (Exception ex)
+            {
+                LOG.error("Could not parse WSDL: " + WSDLs[i] + " - " + ex.toString());
+                continue;
+            }
 
             for (int y=0; y<WSDLs.length; y++)
             {
@@ -49,8 +59,16 @@ public class SyntacticMatcher
                     continue;
                 }
 
-                List<ServiceContainer> inputServiceContainers = parseServices(WSDLs[y]);
-                LOG.debug("InputService - parsed services for: " + WSDLs[y] + " - " + inputServiceContainers);
+                try
+                {
+                    inputServiceContainers = parseServices(WSDLs[y]);
+                    LOG.debug("InputService - parsed services for: " + WSDLs[y] + " - " + inputServiceContainers);
+                }
+                catch (Exception ex)
+                {
+                    LOG.error("Could not parse WSDL: " + WSDLs[y] + " - " + ex.toString());
+                    continue;
+                }
 
                 for (ServiceContainer outputService : outputServiceContainers)
                 {
