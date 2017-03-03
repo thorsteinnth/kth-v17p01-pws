@@ -35,19 +35,31 @@ public class SemanticMatcher {
         this.mapName_OWLClass = ontsum.loadClasses(reasoner);
     }
 
+    // TODO : We need to parse the SAWSDL files - and find the type of the semantic classes
+    // TODO : for each operation and calculate their matching degrees
 
-    private double getMatchingDegree(OWLClass output, OWLClass input) {
+    /**
+     * Calculates the matching degree for higher level types that can all be found in
+     * the SUMO.owl ontology file
+     * @param outputType
+     * @param inputType
+     * @return matching degree from 1 to 0
+     */
+    private double getMatchingDegree(String outputType, String inputType) {
 
-        if (output.equals(input)){
+        OWLClass outputClass = mapName_OWLClass.get(outputType.toLowerCase());
+        OWLClass inputClass = mapName_OWLClass.get(inputType.toLowerCase());
+
+        if (outputClass.equals(inputClass)){
             return 1; // Exact
         }
-        else if (reasoner.isSubClassOf(input, output)) {
+        else if (reasoner.isSubClassOf(inputClass, outputClass)) {
             return 0.8; // Subsumption
         }
-        else if (reasoner.isSubClassOf(output, input)) {
+        else if (reasoner.isSubClassOf(outputClass, inputClass)) {
             return 0.6; // Plug-in
         }
-        else if (ontsum.findRelationship (output, input, reasoner).size() > 0) {
+        else if (ontsum.findRelationship (outputClass, inputClass, reasoner).size() > 0) {
             return 0.5; // Structural
         }
         else {
