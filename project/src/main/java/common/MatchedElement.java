@@ -6,7 +6,7 @@ public class MatchedElement {
 
     private String outputElement;
     private String inputElement;
-    private float score;
+    private double score;
 
     public MatchedElement() {
     }
@@ -29,12 +29,12 @@ public class MatchedElement {
         this.inputElement = inputElement;
     }
 
-    public float getScore() {
+    public double getScore() {
         return score;
     }
 
     @XmlElement(name = "Score")
-    public void setScore(float score) {
+    public void setScore(double score) {
         this.score = score;
     }
 }

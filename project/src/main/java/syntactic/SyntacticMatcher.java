@@ -557,9 +557,9 @@ public class SyntacticMatcher
     }
     */
 
-    private float calculateWsScore(List<MatchedOperation> matchedOperations)
+    private double calculateWsScore(List<MatchedOperation> matchedOperations)
     {
-        float totalScore = 0;
+        double totalScore = 0;
 
         for (MatchedOperation mo : matchedOperations)
         {
@@ -569,9 +569,9 @@ public class SyntacticMatcher
         return totalScore / matchedOperations.size();
     }
 
-    private float calculateOpScore(List<MatchedElement> matchedElements)
+    private double calculateOpScore(List<MatchedElement> matchedElements)
     {
-        float totalScore = 0;
+        double totalScore = 0;
 
         for (MatchedElement me : matchedElements)
         {
@@ -584,6 +584,8 @@ public class SyntacticMatcher
     private void generateOutputXML(WSMatching wsMatching)
     {
         File syntacticOutputXML = new File("output_xml/SyntacticOutput.xml");
+
+        // TODO : generate namespace for XML output file?
 
         try
         {
