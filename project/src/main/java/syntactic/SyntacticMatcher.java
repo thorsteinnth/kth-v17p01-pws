@@ -157,6 +157,8 @@ public class SyntacticMatcher
 
     private List<MatchedElement> findMatchedElements(OperationContainer outputOC, OperationContainer inputOC)
     {
+        //LOG.debug("Finding matched elements for operations: " + outputOC.name + " - " + inputOC.name);
+
         List<MatchedElement> matchedElements = new ArrayList<>();
 
         for (ElementContainer outputElements : outputOC.outputMessage.elements)
@@ -181,8 +183,16 @@ public class SyntacticMatcher
         {
             for (TypeNameTuple typeNameInput : inputElementContainer.subelements)
             {
-                if (typeNameOutput.type.equals(typeNameInput.type))
+                // Not taking types into account. No mention of it in the assignment doc,
+                // and some elements do not have a type.
+                //if (typeNameOutput.type.equals(typeNameInput.type))
                 {
+                    // Disregarding null names
+                    if (typeNameOutput.name == null || typeNameInput.name == null)
+                        continue;
+
+                    //LOG.debug("Getting similarity for: " + typeNameOutput.name + " - " + typeNameInput.name);
+
                     double distance = EditDistance.getSimilarity(typeNameOutput.name, typeNameInput.name);
 
                     if (distance >= 0.8)
