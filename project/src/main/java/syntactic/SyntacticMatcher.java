@@ -487,6 +487,14 @@ public class SyntacticMatcher
     {
         List<TypeNameTuple> typeNameTuples = new ArrayList<>();
 
+        // TODO
+        // Complex type may have a "sequence", or "all" or some others.
+        // It doesn't look like the predic8 parser can handle anything other than sequence.
+        // Just ignoring the type then (for now at least)
+        // (e.g. in RegalTechnologiesDevConnectAPIProfile.wsdl)
+        if (complexType.getSequence() == null)
+            return typeNameTuples;
+
         for (Element sequenceElement : complexType.getSequence().getElements())
         {
             if (isElementComplexType(sequenceElement))
