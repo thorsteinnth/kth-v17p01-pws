@@ -8,14 +8,12 @@ import common.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.xml.namespace.NamespaceContext;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class SyntacticMatcher
@@ -450,17 +448,36 @@ public class SyntacticMatcher
 
         for (Part part : message.getParts())
         {
+            // Part can have an element that we need to dig further down to find, or just a type (e.g. string)
             Element partElement = part.getElement();
-            ElementContainer elementContainer = new ElementContainer(partElement.getName());
-            if (partElement.getEmbeddedType() instanceof ComplexType)
+
+            if (partElement != null)
             {
-                ComplexType partElementComplexType = (ComplexType)partElement.getEmbeddedType();
+                ElementContainer elementContainer = new ElementContainer(partElement.getName());
+                if (partElement.getEmbeddedType() instanceof ComplexType)
+                {
+                    ComplexType partElementComplexType = (ComplexType) partElement.getEmbeddedType();
 
-                // Flatten all complex types below here to their basic types
-                elementContainer.subelements.addAll(flattenComplexTypeRecursive(partElementComplexType));
+                    // Flatten all complex types below here to their basic types
+                    elementContainer.subelements.addAll(flattenComplexTypeRecursive(partElementComplexType));
+                }
+
+                messageContainer.elements.add(elementContainer);
             }
+            else
+            {
+                // Check if we have a type here instead
+                // Let's just put the part element into an element container, with the part itself as a subelement
 
-            messageContainer.elements.add(elementContainer);
+                ElementContainer elementContainer = new ElementContainer(part.getName());
+                if (part.getType() != null)
+                {
+                    String partTypeName = (part.getType().getName() != null ? part.getType().getName() : part.getTypePN().toString());
+                    elementContainer.subelements.add(new TypeNameTuple(partTypeName, part.getName()));
+                }
+
+                messageContainer.elements.add(elementContainer);
+            }
         }
 
         return messageContainer;
@@ -541,6 +558,7 @@ public class SyntacticMatcher
         }
     }
 
+    /*
     private NamespaceContext getWsdlNamespaceContext()
     {
         return new NamespaceContext()
@@ -570,10 +588,7 @@ public class SyntacticMatcher
         };
     }
 
-    /**
-     * Only consider basic elements (those with built-in types such as int, double, string, date, ...) for matching
-     */
-    /*
+    // Only consider basic elements (those with built-in types such as int, double, string, date, ...) for matching
     private boolean shouldMatchElementType(String type)
     {
         if (type.equals("s:string"))
