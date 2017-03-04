@@ -198,6 +198,12 @@ public class SyntacticMatcher
 
                     if (distance >= 0.8)
                     {
+                        if (!typeNameOutput.name.equals(typeNameInput.name))
+                        {
+                            LOG.debug("Different words matching with distance "
+                                    + distance + ": " + typeNameOutput.name + " - " + typeNameInput.name);
+                        }
+
                         MatchedElement matchedElement = new MatchedElement();
                         matchedElement.setOutputElement(typeNameOutput.name);
                         matchedElement.setInputElement(typeNameOutput.name);
