@@ -499,7 +499,14 @@ public class SyntacticMatcher
             }
             else
             {
-                TypeNameTuple typeNameTuple = new TypeNameTuple(sequenceElement.getTypeString(sequenceElement.getType()), sequenceElement.getName());
+                // Some elements in the given WSDLs do not have a type (e.g. TripAuthorityAPIProfile.xml)
+                String typeName;
+                if (sequenceElement.getType() != null)
+                    typeName = sequenceElement.getTypeString(sequenceElement.getType());
+                else
+                    typeName = null;
+
+                TypeNameTuple typeNameTuple = new TypeNameTuple(typeName, sequenceElement.getName());
                 typeNameTuples.add(typeNameTuple);
             }
         }
@@ -519,6 +526,10 @@ public class SyntacticMatcher
     {
         // Let's compare the name of the element with the complex types in the schema.
         // complexTypes.contains() does not work here
+
+        // Some elements in the given WSDLs do not have a type (e.g. TripAuthorityAPIProfile.xml)
+        if (element.getType() == null)
+            return false;
 
         List<String> complexTypeNames = new ArrayList<>();
         for (ComplexType complexType : element.getSchema().getComplexTypes())
