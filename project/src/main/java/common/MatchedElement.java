@@ -1,7 +1,9 @@
 package common;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
+@XmlType(propOrder={"outputElement", "inputElement", "score"})
 public class MatchedElement {
 
     private String outputElement;
@@ -15,7 +17,7 @@ public class MatchedElement {
         return outputElement;
     }
 
-    @XmlElement(name = "OutputElement")
+    @XmlElement(namespace = "http://www.kth.se/ict/id2208/Matching", name = "OutputElement")
     public void setOutputElement(String outputElement) {
         this.outputElement = outputElement;
     }
@@ -24,7 +26,7 @@ public class MatchedElement {
         return inputElement;
     }
 
-    @XmlElement(name = "InputElement")
+    @XmlElement(namespace = "http://www.kth.se/ict/id2208/Matching", name = "InputElement")
     public void setInputElement(String inputElement) {
         this.inputElement = inputElement;
     }
@@ -33,7 +35,7 @@ public class MatchedElement {
         return score;
     }
 
-    @XmlElement(name = "Score")
+    @XmlElement(namespace = "http://www.kth.se/ict/id2208/Matching", name = "Score")
     public void setScore(double score) {
         this.score = score;
     }

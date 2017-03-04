@@ -1,9 +1,10 @@
 package common;
 
-
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
+@XmlType(propOrder={"outputServiceName", "inputServiceName", "matchedOperation", "wsScore"})
 public class Matching {
 
     private String outputServiceName;
@@ -18,7 +19,7 @@ public class Matching {
         return outputServiceName;
     }
 
-    @XmlElement(name = "OutputServiceName")
+    @XmlElement(namespace = "http://www.kth.se/ict/id2208/Matching", name = "OutputServiceName")
     public void setOutputServiceName(String outputServiceName) {
         this.outputServiceName = outputServiceName;
     }
@@ -27,7 +28,7 @@ public class Matching {
         return inputServiceName;
     }
 
-    @XmlElement(name = "InputServiceName")
+    @XmlElement(namespace = "http://www.kth.se/ict/id2208/Matching", name = "InputServiceName")
     public void setInputServiceName(String inputServiceName) {
         this.inputServiceName = inputServiceName;
     }
@@ -36,7 +37,7 @@ public class Matching {
         return matchedOperation;
     }
 
-    @XmlElement(name = "MatchedOperation")
+    @XmlElement(namespace = "http://www.kth.se/ict/id2208/Matching", name = "MatchedOperation")
     public void setMatchedOperation(List<MatchedOperation> matchedOperation) {
         this.matchedOperation = matchedOperation;
     }
@@ -45,7 +46,7 @@ public class Matching {
         return wsScore;
     }
 
-    @XmlElement(name = "WsScore")
+    @XmlElement(namespace = "http://www.kth.se/ict/id2208/Matching", name = "WsScore")
     public void setWsScore(double wsScore) {
         this.wsScore = wsScore;
     }

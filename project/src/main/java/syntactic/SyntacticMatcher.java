@@ -4,6 +4,7 @@ import com.predic8.schema.ComplexType;
 import com.predic8.schema.Element;
 import com.predic8.schema.Schema;
 import com.predic8.wsdl.*;
+import com.sun.xml.internal.bind.marshaller.NamespacePrefixMapper;
 import common.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -661,13 +662,18 @@ public class SyntacticMatcher
     {
         File syntacticOutputXML = new File("output_xml/SyntacticOutput.xml");
 
-        // TODO : generate namespace for XML output file?
-
         try
         {
             JAXBContext jaxbContext = JAXBContext.newInstance(WSMatching.class);
             Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
             jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            jaxbMarshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "http://www.kth.se/ict/id2208/Matching Output.xsd ");
+            jaxbMarshaller.setProperty("com.sun.xml.internal.bind.namespacePrefixMapper", new NamespacePrefixMapper() {
+                @Override
+                public String getPreferredPrefix(String arg0, String arg1, boolean arg2) {
+                    return "tns";
+                }
+            });
             jaxbMarshaller.marshal(wsMatching, syntacticOutputXML);
         }
         catch (JAXBException ex)

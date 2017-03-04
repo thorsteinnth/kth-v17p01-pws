@@ -1,8 +1,10 @@
 package common;
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
+@XmlType(propOrder={"outputOperationName", "inputOperationName", "opScore", "matchedElement"})
 public class MatchedOperation {
 
     private String outputOperationName;
@@ -17,7 +19,7 @@ public class MatchedOperation {
         return outputOperationName;
     }
 
-    @XmlElement(name = "OutputOperationName")
+    @XmlElement(namespace = "http://www.kth.se/ict/id2208/Matching", name = "OutputOperationName")
     public void setOutputOperationName(String outputOperationName) {
         this.outputOperationName = outputOperationName;
     }
@@ -26,7 +28,7 @@ public class MatchedOperation {
         return inputOperationName;
     }
 
-    @XmlElement(name = "InputOperationName")
+    @XmlElement(namespace = "http://www.kth.se/ict/id2208/Matching", name = "InputOperationName")
     public void setInputOperationName(String inputOperationName) {
         this.inputOperationName = inputOperationName;
     }
@@ -35,7 +37,7 @@ public class MatchedOperation {
         return opScore;
     }
 
-    @XmlElement(name = "OpScore")
+    @XmlElement(namespace = "http://www.kth.se/ict/id2208/Matching", name = "OpScore")
     public void setOpScore(double opScore) {
         this.opScore = opScore;
     }
@@ -44,7 +46,7 @@ public class MatchedOperation {
         return matchedElement;
     }
 
-    @XmlElement(name = "MatchedElement")
+    @XmlElement(namespace = "http://www.kth.se/ict/id2208/Matching", name = "MatchedElement")
     public void setMatchedElement(List<MatchedElement> matchedElement) {
         this.matchedElement = matchedElement;
     }
