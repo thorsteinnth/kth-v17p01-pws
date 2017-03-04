@@ -35,7 +35,7 @@ public class SyntacticMatcher
 
         for (int i = 0; i < parsedServiceContainers.size(); i++)
         {
-            for (int y = 0; y < parsedServiceContainers.size(); y++)
+            for (int y = i; y < parsedServiceContainers.size(); y++)
             {
                 if (i == y)
                 {
