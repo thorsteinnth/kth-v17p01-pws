@@ -16,8 +16,8 @@ import java.util.List;
 public class SyntacticMatcher
 {
     private final static Logger LOG = LoggerFactory.getLogger(SyntacticMatcher.class);
-    private WSMatching wsMatching;
     private List<List<ServiceContainer>> parsedServiceContainers;
+    private Comparer comparer;
 
     public static void main(String[] args)
     {
@@ -28,7 +28,7 @@ public class SyntacticMatcher
     public SyntacticMatcher()
     {
         parseWSDLs();
-        this.wsMatching = new WSMatching();
+        this.comparer = new SyntacticComparer();
 
         for (int i = 0; i < parsedServiceContainers.size(); i++)
         {
@@ -46,17 +46,13 @@ public class SyntacticMatcher
                     {
                         if (outputService != null && outputService.portContainers != null
                                 && inputService != null && inputService.portContainers != null)
-                            compare(outputService, inputService);
+                            this.comparer.compare(outputService, inputService);
                     }
                 }
-
-                //break; // for now
             }
-
-            //break;
         }
 
-        generateOutputXML(this.wsMatching);
+        generateOutputXML(this.comparer.getWsMatching());
     }
 
     private void parseWSDLs()
@@ -78,141 +74,6 @@ public class SyntacticMatcher
         }
     }
 
-    /**
-     * Compare outputs of operations of wsdl1 with inputs of operations of wsdl2
-     * @param outputService
-     * @param inputService
-     */
-    private void compare(ServiceContainer outputService, ServiceContainer inputService)
-    {
-        LOG.info("Comparing: " + outputService.name + " - " + inputService.name);
-
-        Matching matching = null;
-        List<MatchedOperation> matchedOperations = new ArrayList<>();
-
-        for (PortContainer outputServicePortContainer : outputService.portContainers)
-        {
-            for (OperationContainer outputOC : outputServicePortContainer.portTypeContainer.operations)
-            {
-                // For each operation compare it to every operation for the input service,
-                // and if there are matches add the Matched operation to the list of matched operations
-                // in the Matched object for the two services
-
-                matchedOperations = findMatchedOperations(outputOC, inputService.portContainers);
-
-                if (matchedOperations.size() > 0)
-                {
-                    if (matching == null)
-                    {
-                        matching = new Matching();
-                        matching.setOutputServiceName(outputService.name);
-                        matching.setInputServiceName(inputService.name);
-                    }
-
-                    matching.setMatchedOperation(matchedOperations);
-                    matching.setWsScore(calculateWsScore(matchedOperations));
-                }
-            }
-        }
-
-        if (matching != null)
-        {
-            List<Matching> matchingList = this.wsMatching.getMatching();
-            matchingList.add(matching);
-            this.wsMatching.setMatching(matchingList);
-        }
-    }
-
-    private List<MatchedOperation> findMatchedOperations(
-            OperationContainer outputOC,
-            List<PortContainer> inputServicePortContainers)
-    {
-        List<MatchedOperation> matchedOperations = new ArrayList<>();
-        List<MatchedElement> matchedElements = new ArrayList<>();
-
-        for (PortContainer inputServicePortContainer : inputServicePortContainers)
-        {
-            for (OperationContainer inputOC : inputServicePortContainer.portTypeContainer.operations)
-            {
-                // Compare outputOC to every inputOC
-                matchedElements = findMatchedElements(outputOC, inputOC);
-
-                if (matchedElements.size() > 0)
-                {
-                    MatchedOperation matchedOperation = new MatchedOperation();
-                    matchedOperation.setOutputOperationName(outputOC.name);
-                    matchedOperation.setInputOperationName(inputOC.name);
-                    matchedOperation.setMatchedElement(matchedElements);
-                    matchedOperation.setOpScore(calculateOpScore(matchedElements));
-                    matchedOperations.add(matchedOperation);
-                }
-            }
-        }
-
-        return matchedOperations;
-    }
-
-    private List<MatchedElement> findMatchedElements(OperationContainer outputOC, OperationContainer inputOC)
-    {
-        //LOG.debug("Finding matched elements for operations: " + outputOC.name + " - " + inputOC.name);
-
-        List<MatchedElement> matchedElements = new ArrayList<>();
-
-        for (ElementContainer outputElements : outputOC.outputMessage.elements)
-        {
-            for (ElementContainer inputElements : inputOC.inputMessage.elements)
-            {
-                matchedElements = compareElementContainers(matchedElements, outputElements, inputElements);
-            }
-        }
-
-        return matchedElements;
-    }
-
-    private List<MatchedElement> compareElementContainers(
-            List<MatchedElement> matchedElements,
-            ElementContainer outPutElementContainer,
-            ElementContainer inputElementContainer)
-    {
-        // Compare subelements
-
-        for (TypeNameTuple typeNameOutput : outPutElementContainer.subelements)
-        {
-            for (TypeNameTuple typeNameInput : inputElementContainer.subelements)
-            {
-                // Not taking types into account. No mention of it in the assignment doc,
-                // and some elements do not have a type.
-                //if (typeNameOutput.type.equals(typeNameInput.type))
-                {
-                    // Disregarding null names
-                    if (typeNameOutput.name == null || typeNameInput.name == null)
-                        continue;
-
-                    //LOG.debug("Getting similarity for: " + typeNameOutput.name + " - " + typeNameInput.name);
-
-                    double distance = EditDistance.getSimilarity(typeNameOutput.name, typeNameInput.name);
-
-                    if (distance >= 0.8)
-                    {
-                        if (!typeNameOutput.name.equals(typeNameInput.name))
-                        {
-                            LOG.debug("Different words matching with distance "
-                                    + distance + ": " + typeNameOutput.name + " - " + typeNameInput.name);
-                        }
-
-                        MatchedElement matchedElement = new MatchedElement();
-                        matchedElement.setOutputElement(typeNameOutput.name);
-                        matchedElement.setInputElement(typeNameOutput.name);
-                        matchedElement.setScore(distance);
-                        matchedElements.add(matchedElement);
-                    }
-                }
-            }
-        }
-
-        return matchedElements;
-    }
-
     private File[] getWSDLs()
     {
         try
@@ -224,30 +85,6 @@ public class SyntacticMatcher
             LOG.error(ex.toString());
             return new File[0];
         }
-    }
-
-    private double calculateWsScore(List<MatchedOperation> matchedOperations)
-    {
-        double totalScore = 0;
-
-        for (MatchedOperation mo : matchedOperations)
-        {
-            totalScore = totalScore + mo.getOpScore();
-        }
-
-        return totalScore / matchedOperations.size();
-    }
-
-    private double calculateOpScore(List<MatchedElement> matchedElements)
-    {
-        double totalScore = 0;
-
-        for (MatchedElement me : matchedElements)
-        {
-            totalScore = totalScore + me.getScore();
-        }
-
-        return totalScore / matchedElements.size();
     }
 
     private void generateOutputXML(WSMatching wsMatching)
@@ -271,6 +108,54 @@ public class SyntacticMatcher
         catch (JAXBException ex)
         {
             System.err.println(ex);
+        }
+    }
+
+    private class SyntacticComparer extends Comparer
+    {
+        @Override
+        public List<MatchedElement> compareElementContainers(
+                List<MatchedElement> matchedElements,
+                ElementContainer outPutElementContainer,
+                ElementContainer inputElementContainer)
+        {
+            // Compare subelements
+
+            for (TypeNameTuple typeNameOutput : outPutElementContainer.subelements)
+            {
+                for (TypeNameTuple typeNameInput : inputElementContainer.subelements)
+                {
+                    // Not taking types into account. No mention of it in the assignment doc,
+                    // and some elements do not have a type.
+                    //if (typeNameOutput.type.equals(typeNameInput.type))
+                    {
+                        // Disregarding null names
+                        if (typeNameOutput.name == null || typeNameInput.name == null)
+                            continue;
+
+                        //LOG.debug("Getting similarity for: " + typeNameOutput.name + " - " + typeNameInput.name);
+
+                        double distance = EditDistance.getSimilarity(typeNameOutput.name, typeNameInput.name);
+
+                        if (distance >= 0.8)
+                        {
+                            if (!typeNameOutput.name.equals(typeNameInput.name))
+                            {
+                                LOG.debug("Different words matching with distance "
+                                        + distance + ": " + typeNameOutput.name + " - " + typeNameInput.name);
+                            }
+
+                            MatchedElement matchedElement = new MatchedElement();
+                            matchedElement.setOutputElement(typeNameOutput.name);
+                            matchedElement.setInputElement(typeNameOutput.name);
+                            matchedElement.setScore(distance);
+                            matchedElements.add(matchedElement);
+                        }
+                    }
+                }
+            }
+
+            return matchedElements;
         }
     }
 }

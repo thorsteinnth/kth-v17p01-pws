@@ -38,7 +38,7 @@ public class SemanticMatcher {
     {
         parseSAWSDLs();
 
-        this.ontsum = new  MyOntManager();
+        this.ontsum = new MyOntManager();
         this.manager = ontsum.initializeOntologyManager();
         this.ontology = ontsum.initializeOntology(manager, ontLocation);
         this.reasoner = ontsum.initializeReasoner(ontology, manager);
