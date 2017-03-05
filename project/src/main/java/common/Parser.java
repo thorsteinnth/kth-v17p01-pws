@@ -82,6 +82,9 @@ public class Parser
             if (partElement != null)
             {
                 ElementContainer elementContainer = new ElementContainer(partElement.getName());
+                // TODO Not getting an embedded type for some part elements (e.g. addressGeocoder.wsdl),
+                // but we still have a name and element (even though the element actually is a complex type, but predic8 is not finding it)
+                // Just ignoring that for now
                 if (partElement.getEmbeddedType() instanceof ComplexType)
                 {
                     ComplexType partElementComplexType = (ComplexType) partElement.getEmbeddedType();
@@ -101,6 +104,12 @@ public class Parser
                 if (part.getType() != null)
                 {
                     String partTypeName = (part.getType().getName() != null ? part.getType().getName() : part.getTypePN().toString());
+                    elementContainer.subelements.add(new TypeNameTuple(partTypeName, part.getName()));
+                }
+                // Some files do not get a type object, but they do get a type prefixedname object (e.g. SAWSDL 1personbicycle4wheeledcar_price_service)
+                else if (part.getTypePN() != null)
+                {
+                    String partTypeName = part.getTypePN().toString();
                     elementContainer.subelements.add(new TypeNameTuple(partTypeName, part.getName()));
                 }
 
