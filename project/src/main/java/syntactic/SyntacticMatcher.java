@@ -119,7 +119,7 @@ public class SyntacticMatcher
                 ElementContainer outPutElementContainer,
                 ElementContainer inputElementContainer)
         {
-            // Compare subelements
+            // Compare sub elements
 
             for (TypeNameTuple typeNameOutput : outPutElementContainer.subelements)
             {

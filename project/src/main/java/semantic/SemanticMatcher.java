@@ -1,7 +1,7 @@
 package semantic;
 
-import common.Parser;
-import common.ServiceContainer;
+import com.sun.xml.internal.bind.marshaller.NamespacePrefixMapper;
+import common.*;
 import ontology.MyOntManager;
 import org.mindswap.pellet.owlapi.Reasoner;
 import org.semanticweb.owl.model.OWLClass;
@@ -10,6 +10,9 @@ import org.semanticweb.owl.model.OWLOntologyManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -27,6 +30,7 @@ public class SemanticMatcher {
     private MyOntManager ontsum = null;
     private HashMap<String, OWLClass> mapName_OWLClass;
     private List<List<ServiceContainer>> parsedServiceContainers;
+    private Comparer comparer;
 
     public static void main(String[] args)
     {
@@ -36,13 +40,38 @@ public class SemanticMatcher {
 
     public SemanticMatcher()
     {
-        parseSAWSDLs();
-
         this.ontsum = new MyOntManager();
         this.manager = ontsum.initializeOntologyManager();
         this.ontology = ontsum.initializeOntology(manager, ontLocation);
         this.reasoner = ontsum.initializeReasoner(ontology, manager);
         this.mapName_OWLClass = ontsum.loadClasses(reasoner);
+
+        parseSAWSDLs();
+        this.comparer = new SemanticComparer();
+
+        for (int i = 0; i < parsedServiceContainers.size(); i++)
+        {
+            for (int y = i; y < parsedServiceContainers.size(); y++)
+            {
+                if (i == y)
+                {
+                    // Don't want to compare a file to itself
+                    continue;
+                }
+
+                for (ServiceContainer outputService : parsedServiceContainers.get(i))
+                {
+                    for (ServiceContainer inputService : parsedServiceContainers.get(y))
+                    {
+                        if (outputService != null && outputService.portContainers != null
+                                && inputService != null && inputService.portContainers != null)
+                            this.comparer.compare(outputService, inputService);
+                    }
+                }
+            }
+        }
+
+        generateOutputXML(this.comparer.getWsMatching());
     }
 
     // TODO : Find Service -> Port -> PortType -> Operations (input / output) -> MessageContainer (has multiple parts/elements)
@@ -68,9 +97,6 @@ public class SemanticMatcher {
         }
     }
 
-    private void compare(ServiceContainer outputService, ServiceContainer inputService)
-    {}
-
     /**
      * Calculates the matching degree for higher level types that can all be found in
      * the SUMO.owl ontology file
@@ -82,6 +108,9 @@ public class SemanticMatcher {
 
         OWLClass outputClass = mapName_OWLClass.get(outputType.toLowerCase());
         OWLClass inputClass = mapName_OWLClass.get(inputType.toLowerCase());
+
+        if (outputClass == null || inputClass == null)
+            return 0;
 
         if (outputClass.equals(inputClass)){
             return 1; // Exact
@@ -110,6 +139,79 @@ public class SemanticMatcher {
         {
             LOG.error(ex.toString());
             return new File[0];
+        }
+    }
+
+    private void generateOutputXML(WSMatching wsMatching)
+    {
+        File syntacticOutputXML = new File("output_xml/SemanticOutput.xml");
+
+        try
+        {
+            JAXBContext jaxbContext = JAXBContext.newInstance(WSMatching.class);
+            Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
+            jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            jaxbMarshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "http://www.kth.se/ict/id2208/Matching Output.xsd ");
+            jaxbMarshaller.setProperty("com.sun.xml.internal.bind.namespacePrefixMapper", new NamespacePrefixMapper() {
+                @Override
+                public String getPreferredPrefix(String arg0, String arg1, boolean arg2) {
+                    return "tns";
+                }
+            });
+            jaxbMarshaller.marshal(wsMatching, syntacticOutputXML);
+        }
+        catch (JAXBException ex)
+        {
+            System.err.println(ex);
+        }
+    }
+
+    private class SemanticComparer extends Comparer
+    {
+        @Override
+        public List<MatchedElement> compareElementContainers(
+                List<MatchedElement> matchedElements,
+                ElementContainer outPutElementContainer,
+                ElementContainer inputElementContainer)
+        {
+            // Compare sub elements
+
+            for (TypeNameTuple typeNameOutput : outPutElementContainer.subelements)
+            {
+                for (TypeNameTuple typeNameInput : inputElementContainer.subelements)
+                {
+                    // Not taking types into account. No mention of it in the assignment doc,
+                    // and some elements do not have a type.
+                    //if (typeNameOutput.type.equals(typeNameInput.type))
+                    {
+                        // Disregarding null names
+                        if (typeNameOutput.name == null || typeNameInput.name == null)
+                            continue;
+
+                        // TODO Name or type?
+                        // TODO Not finding any matches :)
+                        double matchingDegree = getMatchingDegree(typeNameOutput.name, typeNameInput.name);
+
+                        // Matching threshold 0.5
+                        if (matchingDegree >= 0.5)
+                        {
+                            if (!typeNameOutput.name.equals(typeNameInput.name))
+                            {
+                                LOG.debug("Different words matching matching degree "
+                                        + matchingDegree + ": " + typeNameOutput.name + " - " + typeNameInput.name);
+                            }
+
+                            MatchedElement matchedElement = new MatchedElement();
+                            matchedElement.setOutputElement(typeNameOutput.name);
+                            matchedElement.setInputElement(typeNameOutput.name);
+                            matchedElement.setScore(matchingDegree);
+                            matchedElements.add(matchedElement);
+                        }
+                    }
+                }
+            }
+
+            return matchedElements;
         }
     }
 }
