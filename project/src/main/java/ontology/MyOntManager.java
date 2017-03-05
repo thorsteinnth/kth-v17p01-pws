@@ -15,7 +15,6 @@ import org.semanticweb.owl.model.OWLOntology;
 import org.semanticweb.owl.model.OWLOntologyCreationException;
 import org.semanticweb.owl.model.OWLOntologyManager;
 
-
 public class MyOntManager {
 
 	public enum LUBType {
