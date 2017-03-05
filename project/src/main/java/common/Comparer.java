@@ -23,8 +23,8 @@ public abstract class Comparer
 
     public abstract List<MatchedElement> compareElementContainers(
             List<MatchedElement> matchedElements,
-            ElementContainer outPutElementContainer,
-            ElementContainer inputElementContainer);
+            PartContainer outPutPartContainer,
+            PartContainer inputPartContainer);
 
     /**
      * Compare outputs of operations of wsdl1 with inputs of operations of wsdl2
@@ -106,9 +106,9 @@ public abstract class Comparer
 
         List<MatchedElement> matchedElements = new ArrayList<>();
 
-        for (ElementContainer outputElements : outputOC.outputMessage.elements)
+        for (PartContainer outputElements : outputOC.outputMessage.parts)
         {
-            for (ElementContainer inputElements : inputOC.inputMessage.elements)
+            for (PartContainer inputElements : inputOC.inputMessage.parts)
             {
                 matchedElements = compareElementContainers(matchedElements, outputElements, inputElements);
             }

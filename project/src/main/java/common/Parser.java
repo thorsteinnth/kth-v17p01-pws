@@ -76,12 +76,16 @@ public class Parser
 
         for (Part part : message.getParts())
         {
+            // TODO Get the SAWSDL attribute for the part type or element
+            PartContainer partContainer = new PartContainer(part.getName());
+
             // Part can have an element that we need to dig further down to find, or just a type (e.g. string)
             Element partElement = part.getElement();
 
             if (partElement != null)
             {
-                ElementContainer elementContainer = new ElementContainer(partElement.getName());
+                // This part has an element
+                partContainer.elementName = partElement.getName();
                 // TODO Not getting an embedded type for some part elements (e.g. addressGeocoder.wsdl),
                 // but we still have a name and element (even though the element actually is a complex type, but predic8 is not finding it)
                 // Just ignoring that for now
@@ -90,30 +94,32 @@ public class Parser
                     ComplexType partElementComplexType = (ComplexType) partElement.getEmbeddedType();
 
                     // Flatten all complex types below here to their basic types
-                    elementContainer.subelements.addAll(flattenComplexTypeRecursive(partElementComplexType));
+                    partContainer.subelements.addAll(flattenComplexTypeRecursive(partElementComplexType));
                 }
 
-                messageContainer.elements.add(elementContainer);
+                messageContainer.parts.add(partContainer);
             }
             else
             {
                 // Check if we have a type here instead
-                // Let's just put the part element into an element container, with the part itself as a subelement
+                // Let's just add the part itself as a subelement too to make comparison easier
+                // (we always compare sub elements)
 
-                ElementContainer elementContainer = new ElementContainer(part.getName());
                 if (part.getType() != null)
                 {
                     String partTypeName = (part.getType().getName() != null ? part.getType().getName() : part.getTypePN().toString());
-                    elementContainer.subelements.add(new TypeNameTuple(partTypeName, part.getName()));
+                    partContainer.type = partTypeName;
+                    partContainer.subelements.add(new TypeNameTuple(partTypeName, part.getName()));
                 }
                 // Some files do not get a type object, but they do get a type prefixedname object (e.g. SAWSDL 1personbicycle4wheeledcar_price_service)
                 else if (part.getTypePN() != null)
                 {
                     String partTypeName = part.getTypePN().toString();
-                    elementContainer.subelements.add(new TypeNameTuple(partTypeName, part.getName()));
+                    partContainer.type = partTypeName;
+                    partContainer.subelements.add(new TypeNameTuple(partTypeName, part.getName()));
                 }
 
-                messageContainer.elements.add(elementContainer);
+                messageContainer.parts.add(partContainer);
             }
         }
 
@@ -334,7 +340,7 @@ public class Parser
             {
                 Node partNode = messageParts.item(i);
                 String partElementName = partNode.getAttributes().getNamedItem("element").getNodeValue();
-                messageContainer.elements.add(parseElement(doc, partElementName));
+                messageContainer.parts.add(parseElement(doc, partElementName));
             }
 
             return messageContainer;
@@ -346,7 +352,7 @@ public class Parser
         }
     }
 
-    private ElementContainer parseElement(Document doc, String elementName)
+    private PartContainer parseElement(Document doc, String elementName)
     {
         try
         {
@@ -354,7 +360,7 @@ public class Parser
             if (elementNameNamespaceSplit.length == 2)
                 elementName = elementNameNamespaceSplit[1];
 
-            ElementContainer elementContainer = new ElementContainer(elementName);
+            PartContainer elementContainer = new PartContainer(elementName);
 
             XPath xpath = xPathfactory.newXPath();
             xpath.setNamespaceContext(getWsdlNamespaceContext());

@@ -74,7 +74,7 @@ public class SemanticMatcher {
         generateOutputXML(this.comparer.getWsMatching());
     }
 
-    // TODO : Find Service -> Port -> PortType -> Operations (input / output) -> MessageContainer (has multiple parts/elements)
+    // TODO : Find Service -> Port -> PortType -> Operations (input / output) -> MessageContainer (has multiple elements/parts)
     // TODO : -> for each part/element find the type, then lookup the the element name in the xsd:schema (by element type)
     // TODO : - the element name can be used as a parameter into the getMatchingDegreeFunction
 
@@ -171,24 +171,24 @@ public class SemanticMatcher {
         @Override
         public List<MatchedElement> compareElementContainers(
                 List<MatchedElement> matchedElements,
-                ElementContainer outPutElementContainer,
-                ElementContainer inputElementContainer)
+                PartContainer outPutPartContainer,
+                PartContainer inputPartContainer)
         {
             // Compare sub elements
 
-            for (TypeNameTuple typeNameOutput : outPutElementContainer.subelements)
+            for (TypeNameTuple typeNameOutput : outPutPartContainer.subelements)
             {
-                for (TypeNameTuple typeNameInput : inputElementContainer.subelements)
+                for (TypeNameTuple typeNameInput : inputPartContainer.subelements)
                 {
                     // Not taking types into account. No mention of it in the assignment doc,
-                    // and some elements do not have a type.
+                    // and some sub elements do not have a type.
                     //if (typeNameOutput.type.equals(typeNameInput.type))
                     {
                         // Disregarding null names
                         if (typeNameOutput.name == null || typeNameInput.name == null)
                             continue;
 
-                        // TODO Name or type?
+                        // TODO Parse SAWDSL attributes and use that for getMatchingDegree
                         // TODO Not finding any matches :)
                         double matchingDegree = getMatchingDegree(typeNameOutput.name, typeNameInput.name);
 

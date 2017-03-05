@@ -116,17 +116,17 @@ public class SyntacticMatcher
         @Override
         public List<MatchedElement> compareElementContainers(
                 List<MatchedElement> matchedElements,
-                ElementContainer outPutElementContainer,
-                ElementContainer inputElementContainer)
+                PartContainer outPutPartContainer,
+                PartContainer inputPartContainer)
         {
             // Compare sub elements
 
-            for (TypeNameTuple typeNameOutput : outPutElementContainer.subelements)
+            for (TypeNameTuple typeNameOutput : outPutPartContainer.subelements)
             {
-                for (TypeNameTuple typeNameInput : inputElementContainer.subelements)
+                for (TypeNameTuple typeNameInput : inputPartContainer.subelements)
                 {
                     // Not taking types into account. No mention of it in the assignment doc,
-                    // and some elements do not have a type.
+                    // and some sub elements do not have a type.
                     //if (typeNameOutput.type.equals(typeNameInput.type))
                     {
                         // Disregarding null names
