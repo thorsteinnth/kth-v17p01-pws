@@ -76,10 +76,6 @@ public class SemanticMatcher {
         generateOutputXML(this.comparer.getWsMatching());
     }
 
-    // TODO : Find Service -> Port -> PortType -> Operations (input / output) -> MessageContainer (has multiple elements/parts)
-    // TODO : -> for each part/element find the type, then lookup the the element name in the xsd:schema (by element type)
-    // TODO : - the element name can be used as a parameter into the getMatchingDegreeFunction
-
     private void parseSAWSDLs()
     {
         File[] SAWSDLs = getSAWSDLs();
@@ -100,11 +96,11 @@ public class SemanticMatcher {
     }
 
     /**
-     * Calculates the matching degree for higher level types that can all be found in
+     * Calculates the matching degree for types that can all be found in
      * the SUMO.owl ontology file
      * @param outputType
      * @param inputType
-     * @return matching degree from 1 to 0
+     * @return matching degree from 0 to 1
      */
     private double getMatchingDegree(String outputType, String inputType) {
 
