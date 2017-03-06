@@ -168,9 +168,11 @@ public class Parser
     //region XPATH stuff (to find SAWSDL modelReference)
 
     /**
-     * For use in semantic parser.
+     * Find the sawsdlModelReference attribute for the part in the partContainer. For use in semantic parser.
+     * If the part container has a type, search for the model reference attribute for that type.
+     * If the part container has an element, search for the model reference attribute for that element.
      * @param partContainer
-     * @return The semantic class annotation (stuff on the right side of the hashtag in sawsdl:modelReference)
+     * @return The sawsdlModelReference attribute for the part
      */
     private String getSAWSDLModelReference(PartContainer partContainer)
     {
