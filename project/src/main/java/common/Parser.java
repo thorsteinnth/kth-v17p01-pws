@@ -205,8 +205,16 @@ public class Parser
 
                 if (foundNode == null)
                 {
-                    LOG.debug("getSAWSDLModelReference - Could not find type definition for: " + searchString);
-                    return null;
+                    // Assume that this is a simple type directly in the message part, check if the model reference is
+                    // defined in the part
+                    elementExpr = xpath.compile("//wsdl:part[@name='" + partContainer.name + "']");
+                    foundNode = (Node) elementExpr.evaluate(this.document, XPathConstants.NODE);
+
+                    if (foundNode == null)
+                    {
+                        LOG.debug("getSAWSDLModelReference - Could not find type definition for: " + searchString);
+                        return null;
+                    }
                 }
             }
 
@@ -214,7 +222,8 @@ public class Parser
 
             if (sawsdlModelReferenceNode == null)
             {
-                LOG.debug("getSAWSDLModelReference - Could not find sawsdlModelReference attribute for: " + foundNode.toString());
+                LOG.debug("getSAWSDLModelReference - Could not find sawsdlModelReference attribute for search string: "
+                        + searchString + " - Node: " + foundNode.toString());
                 return null;
             }
 
@@ -238,6 +247,9 @@ public class Parser
                     return "http://www.w3.org/2001/XMLSchema";
                 else if (prefix.equals("sawsdl"))
                     return "http://www.w3.org/ns/sawsdl";
+                else if (prefix.equals("wsdl"))
+                    return "http://schemas.xmlsoap.org/wsdl/";
+                else
                     return null;
             }
 
