@@ -4,12 +4,17 @@ import com.predic8.schema.ComplexType;
 import com.predic8.schema.Element;
 import com.predic8.schema.Schema;
 import com.predic8.wsdl.*;
+import com.sun.msv.datatype.xsd.QnameType;
+import groovy.xml.QName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import sun.rmi.runtime.Log;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Parser
 {
@@ -29,14 +34,14 @@ public class Parser
         for (Service service : defs.getServices())
         {
             ServiceContainer serviceContainer = new ServiceContainer(service.getName());
-            serviceContainer.portContainers.addAll(parsePorts(service.getPorts()));
+            serviceContainer.portContainers.addAll(parsePorts(service.getPorts(), defs));
             serviceContainers.add(serviceContainer);
         }
 
         return serviceContainers;
     }
 
-    private static List<PortContainer> parsePorts(List<Port> ports)
+    private static List<PortContainer> parsePorts(List<Port> ports, Definitions defs)
     {
         /*
         https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.0/html/Using_the_Web_Services_Bindings_and_Transports/files/FUSECXFBindingIntro.html
@@ -57,8 +62,8 @@ public class Parser
             for (Operation operation : portType.getOperations())
             {
                 OperationContainer operationContainer = new OperationContainer(operation.getName());
-                operationContainer.inputMessage = parseMessage(operation.getInput().getMessage());
-                operationContainer.outputMessage = parseMessage(operation.getOutput().getMessage());
+                operationContainer.inputMessage = parseMessage(operation.getInput().getMessage(), defs);
+                operationContainer.outputMessage = parseMessage(operation.getOutput().getMessage(), defs);
 
                 portTypeContainer.operations.add(operationContainer);
             }
@@ -70,7 +75,7 @@ public class Parser
         return portContainers;
     }
 
-    private static MessageContainer parseMessage(Message message)
+    private static MessageContainer parseMessage(Message message, Definitions defs)
     {
         MessageContainer messageContainer = new MessageContainer(message.getName());
 
@@ -115,6 +120,21 @@ public class Parser
                 else if (part.getTypePN() != null)
                 {
                     String partTypeName = part.getTypePN().toString();
+                    String SAWDSLref = "";
+                    for (Schema schema : defs.getSchemas())
+                    {
+                        //TODO : Change this to get #elementName instead
+
+                        Optional<Element> el = schema.getAllElements().stream().
+                                filter(e -> e.getType().getLocalPart().equals(partTypeName)).findFirst();
+
+                        if(el.isPresent())
+                        {
+                            partContainer.SAWSDLModelReference = el.get().getName();
+                            break;
+                        }
+                    }
+
                     partContainer.type = partTypeName;
                     partContainer.subelements.add(new TypeNameTuple(partTypeName, part.getName()));
                 }

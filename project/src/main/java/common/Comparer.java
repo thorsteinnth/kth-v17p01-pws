@@ -22,8 +22,7 @@ public abstract class Comparer
     }
 
     public abstract List<MatchedElement> compareElementContainers(
-            List<MatchedElement> matchedElements,
-            PartContainer outPutPartContainer,
+            PartContainer outputPartContainer,
             PartContainer inputPartContainer);
 
     /**
@@ -110,7 +109,7 @@ public abstract class Comparer
         {
             for (PartContainer inputElements : inputOC.inputMessage.parts)
             {
-                matchedElements = compareElementContainers(matchedElements, outputElements, inputElements);
+                matchedElements.addAll(compareElementContainers(outputElements, inputElements));
             }
         }
 

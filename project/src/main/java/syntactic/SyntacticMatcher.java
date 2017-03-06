@@ -115,12 +115,11 @@ public class SyntacticMatcher
     {
         @Override
         public List<MatchedElement> compareElementContainers(
-                List<MatchedElement> matchedElements,
                 PartContainer outPutPartContainer,
                 PartContainer inputPartContainer)
         {
+            List<MatchedElement> matchedElements = new ArrayList<>();
             // Compare sub elements
-
             for (TypeNameTuple typeNameOutput : outPutPartContainer.subelements)
             {
                 for (TypeNameTuple typeNameInput : inputPartContainer.subelements)
@@ -147,7 +146,7 @@ public class SyntacticMatcher
 
                             MatchedElement matchedElement = new MatchedElement();
                             matchedElement.setOutputElement(typeNameOutput.name);
-                            matchedElement.setInputElement(typeNameOutput.name);
+                            matchedElement.setInputElement(typeNameInput.name);
                             matchedElement.setScore(distance);
                             matchedElements.add(matchedElement);
                         }

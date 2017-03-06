@@ -170,12 +170,35 @@ public class SemanticMatcher {
     {
         @Override
         public List<MatchedElement> compareElementContainers(
-                List<MatchedElement> matchedElements,
-                PartContainer outPutPartContainer,
+                PartContainer outputPartContainer,
                 PartContainer inputPartContainer)
         {
-            // Compare sub elements
+            List<MatchedElement> matchedElements = new ArrayList<>();
 
+            // Disregarding null names
+            if (outputPartContainer.SAWSDLModelReference == null || inputPartContainer.SAWSDLModelReference == null)
+                return matchedElements;
+
+            double matchingDegree = getMatchingDegree(outputPartContainer.SAWSDLModelReference, inputPartContainer.SAWSDLModelReference);
+
+            // Matching threshold 0.5
+            if (matchingDegree >= 0.5)
+            {
+                if (!outputPartContainer.name.equals(inputPartContainer.name))
+                {
+                    LOG.debug("Different words matching matching degree "
+                            + matchingDegree + ": " + outputPartContainer.name + " - " + inputPartContainer.name);
+                }
+
+                MatchedElement matchedElement = new MatchedElement();
+                matchedElement.setOutputElement(outputPartContainer.name);
+                matchedElement.setInputElement(inputPartContainer.name);
+                matchedElement.setScore(matchingDegree);
+                matchedElements.add(matchedElement);
+            }
+
+            // Compare sub elements
+            /*
             for (TypeNameTuple typeNameOutput : outPutPartContainer.subelements)
             {
                 for (TypeNameTuple typeNameInput : inputPartContainer.subelements)
@@ -203,13 +226,14 @@ public class SemanticMatcher {
 
                             MatchedElement matchedElement = new MatchedElement();
                             matchedElement.setOutputElement(typeNameOutput.name);
-                            matchedElement.setInputElement(typeNameOutput.name);
+                            matchedElement.setInputElement(typeNameInput.name);
                             matchedElement.setScore(matchingDegree);
                             matchedElements.add(matchedElement);
                         }
                     }
                 }
             }
+            */
 
             return matchedElements;
         }
