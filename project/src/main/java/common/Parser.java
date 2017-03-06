@@ -193,13 +193,21 @@ public class Parser
         try
         {
             // Search for the element somewhere in the doc
+            // Start by searching for complex type, then simple type
+            // It seems there is no way we can tell if this is a simple type or a complex type beforehand
             XPathExpression elementExpr = xpath.compile("//xsd:complexType[@name='" + searchString + "']");
             Node foundNode = (Node) elementExpr.evaluate(this.document, XPathConstants.NODE);
-
             if (foundNode == null)
             {
-                LOG.debug("Could not find complex type definition for: " + searchString);
-                return null;
+                // Now let's try simpleType
+                elementExpr = xpath.compile("//xsd:simpleType[@name='" + searchString + "']");
+                foundNode = (Node) elementExpr.evaluate(this.document, XPathConstants.NODE);
+
+                if (foundNode == null)
+                {
+                    LOG.debug("Could not find complex type definition for: " + searchString);
+                    return null;
+                }
             }
 
             Node sawsdlModelReferenceNode = foundNode.getAttributes().getNamedItem("sawsdl:modelReference");
