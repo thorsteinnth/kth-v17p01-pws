@@ -205,7 +205,7 @@ public class Parser
 
                 if (foundNode == null)
                 {
-                    LOG.debug("Could not find complex type definition for: " + searchString);
+                    LOG.debug("getSAWSDLModelReference - Could not find type definition for: " + searchString);
                     return null;
                 }
             }
@@ -214,7 +214,7 @@ public class Parser
 
             if (sawsdlModelReferenceNode == null)
             {
-                LOG.debug("Could not find sawsdlModelReference attribute for: " + searchString);
+                LOG.debug("getSAWSDLModelReference - Could not find sawsdlModelReference attribute for: " + foundNode.toString());
                 return null;
             }
 
