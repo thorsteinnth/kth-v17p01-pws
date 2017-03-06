@@ -18,6 +18,7 @@ public class SyntacticMatcher
     private final static Logger LOG = LoggerFactory.getLogger(SyntacticMatcher.class);
     private List<List<ServiceContainer>> parsedServiceContainers;
     private Comparer comparer;
+    private Parser parser;
 
     public static void main(String[] args)
     {
@@ -27,8 +28,9 @@ public class SyntacticMatcher
 
     public SyntacticMatcher()
     {
-        parseWSDLs();
         this.comparer = new SyntacticComparer();
+        this.parser = new Parser(false);
+        parseWSDLs();
 
         for (int i = 0; i < parsedServiceContainers.size(); i++)
         {
@@ -63,7 +65,7 @@ public class SyntacticMatcher
         {
             try
             {
-                List<ServiceContainer> serviceContainers = Parser.parseServices(WSDLs[i]);
+                List<ServiceContainer> serviceContainers = this.parser.parseServices(WSDLs[i]);
                 this.parsedServiceContainers.add(serviceContainers);
                 LOG.info("Parsed services for: " + WSDLs[i] + " - " + serviceContainers);
             }

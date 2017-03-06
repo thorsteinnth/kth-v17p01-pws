@@ -22,6 +22,28 @@ public class PartContainer
         this.SAWSDLModelReference = null;
     }
 
+    public String getSAWSDLModelReferenceRightSideOfHashtag()
+    {
+        // SAWSDLModelReference looks like this: sawsdl:modelReference="http://127.0.0.1/ontology/concept.owl#Price
+        // We want the stuff that is on the right side of the hashtag
+
+        if (this.SAWSDLModelReference == null || this.SAWSDLModelReference.equals(""))
+            return null;
+
+        String[] SAWSDLModelReferenceSplit = this.SAWSDLModelReference.split("#");
+        if (SAWSDLModelReferenceSplit.length == 1)
+        {
+            // No hash tag was found
+            return null;
+        }
+        else
+        {
+            // We assume that the stuff we are looking for is on the right side of the last hashtag in the string
+            // (there should only be one hashtag in the string though)
+            return SAWSDLModelReferenceSplit[SAWSDLModelReferenceSplit.length-1];
+        }
+    }
+
     @Override
     public String toString()
     {

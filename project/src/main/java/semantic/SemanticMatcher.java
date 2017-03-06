@@ -31,6 +31,7 @@ public class SemanticMatcher {
     private HashMap<String, OWLClass> mapName_OWLClass;
     private List<List<ServiceContainer>> parsedServiceContainers;
     private Comparer comparer;
+    private Parser parser;
 
     public static void main(String[] args)
     {
@@ -46,8 +47,9 @@ public class SemanticMatcher {
         this.reasoner = ontsum.initializeReasoner(ontology, manager);
         this.mapName_OWLClass = ontsum.loadClasses(reasoner);
 
-        parseSAWSDLs();
         this.comparer = new SemanticComparer();
+        this.parser = new Parser(true);
+        parseSAWSDLs();
 
         for (int i = 0; i < parsedServiceContainers.size(); i++)
         {
@@ -86,7 +88,7 @@ public class SemanticMatcher {
         {
             try
             {
-                List<ServiceContainer> serviceContainers = Parser.parseServices(SAWSDLs[i]);
+                List<ServiceContainer> serviceContainers = this.parser.parseServices(SAWSDLs[i]);
                 this.parsedServiceContainers.add(serviceContainers);
                 LOG.info("Parsed services for SAWSDL " + i + ": " + SAWSDLs[i] + " - " + serviceContainers);
             }
@@ -175,11 +177,13 @@ public class SemanticMatcher {
         {
             List<MatchedElement> matchedElements = new ArrayList<>();
 
-            // Disregarding null names
             if (outputPartContainer.SAWSDLModelReference == null || inputPartContainer.SAWSDLModelReference == null)
                 return matchedElements;
 
-            double matchingDegree = getMatchingDegree(outputPartContainer.SAWSDLModelReference, inputPartContainer.SAWSDLModelReference);
+            double matchingDegree = getMatchingDegree(
+                    outputPartContainer.getSAWSDLModelReferenceRightSideOfHashtag(),
+                    inputPartContainer.getSAWSDLModelReferenceRightSideOfHashtag()
+            );
 
             // Matching threshold 0.5
             if (matchingDegree >= 0.5)
@@ -196,44 +200,6 @@ public class SemanticMatcher {
                 matchedElement.setScore(matchingDegree);
                 matchedElements.add(matchedElement);
             }
-
-            // Compare sub elements
-            /*
-            for (TypeNameTuple typeNameOutput : outPutPartContainer.subelements)
-            {
-                for (TypeNameTuple typeNameInput : inputPartContainer.subelements)
-                {
-                    // Not taking types into account. No mention of it in the assignment doc,
-                    // and some sub elements do not have a type.
-                    //if (typeNameOutput.type.equals(typeNameInput.type))
-                    {
-                        // Disregarding null names
-                        if (typeNameOutput.name == null || typeNameInput.name == null)
-                            continue;
-
-                        // TODO Parse SAWDSL attributes and use that for getMatchingDegree
-                        // TODO Not finding any matches :)
-                        double matchingDegree = getMatchingDegree(typeNameOutput.name, typeNameInput.name);
-
-                        // Matching threshold 0.5
-                        if (matchingDegree >= 0.5)
-                        {
-                            if (!typeNameOutput.name.equals(typeNameInput.name))
-                            {
-                                LOG.debug("Different words matching matching degree "
-                                        + matchingDegree + ": " + typeNameOutput.name + " - " + typeNameInput.name);
-                            }
-
-                            MatchedElement matchedElement = new MatchedElement();
-                            matchedElement.setOutputElement(typeNameOutput.name);
-                            matchedElement.setInputElement(typeNameInput.name);
-                            matchedElement.setScore(matchingDegree);
-                            matchedElements.add(matchedElement);
-                        }
-                    }
-                }
-            }
-            */
 
             return matchedElements;
         }

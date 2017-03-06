@@ -4,26 +4,59 @@ import com.predic8.schema.ComplexType;
 import com.predic8.schema.Element;
 import com.predic8.schema.Schema;
 import com.predic8.wsdl.*;
-import com.sun.msv.datatype.xsd.QnameType;
-import groovy.xml.QName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.rmi.runtime.Log;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
 
+import javax.xml.namespace.NamespaceContext;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.xpath.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class Parser
 {
     private final static Logger LOG = LoggerFactory.getLogger(Parser.class);
+    private boolean isSemanticParser;
+
+    // XPATH stuff
+    private DocumentBuilderFactory documentBuilderFactory;
+    private Document document;
+    private XPathFactory xPathFactory;
+
+    public Parser(boolean isSemanticParser)
+    {
+        this.isSemanticParser = isSemanticParser;
+    }
 
     //region Predic8 parsers
 
-    public static List<ServiceContainer> parseServices(File wsdl)
+    public List<ServiceContainer> parseServices(File wsdl)
     {
+        if (this.isSemanticParser)
+        {
+            try
+            {
+                LOG.info("Building document for use with XPATH for file: " + wsdl);
+                this.documentBuilderFactory = DocumentBuilderFactory.newInstance();
+                this.documentBuilderFactory.setNamespaceAware(true);
+                DocumentBuilder documentBuilder = this.documentBuilderFactory.newDocumentBuilder();
+                this.document = documentBuilder.parse(wsdl);
+                this.xPathFactory = XPathFactory.newInstance();
+            }
+            catch (ParserConfigurationException|SAXException|IOException ex)
+            {
+                LOG.error("Unable to build document to use with XPATH: " + ex.toString());
+            }
+        }
+
         LOG.info("Parsing services for: " + wsdl);
 
         WSDLParser parser = new WSDLParser();
@@ -34,14 +67,14 @@ public class Parser
         for (Service service : defs.getServices())
         {
             ServiceContainer serviceContainer = new ServiceContainer(service.getName());
-            serviceContainer.portContainers.addAll(parsePorts(service.getPorts(), defs));
+            serviceContainer.portContainers.addAll(parsePorts(service.getPorts()));
             serviceContainers.add(serviceContainer);
         }
 
         return serviceContainers;
     }
 
-    private static List<PortContainer> parsePorts(List<Port> ports, Definitions defs)
+    private List<PortContainer> parsePorts(List<Port> ports)
     {
         /*
         https://access.redhat.com/documentation/en-US/Red_Hat_JBoss_Fuse/6.0/html/Using_the_Web_Services_Bindings_and_Transports/files/FUSECXFBindingIntro.html
@@ -62,8 +95,8 @@ public class Parser
             for (Operation operation : portType.getOperations())
             {
                 OperationContainer operationContainer = new OperationContainer(operation.getName());
-                operationContainer.inputMessage = parseMessage(operation.getInput().getMessage(), defs);
-                operationContainer.outputMessage = parseMessage(operation.getOutput().getMessage(), defs);
+                operationContainer.inputMessage = parseMessage(operation.getInput().getMessage());
+                operationContainer.outputMessage = parseMessage(operation.getOutput().getMessage());
 
                 portTypeContainer.operations.add(operationContainer);
             }
@@ -75,7 +108,7 @@ public class Parser
         return portContainers;
     }
 
-    private static MessageContainer parseMessage(Message message, Definitions defs)
+    private MessageContainer parseMessage(Message message)
     {
         MessageContainer messageContainer = new MessageContainer(message.getName());
 
@@ -101,8 +134,6 @@ public class Parser
                     // Flatten all complex types below here to their basic types
                     partContainer.subelements.addAll(flattenComplexTypeRecursive(partElementComplexType));
                 }
-
-                messageContainer.parts.add(partContainer);
             }
             else
             {
@@ -120,33 +151,103 @@ public class Parser
                 else if (part.getTypePN() != null)
                 {
                     String partTypeName = part.getTypePN().toString();
-                    String SAWDSLref = "";
-                    for (Schema schema : defs.getSchemas())
-                    {
-                        //TODO : Change this to get #elementName instead
-
-                        Optional<Element> el = schema.getAllElements().stream().
-                                filter(e -> e.getType().getLocalPart().equals(partTypeName)).findFirst();
-
-                        if(el.isPresent())
-                        {
-                            partContainer.SAWSDLModelReference = el.get().getName();
-                            break;
-                        }
-                    }
-
                     partContainer.type = partTypeName;
                     partContainer.subelements.add(new TypeNameTuple(partTypeName, part.getName()));
                 }
-
-                messageContainer.parts.add(partContainer);
             }
+
+            if (this.isSemanticParser)
+                partContainer.SAWSDLModelReference = getSAWSDLModelReference(partContainer);
+
+            messageContainer.parts.add(partContainer);
         }
 
         return messageContainer;
     }
 
-    private static List<TypeNameTuple> flattenComplexTypeRecursive(ComplexType complexType)
+    //region XPATH stuff (to find SAWSDL modelReference)
+
+    /**
+     * For use in semantic parser.
+     * @param partContainer
+     * @return The semantic class annotation (stuff on the right side of the hashtag in sawsdl:modelReference)
+     */
+    private String getSAWSDLModelReference(PartContainer partContainer)
+    {
+        // The part container should have either a type or an element name (complex type name)
+        // Search for the model reference for whichever we have.
+
+        String searchString;
+        if (partContainer.type != null)
+            searchString = partContainer.type;
+        else if (partContainer.elementName != null)
+            searchString = partContainer.elementName;
+        else
+            return null;
+
+        XPath xpath = this.xPathFactory.newXPath();
+        xpath.setNamespaceContext(getWsdlNamespaceContext());
+
+        try
+        {
+            // Search for the element somewhere in the doc
+            XPathExpression elementExpr = xpath.compile("//xsd:complexType[@name='" + searchString + "']");
+            Node foundNode = (Node) elementExpr.evaluate(this.document, XPathConstants.NODE);
+
+            if (foundNode == null)
+            {
+                LOG.debug("Could not find complex type definition for: " + searchString);
+                return null;
+            }
+
+            Node sawsdlModelReferenceNode = foundNode.getAttributes().getNamedItem("sawsdl:modelReference");
+
+            if (sawsdlModelReferenceNode == null)
+            {
+                LOG.debug("Could not find sawsdlModelReference attribute for: " + searchString);
+                return null;
+            }
+
+            return sawsdlModelReferenceNode.getNodeValue();
+        }
+        catch (XPathExpressionException ex)
+        {
+            LOG.error(ex.toString());
+            return null;
+        }
+    }
+
+    private NamespaceContext getWsdlNamespaceContext()
+    {
+        return new NamespaceContext()
+        {
+            @Override
+            public String getNamespaceURI(String prefix)
+            {
+                if (prefix.equals("xsd"))
+                    return "http://www.w3.org/2001/XMLSchema";
+                else if (prefix.equals("sawsdl"))
+                    return "http://www.w3.org/ns/sawsdl";
+                    return null;
+            }
+
+            @Override
+            public String getPrefix(String namespaceURI)
+            {
+                return null;
+            }
+
+            @Override
+            public Iterator getPrefixes(String namespaceURI)
+            {
+                return null;
+            }
+        };
+    }
+
+    //endregion
+
+    private List<TypeNameTuple> flattenComplexTypeRecursive(ComplexType complexType)
     {
         List<TypeNameTuple> typeNameTuples = new ArrayList<>();
 
@@ -185,7 +286,7 @@ public class Parser
         return typeNameTuples;
     }
 
-    private static ComplexType getComplexTypeByTypeName(Schema schema, String typeName)
+    private ComplexType getComplexTypeByTypeName(Schema schema, String typeName)
     {
         // Complex type names in schema do not contain namespaces. Remove it if it is there.
         typeName = removeNamespace(typeName);
@@ -193,7 +294,7 @@ public class Parser
         return foundComplexType;
     }
 
-    private static boolean isElementComplexType(Element element)
+    private boolean isElementComplexType(Element element)
     {
         // Let's compare the name of the element with the complex types in the schema.
         // complexTypes.contains() does not work here
@@ -216,7 +317,7 @@ public class Parser
         return false;
     }
 
-    private static String removeNamespace(String name)
+    private String removeNamespace(String name)
     {
         String[] split = name.split(":");
         if (split.length == 2)
