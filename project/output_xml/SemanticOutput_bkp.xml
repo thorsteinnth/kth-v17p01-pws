@@ -526,6 +526,21 @@
         <tns:WsScore>1.0</tns:WsScore>
     </tns:Matching>
     <tns:Matching>
+        <tns:OutputServiceName>BankeraddressService</tns:OutputServiceName>
+        <tns:InputServiceName>Where2GetIt_Geospatial_API_Geocode</tns:InputServiceName>
+        <tns:MatchedOperation>
+            <tns:OutputOperationName>get_BANKER_ADDRESS</tns:OutputOperationName>
+            <tns:InputOperationName>Where2GetIt_Geospatial_API_Geocode</tns:InputOperationName>
+            <tns:OpScore>1.0</tns:OpScore>
+            <tns:MatchedElement>
+                <tns:OutputElement>_ADDRESS</tns:OutputElement>
+                <tns:InputElement>addresses</tns:InputElement>
+                <tns:Score>1.0</tns:Score>
+            </tns:MatchedElement>
+        </tns:MatchedOperation>
+        <tns:WsScore>1.0</tns:WsScore>
+    </tns:Matching>
+    <tns:Matching>
         <tns:OutputServiceName>HotelService</tns:OutputServiceName>
         <tns:InputServiceName>AgentmovementService</tns:InputServiceName>
         <tns:MatchedOperation>
@@ -542,6 +557,21 @@
     </tns:Matching>
     <tns:Matching>
         <tns:OutputServiceName>PersonService</tns:OutputServiceName>
+        <tns:InputServiceName>Where2GetIt_Geospatial_API_Geocode</tns:InputServiceName>
+        <tns:MatchedOperation>
+            <tns:OutputOperationName>get_PERSON</tns:OutputOperationName>
+            <tns:InputOperationName>Where2GetIt_Geospatial_API_Geocode</tns:InputOperationName>
+            <tns:OpScore>0.5</tns:OpScore>
+            <tns:MatchedElement>
+                <tns:OutputElement>_PERSON</tns:OutputElement>
+                <tns:InputElement>addresses</tns:InputElement>
+                <tns:Score>0.5</tns:Score>
+            </tns:MatchedElement>
+        </tns:MatchedOperation>
+        <tns:WsScore>0.5</tns:WsScore>
+    </tns:Matching>
+    <tns:Matching>
+        <tns:OutputServiceName>PersonService</tns:OutputServiceName>
         <tns:InputServiceName>AgentmovementService</tns:InputServiceName>
         <tns:MatchedOperation>
             <tns:OutputOperationName>get_PERSON</tns:OutputOperationName>
@@ -1300,6 +1330,21 @@
             <tns:MatchedElement>
                 <tns:OutputElement>_AUTHOR</tns:OutputElement>
                 <tns:InputElement>_AUTHOR</tns:InputElement>
+                <tns:Score>1.0</tns:Score>
+            </tns:MatchedElement>
+        </tns:MatchedOperation>
+        <tns:WsScore>1.0</tns:WsScore>
+    </tns:Matching>
+    <tns:Matching>
+        <tns:OutputServiceName>AcademicAddressService</tns:OutputServiceName>
+        <tns:InputServiceName>Where2GetIt_Geospatial_API_Geocode</tns:InputServiceName>
+        <tns:MatchedOperation>
+            <tns:OutputOperationName>get_ADDRESS</tns:OutputOperationName>
+            <tns:InputOperationName>Where2GetIt_Geospatial_API_Geocode</tns:InputOperationName>
+            <tns:OpScore>1.0</tns:OpScore>
+            <tns:MatchedElement>
+                <tns:OutputElement>_ADDRESS</tns:OutputElement>
+                <tns:InputElement>addresses</tns:InputElement>
                 <tns:Score>1.0</tns:Score>
             </tns:MatchedElement>
         </tns:MatchedOperation>
