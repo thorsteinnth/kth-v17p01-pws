@@ -114,7 +114,6 @@ public class Parser
 
         for (Part part : message.getParts())
         {
-            // TODO Get the SAWSDL attribute for the part type or element
             PartContainer partContainer = new PartContainer(part.getName());
 
             // Part can have an element that we need to dig further down to find, or just a type (e.g. string)
